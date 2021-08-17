@@ -1,0 +1,16 @@
+.header swiper {
+  width: 750rpx;
+  height: 340rpx;
+}
+.header swiper image {
+  width: 100%;
+}
+.category cate_item {
+  display: flex;
+  flex-direction: row;
+}
+.category cate_item text {
+  background-color: green;
+  font-size: 65rpx;
+  font-weight: bold;
+}

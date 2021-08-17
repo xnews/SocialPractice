@@ -1,0 +1,38 @@
+<view class="header">
+  <swiper indicator-dots indicator-color="#F5F5F5" indicator-active-color="#BEBEBE">
+    <swiper-item>
+      <image src="../../images/index_header/img1.png" mode="widthFix"></image>
+    </swiper-item>
+    <swiper-item>
+      <image src="../../images/index_header/img2.png" mode="widthFix"></image>
+    </swiper-item>
+    <swiper-item>
+      <image src="../../images/index_header/img3.png" mode="widthFix"></image>
+    </swiper-item>
+    <swiper-item>
+      <image src="../../images/index_header/img4.png" mode="widthFix"></image>
+    </swiper-item>
+  </swiper>
+</view>
+<view class="category">
+  <view class="cate_item">
+    <navigator class="iconfont icon-shehuishijian" open-type="navigate">
+    </navigator>
+    <text>公益活动</text>
+  </view>
+  <view class="cate_item">
+    <navigator class="iconfont icon-shijian" open-type="navigate">
+    </navigator>
+    <text>公益活动</text>
+  </view>
+  <view class="cate_item">
+    <navigator class="iconfont icon-kejichuangxin" open-type="navigate">
+    </navigator>
+    <text>公益活动</text>
+  </view>
+  <view class="cate_item">
+    <navigator class="iconfont icon-shehuishijian1" open-type="navigate">
+    </navigator>
+    <text>公益活动</text>
+  </view>
+</view>
