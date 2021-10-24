@@ -1,0 +1,38 @@
+<view class="comment_container">
+  <scroll-view scroll-y refresher-default-style="white" class="comment_main">
+    <view class="comment_total">
+    <text>全部评价({{commentCount}})</text>
+  </view>
+  <!-- 每个活动评论 -->
+  <view class="comment_item" wx:for="{{activityComment}}" wx:for-index="conmentindex" wx:key="*this">
+    <view class="user_img">
+    <!-- 用户头像 -->
+      <image src="{{item.userInfo.avatarUrl}}"></image>
+    </view>
+    <view class="comment_detail">
+    <!-- 评价详情 -->
+      <view class="user_detail">
+        <text>{{item.userInfo.nickName}}</text>
+        <text class="comment_content">{{item.content}}
+        </text>
+      </view>
+      <!-- 评论时间、点赞、回复图标 -->
+      <view class="comment_icon">
+        <text>{{item.time}}</text>
+        <text class="iconfont  icon1 {{thumbupIndex===conmentindex&&isClickLike?'icon-dianzan-copy active':'icon-dianzan1'}}" data-index="{{conmentindex}}" catchtap="handleLike"></text>
+        <text>{{item.thumbup}}</text>
+        <text class="iconfont icon-xinxi icon2" data-index="{{conmentindex}}" catchtap="handleReplybtn"></text>
+      </view>
+      <!-- 回复评论数据 -->
+      <view wx:for="{{item.replyInfo}}" class="comment_reply" wx:key="*this">
+        <text>{{item.nickName}}: {{item.value}}</text>
+      </view>
+      <!-- 回复评论输入框 -->
+      <view class="input {{showInput?'inputActive':''}}">
+      <input type="text" data-index="{{conmentindex}}" value="{{inputValue}}" hidden="{{ReplyIndex===conmentindex?!showInput:true}}" bindconfirm="handleReplyInput" placeholder="回复评论" />
+      </view>
+    </view>
+  </view>
+  </scroll-view>
+  <comment bindsubmitcomment="submitcomment"></comment>
+</view>

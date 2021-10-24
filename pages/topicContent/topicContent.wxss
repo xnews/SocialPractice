@@ -1,0 +1,29 @@
+.topicContainer{
+  padding: 10rpx;
+}
+.topic_title text{
+  font-weight: bold;
+  font-size: 45rpx;
+}
+.topic_user{
+  margin-top: 20rpx;
+  position: relative;
+}
+.topic_user image{
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 50%;
+}
+.topic_user text{
+  position: absolute;
+  top: 15rpx;
+  margin-left: 25rpx;
+  font-size: 38rpx;
+}
+.topic_content{
+  margin-top: 40rpx;
+  text-indent: 2rem;
+}
+.topic_content text{
+  font-size: 38rpx;
+}

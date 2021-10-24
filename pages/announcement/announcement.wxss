@@ -1,0 +1,35 @@
+page {
+  background-color: #f7f7f7;
+}
+.announceContainer{
+  padding: 10rpx 10rpx;
+}
+.announceItem{
+  width: 95%;
+  height: 200rpx;
+  border-bottom: 1rpx solid #ccc;
+  margin-left: 20rpx;
+  background-color: #fff;
+  padding-top: 20rpx;
+}
+.announceTitle text{
+  font-size: 36rpx;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  text-indent: 1rem;
+}
+.announceTitle text:hover{
+  color: #0b44a4;
+}
+.announceOther{
+  margin-top: 18rpx;
+}
+.announceOther text{
+  font-size: 30rpx;
+  color: #9b9b9b;
+}
+.announceOther text:nth-child(n+2){
+  padding: 0 20rpx;
+}

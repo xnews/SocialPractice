@@ -1,0 +1,75 @@
+page, .page {
+  height: 100%;
+  width: 100%;
+}
+
+.container .text-area .text_desc{
+  margin-top: 100rpx;
+  font-weight: bold;
+  text-align: center;
+}
+
+.container .control-area{
+  margin: 0;
+}
+
+.container .control-area .main image{
+  width: 350rpx;
+  height: 350rpx;
+  margin-top: 100rpx;
+  margin-left: 190rpx;
+}
+.container .control-area .inputbox_group {
+  margin-top: 130rpx;
+}
+
+.container .control-area .inputbox_group .inputbox {
+  border: 1px solid #ccc;
+  border-left: none;
+  border-right: none;
+  width: 90%;
+  height: 100rpx;
+  padding-top: 20rpx;
+  padding-left: 230rpx;
+  margin-left: 40rpx;
+  font-size: 35rpx;
+  display: flex;
+  position: relative;
+}
+
+.container .control-area .inputbox_group .inputbox .icon{
+  position: absolute;
+  left: 10rpx;
+  top: 15rpx;
+  font-size: 60rpx;
+  z-index: 999;
+  color: var(--themeColor);
+}
+
+.container .control-area .inputbox_group .inputbox_pwd{
+  margin-top: 10rpx;
+}
+
+.container .footer-area .login_btn{
+  margin-top: 80rpx;
+}
+
+.container .footer-area .register_pwd_btn{
+  margin-top: 20rpx;
+  display: flex;
+  justify-content: space-between;
+}
+
+.container .footer-area .register_pwd_btn navigator{
+  color: 	#808080;
+  font-weight: normal;
+  font-size: 35rpx;
+}
+
+.container .footer-area .register_pwd_btn navigator:nth-child(1){
+  padding-left: 60rpx;
+}
+
+.container .footer-area .register_pwd_btn navigator:nth-child(2){
+  padding-right: 60rpx;
+}

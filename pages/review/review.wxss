@@ -1,0 +1,112 @@
+.activity_head{
+  display: flex;
+  margin-top: 20rpx;
+}
+.activity_nav{
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.activity_nav_item{
+  text-align: center;
+  width: 100%;
+  padding-bottom: 15rpx;
+}
+.active_nav{
+    border-bottom: 5rpx solid var(--themeColor);
+}
+.reviewItem{
+  margin-top: 10rpx;
+  padding: 10rpx 20rpx;
+  border-bottom: 1rpx solid #cccccc;
+  height: 350rpx;
+  position: relative;
+}
+.review_head,.contribute_content{
+  display: flex;
+  flex-direction: column;
+}
+.review_head text,.contribute_content text{
+  font-size: 38rpx;
+  color: #292421;
+}
+.review_footer{
+  display: flex;
+}
+.review_footer text,.contribute_time text{
+  color: #808069;
+  margin-top: 5rpx;
+  flex: 1;
+}
+.review_footer text:nth-child(1),.contribute_time text{
+  font-size: 34rpx;
+}
+.review_footer text:nth-child(2){
+  font-size: 30rpx;
+} 
+.review_footer text:nth-child(3){
+  font-size: 30rpx;
+} 
+.review_status{
+  display: flex;
+}
+.file{
+  font-weight:400;
+  white-space:nowrap;
+  border: 1rpx solid #cccccc;
+  background-color: var(--themeColor);
+  border-radius: 20rpx;
+  float: left;
+  color: #fff;
+  position: absolute;
+  left: 20rpx;
+  bottom: 20rpx;
+}
+.pass{
+  font-weight:400;
+  white-space:nowrap;
+  border: 1rpx solid #cccccc;
+  background-color: #008B45;
+  border-radius: 20rpx;
+  float: right;
+  color: #fff;
+  position: absolute;
+  right: 170rpx;
+  bottom: 20rpx;
+}
+.nopass{
+  font-weight:400;
+  white-space:nowrap;
+  background-color: #ff3b30;
+  /* margin-right: 20rpx; */
+  border: 1rpx solid #cccccc;
+  border-radius: 20rpx;
+  color: #fff;
+  position: absolute;
+  right: 20rpx;
+  bottom: 20rpx;
+}
+.contribute_content text:nth-child(2){
+  overflow : hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.contributeItem{
+  margin-top: 10rpx;
+  padding: 10rpx 20rpx;
+  border-bottom: 1rpx solid #cccccc;
+  height: 340rpx;
+  position: relative;
+}
+.more text{
+  font-size: 36rpx;
+  border-bottom: 4rpx solid var(--themeColor);
+  color: var(--themeColor);
+  position: absolute;
+  top: 48%;
+  right: 15rpx;
+}

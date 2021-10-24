@@ -1,0 +1,24 @@
+<view class="activeContainer">
+  <view class="activeProfile">
+    <view class="activeTime">
+      <text style="color:var(--themeColor);">我的实践时长</text>
+      <text>{{practiceTime}}</text>
+    </view>
+    <view class="activeRank">
+      <text style="color:var(--themeColor);">我的实践排名</text>
+      <text>{{rank + 1}}</text>
+    </view>
+  </view>
+  <view class="activeAll">
+    <view class="activeAllNav">
+      <text>姓名</text>
+      <text>实践时长(H)</text>
+      <text>实践排名</text>
+    </view>
+    <view class="activeAllItem" wx:for="{{ActivityInfo}}">
+      <text style="font-family: Arial, Helvetica, sans-serif;font-style:itatic;">{{item.name}}</text>
+      <text style="font-family: Arial, Helvetica, sans-serif;font-style:itatic;">{{item.practiceTime}}</text>
+      <text style="color:#e58807;font-weight:bold">{{index + 1}}</text>
+    </view>
+  </view>
+</view>

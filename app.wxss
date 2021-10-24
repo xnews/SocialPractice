@@ -1,1 +1,19 @@
-@import "./style/iconfont.wxss"
+@import "./style/iconfont.wxss";
+
+page,view,text,swiper,swiper-item,image,navigator{
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+page{
+  --themeColor:#0066FF;
+  font-size: 17px;
+  font-family: -apple-system-font,Helvetica Neue,Helvetica,sans-serif;
+}
+image{
+  width: 100%;
+}
+
+
+
+

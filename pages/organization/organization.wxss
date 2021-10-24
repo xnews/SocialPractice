@@ -1,0 +1,126 @@
+.itemHead{
+  margin-top: 30rpx;
+}
+.origaniseItem,.origaniseItemTime,.origaniseItemType,.origaniseTeamNum{
+  display: flex;
+  margin: 20rpx 30rpx;
+  justify-content: center;
+  align-items: center;
+  /* border-top: 1rpx solid #cccccc; */
+  height: 80rpx;
+  padding-top: 20rpx;
+}
+.origaniseItem text{
+  flex: 3;
+  text-align: center;
+  font-size: 35rpx;
+}
+.origaniseItem input{
+  border: 1rpx solid #cccccc;
+  border-radius: 10rpx;
+  flex: 7;
+  height: 80rpx;
+  margin: o auto;
+  padding: 0 10rpx;
+}
+.origaniseItemTime text:nth-child(1){
+  flex: 2;
+  text-align: center;
+  font-size: 35rpx;
+  padding-left: 20rpx;
+}
+.origaniseItemTime text:nth-child(3){
+  margin: 0 10rpx;
+}
+.origaniseItemTime picker{
+  flex: 3;
+}
+.choosedate,.choosetime{
+  border: 1rpx solid #cccccc;
+  border-radius: 10rpx;
+  line-height: 80rpx;
+  height: 80rpx;
+  padding-left: 10rpx;
+  font-size: 36rpx;
+  color: #c0c4cc;
+}
+.choosedate{
+  margin-left: 36rpx;
+}
+.choosetime{
+  margin-right: 30rpx;
+}
+.select-wrap {
+  width: 490rpx;
+}
+.selected {
+  margin-top: 50%;
+}
+.origaniseItemType text{
+  flex: 2;
+  text-align: center;
+  font-size: 35rpx;
+  padding-left: 28rpx;
+}
+.origaniseTeamNum text{
+  flex: 2;
+  text-align: center;
+  font-size: 35rpx;
+  padding-left: 28rpx;
+}
+.container{
+  flex: 6;
+  margin-left: 40rpx;
+}
+.organiseUpfile{
+  padding: 0 20rpx;
+  position: relative;
+  margin-top: 40rpx;
+  margin-left: 40rpx;
+  width: 90%;
+  border: 1rpx solid #cccccc;
+}
+.organiseUpfile text{
+  position: absolute;
+  bottom: 10rpx;
+  left: 0rpx;
+  font-size: 28rpx;
+}
+.organiseUpfile button{
+  margin: 0;
+  font-size: 100rpx;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 20rpx;
+  margin-top: 20rpx;
+  color: #ccc;
+  border: 1rpx solid #cccccc;
+  position: absolute;
+  top: 0rpx;
+  left: 0rpx;
+}
+.organiseUpfile textarea{
+  /* border: 1rpx solid #cccccc; */
+  height: 170rpx;
+  padding: 20rpx 200rpx;
+  width: 460rpx;
+}
+.organiseBtn{
+  display: flex;
+  margin-top: 35rpx;
+}
+.organiseBtn button:nth-child(1){
+  background-color: var(--themeColor);
+  color: #ffffff;
+  font-weight: normal;
+}
+.organiseBtn button:nth-child(2){
+  border: 1rpx solid #cccccc;
+  color: #606266;
+  font-weight: normal;
+}
+
+
+

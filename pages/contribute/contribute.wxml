@@ -1,0 +1,31 @@
+<form bindsubmit="handleContribute">
+  <view class="contributeContainer">
+    <view class="contributeBtn">
+      <button class="btn1" catchtap="handleSaveDrafts" data-type="1" form-type="submit" size="mini" style="width: 200rpx;height: 80rpx;font-size: 30rpx;line-height:80rpx;text-align:center;">保存为草稿</button>
+      <button class="btn2" catchtap="handleSaveSubmit" data-type="2" size="mini" form-type="submit" style="width: 200rpx;height: 80rpx;font-size: 30rpx;line-height:80rpx;text-align:center">保存并投稿</button>
+    </view>
+    <view class="title">
+      <input name="title" value="{{inputValue.title}}" type="text" maxlength="40" placeholder="标题"/>
+    </view>
+    <view class="content">
+      <textarea name="articleContent" value="{{inputValue.articleContent}}" id="textareawrap" maxlength="-1" style="height:{{height}}" 
+        placeholder="请输入文章内容"></textarea>
+    </view>
+    <view class="imageContainer">
+      <block wx:for="{{tempImgFiles}}" wx:key="*this">
+        <image name="image" src="{{item.path}}"></image>
+      </block>
+    </view>
+    <view class="footerContainer">
+      <view class="footer">
+        <view  class="iconfont icon-charutupian"></view>
+        <view class="iconfont icon-shanchu"></view>
+        <!-- 图片上传按钮 -->
+        <button class="imageBtn" catchtap="handleuploadimg" style="width: 100rpx;height: 80rpx;"></button>
+        <!-- 重置按钮 -->
+        <button class="shanchuBtn" catchtap="resetForm" form-type="reset" style="width: 80rpx;height: 80rpx;"></button>
+      </view>
+    </view>
+  </view>
+</form>
+

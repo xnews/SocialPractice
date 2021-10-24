@@ -1,0 +1,16 @@
+<!-- 分类容器 -->
+<view class="cate_container">
+  <!-- 分类项 -->
+  <view class="cate_rows" wx:for="{{category}}" wx:key="id">
+    <view class="cate_box">
+      <view class="cate_content" catchtap="switchTocate" data-type="{{item.type}}">
+        <view class="cate_img">
+          <image src="{{item.image}}"></image>
+        </view>
+        <view class="cate_txt">
+          <text>{{item.type}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

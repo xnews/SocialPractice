@@ -1,0 +1,10 @@
+<view class="accountContainer">
+  <scroll-view scroll-y>
+    <view class="accountItem" wx:for="{{form_list}}">
+      <text>{{item.tagname}}:</text>
+      <text>{{stuInfo[item.name]}}</text>
+    </view>
+    <button open-type="contact" style="margin-top:40rpx;background-color: var(--themeColor); color: #fff;font-weight:normal">反馈</button>
+    <button catchtap="handleSwitchback" style="margin-top:20rpx;background-color: #ccc;color:#fff;font-weight:normal">取消</button>
+  </scroll-view>
+</view>

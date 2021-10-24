@@ -1,0 +1,15 @@
+<view class="topicContainer">
+  <view class="topicItem" wx:for="{{topicList}}" wx:key="_id">
+    <view class="topicTitle">
+      <text>{{item.title}}</text>
+    </view>
+    <view class="topicUserInfo">
+      <image src="{{item.user_img_url}}"></image>
+      <text>{{item.user_name}}</text>
+    </view> 
+    <view class="topicText">
+      <image src="{{item.img_url}}" mode="heightFix"></image>
+      <text data-id="{{item._id}}" catchtap="switchToContent">{{item.text}}</text>
+    </view>
+  </view>  
+</view>

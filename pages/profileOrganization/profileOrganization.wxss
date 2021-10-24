@@ -1,0 +1,49 @@
+.activity_head{
+  display: flex;
+  margin-top: 20rpx;
+}
+.activity_nav{
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.activity_nav_item{
+  text-align: center;
+  width: 100%;
+  padding-bottom: 15rpx;
+}
+.active_nav{
+    border-bottom: 5rpx solid var(--themeColor);
+}
+.profileOrganizationItem{
+  margin-top: 10rpx;
+  padding: 10rpx 20rpx;
+  border-bottom: 1rpx solid #cccccc;
+  height: 280rpx;
+}
+.Organization_head{
+  display: flex;
+  flex-direction: column;
+}
+.Organization_head text{
+  font-size: 38rpx;
+  color: #292421;
+}
+.Organization_footer{
+  display: flex;
+}
+.Organization_footer text{
+  color: #808069;
+  margin-top: 5rpx;
+  flex: 1;
+}
+.Organization_footer text:nth-child(1){
+  font-size: 34rpx;
+}
+.Organization_footer text:nth-child(2){
+  font-size: 30rpx;
+} 
+.Organization_footer text:nth-child(3){
+  font-size: 30rpx;
+} 

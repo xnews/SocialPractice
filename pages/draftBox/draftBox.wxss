@@ -1,0 +1,71 @@
+.draftBoxContainer{
+  width: 100%;
+  height: 100%;
+  padding: 10rpx 30rpx;
+  background: url('https://pic.imgdb.cn/item/616050242ab3f51d9129ff7f.png') no-repeat;
+}
+.draftItem{
+  margin-top: 20rpx;
+  border: 1rpx solid #cccccc;
+  border-radius: 40rpx;
+  position: relative;
+}
+.draft_title{
+  padding: 10rpx 20rpx;
+  height: 65rpx;
+}
+.draft_title text{
+  font-size: 36rpx;
+  font-weight: 500;
+  overflow : hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  color: #343434;
+  font-family: 'Orienta', sans-serif;
+}
+.draft_content{
+  padding: 0 20rpx;
+  height: 100rpx;
+}
+.draft_content text{
+  font-size: 36rpx;
+  font-weight: 500;
+  overflow : hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  color: #343434;
+  font-family: 'Orienta', sans-serif;
+  text-transform: uppercase;
+}
+.draft_btn{
+  display: flex;
+  height: 75rpx;
+}
+.editor{
+  font-weight:400;
+  white-space:nowrap;
+  border: 1rpx solid #cccccc;
+  background-color: var(--themeColor);
+  border-radius: 20rpx;
+  float: right;
+  color: #fff;
+  position: absolute;
+  right: 140rpx;
+  bottom: 10rpx;
+}
+.delete{
+  font-weight:400;
+  white-space:nowrap;
+  background-color: #ff3b30;
+  /* margin-right: 20rpx; */
+  border: 1rpx solid #cccccc;
+  border-radius: 20rpx;
+  color: #fff;
+  position: absolute;
+  right: 20rpx;
+  bottom: 10rpx;
+}

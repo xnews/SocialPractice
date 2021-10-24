@@ -1,0 +1,23 @@
+<form bindsubmit="regisSubmit">
+  <view class="page">
+    <view class="container">
+      <!-- 表单输入框 -->
+      <view class="form_area">
+        <view class="form_item" wx:for="{{form_list}}" wx:key="*this">
+        <!-- 输入框左侧名字 -->
+          <view class="form_title">
+            <text>{{item.tagname}}</text>
+          </view>
+          <!-- 输入框 -->
+          <view class="form_input">
+            <input data-index="{{index}}" name="{{item.name}}" bindblur="handleInput" password="{{item.tagname=='密码'||item.tagname=='确认密码'?'true':''}}" />
+          </view> 
+        </view>
+      </view>
+      <!-- 注册按钮 -->
+      <view class="foot_area">
+        <button form-type="submit" type="primary">立即注册</button>
+      </view>
+    </view>
+  </view>
+</form>

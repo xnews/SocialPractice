@@ -1,0 +1,52 @@
+<view class="reviewContainer">
+      <!-- 导航栏 -->
+  <view class="activity_head">
+    <view class="activity_nav" wx:for="{{activityNav}}" wx:key="*this" data-index="{{index}}" bindtap="ClickNav">
+      <view class="activity_nav_item {{indexNav===index?'active_nav':''}}">
+        <text>{{item}}</text>
+      </view>
+    </view>
+  </view>
+
+    <!-- 活动审核内容 -->
+  <block wx:if="{{indexNav===0}}">
+    <view class="reviewItem" wx:for-index="reviewIndex" wx:for="{{reviewInfo}}" wx:key="*this">
+      <view class="review_head">
+        <text>活动名称：{{item.activityName}}</text>
+        <text>活动地点：{{item.place}}</text>
+        <text>团队名称: {{item.teamName}}</text>
+        <text>团队负责人: {{item.principal}}</text>
+      </view>
+      <view class="review_footer">
+        <text>{{item.time}}</text>
+        <text>{{item.type}}</text>
+        <text>{{item.number}}</text>
+      </view>
+      <view class="review_status">
+        <button size="mini" catchtap="handleDownloadFile" data-index="{{reviewIndex}}" class="file" style="width: 160rpx;height: 60rpx;font-size: 30rpx;line-height:60rpx;text-align:center">文件下载</button>
+        <button size="mini" catchtap="handleOrganisePass" data-index="{{reviewIndex}}" class="pass" style="width: 100rpx;height: 60rpx;font-size: 30rpx;line-height:60rpx;text-align:center">通过</button>
+        <button size="mini" catchtap="hanleOrganiseUnqualify" data-index="{{reviewIndex}}" class="nopass" style="width: 130rpx;height: 60rpx;font-size: 30rpx;line-height:60rpx;text-align:center">未通过</button>
+      </view>
+    </view>
+  </block>
+  <block wx:elif="{{indexNav===1}}">
+    <view class="contributeItem" wx:for-index="contributeIndex" wx:for="{{contributeInfo}}" wx:key="*this">
+      <view class="contribute_content">
+        <text>标题: {{item.title}}</text>
+        <text>内容: {{item.articleContent}}</text>
+        <text>投稿人: {{item.name}}</text>
+      </view>
+      <view class="more" data-index="{{contributeIndex}}" catchtap="hanleMore">
+        <text>更多</text>
+      </view>
+      <view  class="contribute_time">
+        <text>{{item.time}}</text>
+      </view>
+      <view class="contribute_btn">
+        <button size="mini" class="pass" data-index="{{contributeIndex}}" catchtap="hanleContributePass" style="width: 100rpx;height: 60rpx;font-size: 30rpx;line-height:60rpx;text-align:center">通过</button>
+        <button size="mini" class="nopass" data-index="{{contributeIndex}}" catchtap="handleContributeUnqualify" style="width: 130rpx;height: 60rpx;font-size: 30rpx;line-height:60rpx;text-align:center">未通过</button>
+      </view>
+    </view>
+  </block>
+
+</view>

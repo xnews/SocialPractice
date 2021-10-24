@@ -1,0 +1,6 @@
+{
+  "usingComponents": {
+    "comment": "../../components/Comment/comment"
+  },
+  "navigationBarTitleText": "活动评价"
+}

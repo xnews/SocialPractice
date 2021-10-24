@@ -1,0 +1,40 @@
+<form bindsubmit="handlelogin">
+  <view class="page">
+    <view class="container">
+      <!-- 头部 -->
+      <view class="text-area">
+        <view class="text_desc">欢迎登录大学生社会实践平台</view>
+      </view>
+      <!-- 中间 -->
+      <view class="control-area">
+      <!-- logo图片 -->
+        <view class="main">
+          <image src="cloud://cloud-8gy1484h4171152a.636c-cloud-8gy1484h4171152a-1306324510/images/logo.png"></image>
+        </view>
+        <!-- 输入框 -->
+        <view class="inputbox_group">
+        <!-- 学号输入框 -->
+          <view class="inputbox inputbox_stu">
+            <view class="iconfont icon-xuehaoweishuru icon"></view>
+            <input name="zhanghao" class="input_stu" type="number" pattern="[0-9]*" placeholder="请输入账号"/>
+          </view>
+        <!-- 密码输入框 -->
+          <view class="inputbox inputbox_pwd">
+            <view class="iconfont icon-mima icon"></view>
+            <input password="true" name="mima" class="input_pwd" pattern="[0-9]*" placeholder="请输入密码"/>
+          </view>
+        </view>
+      </view>
+      <!-- 底部 -->
+      <view class="footer-area">
+        <view class="login_btn">
+          <button type="primary" form-type="submit">登录</button>
+        </view>
+        <view class="register_pwd_btn">
+          <navigator url="../register/register">立即注册</navigator>
+          <navigator>忘记密码</navigator>    
+        </view>
+      </view>
+    </view>
+  </view>
+</form>

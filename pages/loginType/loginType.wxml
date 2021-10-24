@@ -1,0 +1,4 @@
+<view class="loginTypeContainer">
+  <button class="stulogin" catchtap="switToStuLogin" type="primary" style="font-weight:400">学生登录</button>
+  <button class="tealogin" catchtap="switToTeaLogin" type="primary" style="background-color:var(--themeColor);font-weight:400">教师登录</button>
+</view>

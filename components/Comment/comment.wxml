@@ -1,0 +1,6 @@
+<form bindsubmit="handleComment">
+  <view class="commentContainer">
+    <textarea name="content" value="{{inputValue}}" bindblur="handleInput" class="content" placeholder="我要评论"></textarea>
+    <button class="SubmitBtn" form-type="submit" size="mini">发表</button>
+  </view>
+</form>

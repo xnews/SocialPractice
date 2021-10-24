@@ -1,0 +1,17 @@
+<view class="reviewContribution_Container">
+  <view class="reviewContribution_Item">
+    <view class="head">
+      <text>{{contributeInfo.title}}</text>
+      <text>{{contributeInfo.name}}</text>
+      <text>{{contributeInfo.time}}</text>
+    </view>
+    <view class="content">
+      <text>{{contributeInfo.articleContent}}</text>
+    </view>
+    <view class="img">
+      <block wx:for="{{contributeInfo.images}}">
+        <image src="{{item.path}}" bindtap="previewImg" data-src="{{item.path}}"></image>
+      </block>
+    </view>
+  </view>
+</view>

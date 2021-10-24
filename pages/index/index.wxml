@@ -1,38 +1,77 @@
+<!-- 轮播图 -->
 <view class="header">
-  <swiper indicator-dots indicator-color="#F5F5F5" indicator-active-color="#BEBEBE">
-    <swiper-item>
-      <image src="../../images/index_header/img1.png" mode="widthFix"></image>
-    </swiper-item>
-    <swiper-item>
-      <image src="../../images/index_header/img2.png" mode="widthFix"></image>
-    </swiper-item>
-    <swiper-item>
-      <image src="../../images/index_header/img3.png" mode="widthFix"></image>
-    </swiper-item>
-    <swiper-item>
-      <image src="../../images/index_header/img4.png" mode="widthFix"></image>
+  <SearchInput></SearchInput>
+  <swiper indicator-dots  indicator-color="#B5B5B5" indicator-active-color="#79CDCD" autoplay interval="3000">
+    <swiper-item wx:for="{{swiper_image}}" wx:key="_id">
+      <!-- 轮播图片 -->
+      <image src="{{item.url}}" mode="widthFix"></image>
     </swiper-item>
   </swiper>
 </view>
-<view class="category">
+<!-- 实践活动分类 -->
+<view class="active_category">
   <view class="cate_item">
-    <navigator class="iconfont icon-shehuishijian" open-type="navigate">
+    <!-- 活动标签 -->
+    <navigator class="iconfont icon-huodong" url="/pages/activity/activity" open-type="navigate">
     </navigator>
-    <text>公益活动</text>
+    <!-- 活动内容 -->
+    <text>活动</text>
   </view>
   <view class="cate_item">
-    <navigator class="iconfont icon-shijian" open-type="navigate">
+    <navigator class="iconfont icon-huati" url="/pages/topic/topic" open-type="navigate">
     </navigator>
-    <text>公益活动</text>
+    <text>话题</text>
   </view>
   <view class="cate_item">
-    <navigator class="iconfont icon-kejichuangxin" open-type="navigate">
+    <navigator class="iconfont icon-orgnazie" url="/pages/organization/organization" open-type="navigate">
     </navigator>
-    <text>公益活动</text>
+    <text>组织</text>
   </view>
   <view class="cate_item">
-    <navigator class="iconfont icon-shehuishijian1" open-type="navigate">
+    <navigator class="iconfont icon-gonggao-" url="/pages/announcement/announcement" open-type="navigate">
     </navigator>
-    <text>公益活动</text>
+    <text>公告</text>
   </view>
 </view>
+<!-- 实践活动内容 -->
+<view class="active_content" >
+  <view class="active_recommend">推荐活动</view>
+  <!-- 活动列表 -->
+  <div class="active_list" catchtap="switchToAcDesc" wx:for="{{activities}}" wx:key="_id" data-id="{{item._id}}">
+    <!-- 活动图片 -->
+    <view class="active_img">
+      <image src="cloud://cloud-8gy1484h4171152a.636c-cloud-8gy1484h4171152a-1306324510/images/1.jpeg"></image>
+    </view>
+    <!-- 活动信息 --> 
+    <view class="active_info">
+      <!-- 活动标题 -->
+      <text>{{item.activityName}}</text>
+      <view class="active_desc">
+        <view class="iconfont icon-shijian active_icon"></view>
+        <text>{{item.time}}</text>
+      </view>
+      <!-- 活动描述 -->
+      <view class="active_desc">
+        <view class="iconfont icon-didian active_icon"></view>
+        <text>{{item.site}}</text>
+      </view>
+      <view class="active_desc">
+        <view class="iconfont icon-tuandui1 active_icon"></view>
+        <text>{{item.certification}}</text>
+      </view>
+      <!-- 活动信息底部 -->
+      <view class="active_other">
+        <text>活动报名进行时</text>
+        <view class="active_like">
+          <view class="iconfont icon-dianzan-copy"></view>
+          <text>{{item.heat.thumbupNum}}</text>
+        </view>
+        <view class="active_like">
+          <view class="iconfont icon-shoucang"></view>
+          <text>{{item.heat.collectNum}}</text>
+        </view>
+      </view>
+    </view>
+  </div>
+</view>
+

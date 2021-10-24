@@ -1,0 +1,15 @@
+<view class="draftBoxContainer">
+  <cover-image hidden="{{showBgcImg}}" src="https://pic.imgdb.cn/item/616050242ab3f51d9129ff7f.png"></cover-image>
+  <view class="draftItem" wx:for="{{draftInfo}}" wx:key="*this">
+    <view class="draft_title">
+      <text>标题：{{item.title}}</text>
+    </view>
+    <view class="draft_content">
+      <text>文章内容：{{item.articleContent}}</text>
+    </view>
+    <view class="draft_btn">
+      <button size="mini" catchtap="handleDraftEditor" class="editor" style="width: 100rpx;height: 60rpx;font-size: 30rpx;line-height:60rpx;text-align:center">编辑</button>
+      <button size="mini" catchtap="hanleDraftDelete" class="delete" style="width: 100rpx;height: 60rpx;font-size: 30rpx;line-height:60rpx;text-align:center">删除</button>
+    </view>
+  </view>
+</view>

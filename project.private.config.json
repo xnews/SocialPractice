@@ -1,0 +1,179 @@
+{
+  "setting": {},
+  "condition": {
+    "plugin": {
+      "list": []
+    },
+    "game": {
+      "list": []
+    },
+    "gamePlugin": {
+      "list": []
+    },
+    "miniprogram": {
+      "list": [
+        {
+          "name": "登录页面",
+          "pathName": "examples/login/login",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "注册页面",
+          "pathName": "examples/register/register",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "首页页面",
+          "pathName": "pages/index/index",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "搜索页面",
+          "pathName": "pages/search/search",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "分类页面",
+          "pathName": "pages/category/category",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "动态页面",
+          "pathName": "pages/dynamic/dynamic",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "个人中心",
+          "pathName": "pages/profile/profile",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "活动详情",
+          "pathName": "pages/eventdetail/eventdetail",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "活动评价",
+          "pathName": "pages/comment/comment",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "活动页面",
+          "pathName": "pages/activity/activity",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "活动签到",
+          "pathName": "pages/activityIn/activityIn",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "活动话题",
+          "pathName": "pages/topic/topic",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "活动组织",
+          "pathName": "pages/organization/organization",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "公告页面",
+          "pathName": "pages/announcement/announcement",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "话题主界面",
+          "pathName": "pages/topicContent/topicContent",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "动态页面主页",
+          "pathName": "pages/dynamicContent/dynamicContent",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "我的账号",
+          "pathName": "pages/personalAccount/personalAccount",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "活跃排名",
+          "pathName": "pages/activeList/activeList",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "活动投稿",
+          "pathName": "pages/contribute/contribute",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "草稿箱",
+          "pathName": "pages/draftBox/draftBox",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "我的活动",
+          "pathName": "pages/profileActivity/profileActivity",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "我的收藏",
+          "pathName": "pages/profileCollection/profileCollection",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "我的组织",
+          "pathName": "pages/profileOrganization/profileOrganization",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "分类活动主页",
+          "pathName": "pages/categoryContent/categoryContent",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "登录类型",
+          "pathName": "pages/loginType/loginType",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "教师审核",
+          "pathName": "pages/review/review",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "投稿审核内容页",
+          "pathName": "pages/reviewContribution/reviewContribution",
+          "scene": null
+        }
+      ]
+    }
+  }
+}

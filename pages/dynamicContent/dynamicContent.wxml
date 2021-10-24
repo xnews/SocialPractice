@@ -1,0 +1,12 @@
+<view class="dynamicContent_container">
+  <view class="dynamic_head">
+    <text>{{dynamicObj.content_title}}</text>
+    <text>时间：{{dynamicObj.content_time}}</text>
+  </view>
+  <view class="dynamic_content">
+    <block wx:for="{{dynamicObj.content}}" wx:key="*this">
+      <image src="{{item.content_img_url}}"></image>
+      <text>{{item.text}}</text>
+    </block>
+  </view>
+</view>

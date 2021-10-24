@@ -1,0 +1,12 @@
+<view class="announceContainer">
+  <view class="announceItem" wx:for="{{4}}">
+    <view class="announceTitle">
+    <text>关于组织开展2021年暑期社会实践活动的通知</text>
+    </view>
+    <view class="announceOther">
+      <text>2021-09-23</text>
+      <text>|</text>
+      <text>浏览量:{{browseNum}}</text>
+    </view>
+  </view>
+</view>

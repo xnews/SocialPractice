@@ -1,0 +1,34 @@
+.reviewContribution_Container{
+  padding: 0 30rpx;
+}
+.reviewContribution_Item{
+  margin-top: 20rpx;
+}
+.head{
+  display: flex;
+  flex-direction: column;
+}
+.head text:nth-child(1){
+  text-align: center;
+  font-size: 48rpx;
+  font-weight: 500;
+}
+.head text:nth-child(2),.head text:nth-child(3){
+  color: #292421;
+  font-size: 36rpx;
+}
+.content{
+  margin-top: 20rpx;
+  text-indent: 2rem;
+}
+.img{
+  margin-top: 20rpx;
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 200rpx;
+}
+.img image{
+  width: 230rpx;
+  height: 180rpx;
+  padding: 10rpx 5rpx;
+}

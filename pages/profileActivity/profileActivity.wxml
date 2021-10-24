@@ -1,0 +1,33 @@
+<view class="profileActivityContainer">
+  <block wx:for="{{data}}">
+    <view class="active_content" wx:for="{{item.activity}}" wx:key="{{item._id}}">
+      <view class="active_list" catchtap="switchToActivityIn" data-id="{{item._id}}">
+        <!-- 活动图片 -->
+        <view class="active_img">
+          <image src="cloud://cloud-8gy1484h4171152a.636c-cloud-8gy1484h4171152a-1306324510/images/1.jpeg"></image>
+        </view>
+        <!-- 活动信息 --> 
+        <view class="active_info">
+          <!-- 活动标题 -->
+          <text>{{item.activityName}}</text>
+          <view class="active_desc">
+            <view class="iconfont icon-shijian active_icon"></view>
+            <text>{{item.time}}</text>
+          </view>
+          <!-- 活动描述 -->
+          <view class="active_desc">
+            <view class="iconfont icon-didian active_icon"></view>
+            <text>{{item.site}}</text>
+          </view>
+          <view class="active_desc">
+            <view class="iconfont icon-tuandui1 active_icon"></view>
+            <text>{{item.certification}}</text>
+          </view>
+          <view class="activity_status">
+            <button size="mini" class="status" style="width: 180rpx;height: 60rpx;font-size: 30rpx;line-height:60rpx;text-align:center">{{item.status}}</button>
+          </view>
+        </view>
+      </view>
+    </view>
+  </block>
+</view>

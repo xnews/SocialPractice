@@ -1,0 +1,111 @@
+page {
+  background-color: #edece8;
+}
+.profileContainer{
+  width: 100%;
+  height: 100%;
+}
+
+.profileHead{
+  height: 360rpx;
+  background-color: #fff;
+  position: relative;
+}
+.profileHead .profile_login{
+  height: 180rpx;
+  border-bottom: 1rpx solid #ccc;
+  line-height: 180rpx;
+  padding-left: 50rpx;
+  display: flex;
+  align-items: center;
+}
+.profileHead .profile_login text:nth-child(1){
+  font-size: 100rpx;
+  color: #696969;
+}
+
+.profileHead .profile_login text:nth-child(2){
+  font-size: 40rpx;
+  position: absolute;
+  left: 15%;
+  top: 0;
+  margin-left: 60rpx;
+}
+.userinfo-avatar {
+  width: 100rpx;
+  height: 100rpx;
+  border-radius: 50%;
+}
+.profile_info{
+  display: flex;
+  margin-top: 20rpx;
+}
+.profile_info .info_item{
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  align-items: center;
+}
+.profile_info .info_item text:nth-child(2){
+  margin-top: 30rpx;
+}
+.profile_middle{
+  margin-top: 40rpx;
+  background-color: #fff;
+}
+.profile_desc .desc_item{
+  border-bottom: 1rpx solid #ccc;
+  height: 100rpx;
+  padding-left: 30rpx;
+  position: relative;
+}
+.profile_desc .desc_item:last-child{
+  border-bottom: none;
+}
+.profile_desc .desc_item text:nth-child(1){
+  font-size: 45rpx;
+  color: #696969;
+  line-height: 100rpx;
+}
+.profile_desc .desc_item text:nth-child(2){
+  font-size: 34rpx;
+  margin-left: 25rpx;
+  position: absolute;
+  top: 26rpx;
+}
+.profile_desc .desc_item text:nth-child(3){
+  margin-right: 30rpx;
+  float: right;
+  color: #9C9C9C;
+  line-height: 100rpx;
+}
+.profile_footer{
+  margin-top: 40rpx;
+  background-color: #fff;
+}
+.profile_other{
+  border-bottom: 1rpx solid #ccc;
+  height: 100rpx;
+  padding-left: 30rpx;
+  position: relative;
+}
+.profile_footer .profile_other:last-child{
+  border-bottom: none;
+}
+.profile_footer .profile_other text:nth-child(1){
+  font-size: 45rpx;
+  color: #696969;
+  line-height: 100rpx;
+}
+.profile_footer .profile_other text:nth-child(2){
+  font-size: 34rpx;
+  margin-left: 25rpx;
+  position: absolute;
+  top: 26rpx;
+}
+.profile_footer .profile_other text:nth-child(3){
+  margin-right: 30rpx;
+  float: right;
+  color: #9C9C9C;
+  line-height: 100rpx;
+}

@@ -1,0 +1,11 @@
+.pages{
+  position: relative;
+}
+.loginTypeContainer{
+  position: absolute;
+  top: 35%;
+  left: 20%;
+}
+.tealogin{
+  margin-top: 30rpx;
+}

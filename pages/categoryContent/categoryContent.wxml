@@ -1,0 +1,43 @@
+<view class="activity_container">
+    <!-- 活动内容 -->
+    <view class="active_content">
+    <!-- 活动列表 -->
+    <view class="active_list" wx:for="{{cateActivies}}" wx:key="_id" data-id="{{item._id}}" catchtap="switchToAcDesc">
+      <!-- 活动图片 -->
+      <view class="active_img">
+        <image src="../../images/1.jpeg"></image>
+      </view>
+      <!-- 活动信息 --> 
+      <view class="active_info">
+        <!-- 活动标题 -->
+        <text>{{item.activityName}}</text>
+        <view class="active_desc">
+          <view class="iconfont icon-shijian active_icon"></view>
+          <text>{{item.time}}</text>
+        </view>
+        <!-- 活动描述 -->
+        <view class="active_desc">
+          <view class="iconfont icon-didian active_icon"></view>
+          <text>{{item.site}}</text>
+        </view>
+        <view class="active_desc">
+          <view class="iconfont icon-tuandui1 active_icon"></view>
+          <text>{{item.certification}}</text>
+        </view>
+        <!-- 活动信息底部 -->
+        <view class="active_other">
+          <text>活动报名进行时</text>
+          <view class="active_like">
+            <view class="iconfont icon-dianzan-copy"></view>
+            <text>{{item.heat.thumbupNum}}</text>
+          </view>
+          <view class="active_like">
+            <view class="iconfont icon-shoucang"></view>
+            <text>{{item.heat.collectNum}}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>
+

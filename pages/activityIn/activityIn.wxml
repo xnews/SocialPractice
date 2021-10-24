@@ -1,0 +1,30 @@
+<!--location_check_in/location_check_in.wxml-->
+<view class="wholeContinaer">
+	<map id="myMap" markers="{{markers}}" style="width:100%;height:100vh;" longitude="{{poi.longitude}}" polyline="{{polyline}}" latitude="{{poi.latitude}}" include-points="{{points}}" scale='16' show-location>
+	</map>
+	<view class="checkInPanel">
+		<!-- <view class="checkInBtn" bindtap="checkIn" style="background:url('../../images/zcxj/checkInBj.png') center / contain no-repeat"> -->
+		<view wx:if="{{clickStatus==0}}" class="checkInBtn" bindtap="checkIn">
+			<view class="checkInTitle">签到</view>
+			<view class="checkInTime">{{timecount}}</view>
+		</view>
+		<view wx:elif="{{clickStatus==1}}" class="checkInBtn" bindtap="checkOut">
+			<view class="checkInTitle">签退</view>
+			<view class="checkInTime">{{timecount}}</view>
+		</view>
+		<view wx:elif="{{clickStatus==-1}}" class="checkInBtn {{canClick ? '' : 'disableClick'}}">
+			<view class="checkInTitle">活动已结束</view>
+		</view>
+		<!-- <view class="whitePositionPanel" style="background:url('../../images/zcxj/jxk.png') center / contain no-repeat"> -->
+		<view class="whitePositionPanel">
+			<view class="positonTextRow">
+				<image class="positionIcon" src="../../images/hdqd/positionIcon.png"></image>
+				<view class="positionFont">{{addressName}}</view>
+			</view>
+		</view>
+		<view class="rePosition" bindtap="rePosition">
+			<image class="positionIcon" src="../../images/hdqd/rePosition.png"></image>
+			<view class="positionFont">重新定位</view>
+		</view>
+	</view>
+</view>

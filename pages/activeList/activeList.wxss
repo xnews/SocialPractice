@@ -1,0 +1,51 @@
+.activeContainer{
+  padding: 10rpx;
+}
+.activeProfile{
+  margin-top: 20rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1rpx solid var(--themeColor);
+  border-radius: 20rpx;
+}
+.activeTime,.activeRank{
+  flex:5;
+  display: flex;
+  flex-direction: column;
+}
+.activeTime text,.activeRank text{
+  text-align: center;
+  padding: 20rpx 0;
+  font-size: 48rpx;
+}
+.activeAll{
+  margin-top: 80rpx;
+}
+.activeAllNav{
+  background-color: #c6ddfc;
+  border-top: 1rpx solid var(--themeColor);
+  border-bottom: 1rpx solid var(--themeColor);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80rpx;
+  line-height: 80rpx;
+  padding-top: 5rpx;
+}
+.activeAllNav text{
+  color: var(--themeColor);
+}
+.activeAllNav text,.activeAllItem text{
+  font-size: 40rpx;
+  flex: 1;
+  text-align: center;
+}
+.activeAllItem{
+  height: 100rpx;
+  line-height: 100rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-bottom: 5rpx dashed #dedede;
+}

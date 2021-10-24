@@ -1,0 +1,61 @@
+<form bindsubmit="organiseSubmit">
+  <view class="organiseContainer">
+    <view class="origaniseItem itemHead">
+      <text>活动名称</text>
+      <input name="activityName" type="text"/>
+    </view>
+    <view class="origaniseItem">
+      <text>活动地点</text>
+      <input name="place" type="text"/>
+    </view>
+    <view class="origaniseItemTime">
+      <text>活动时间</text>
+      <picker name="date" mode="date" bindchange="chooseDate">
+        <view class="choosedate">{{dateValue}}</view>
+      </picker>
+      <text>-</text>
+      <picker name="time" mode="time" bindchange="chooseTime">
+        <view class="choosetime">{{timeValue}}</view>
+      </picker>
+    </view>
+    <view class="origaniseItemType">
+      <text>活动类型</text>
+      <!-- 调用下拉框组件 -->
+      <view class="container" bindtap="close">
+        <view class="select-wrap">
+          <select id="select" options="{{optionsType}}" key="type_id" text="type_name" bind:change="changeType"></select>
+        </view>
+      </view>
+    </view>
+    <view class="origaniseItem">
+      <text>团队名称</text>
+      <input name="teamName" type="text"/>
+    </view>
+    <view class="origaniseTeamNum">
+      <text>团队人数</text>
+      <view class="container" bindtap="close">
+        <view class="select-wrap">
+          <select id="select" options="{{optionsNum}}" key="team_id" text="team_num" bind:change="changeNum"></select>
+        </view>
+      </view>
+    </view>
+    <view class="origaniseItem">
+      <text>团队负责人</text>
+      <input name="principal" type="text"/>
+    </view>
+    <view class="origaniseItem">
+      <text>指导老师</text>
+      <input name="adviser" type="text"/>
+    </view>
+    <view class="organiseUpfile">
+      <textarea name="noteInfo" placeholder="备注信息:">
+        <button class="" catchtap="handleuploadFile" style="width: 100rpx;height: 100rpx;">+</button>
+        <text>上传文件\n(*.doc,*.docx格式)</text>
+      </textarea>
+    </view>
+    <view class="organiseBtn">
+      <button size="mini" form-type="submit" style="width: 210rpx;height: 80rpx;">申请创建</button>
+      <button size="mini" form-type="reset" style="width: 210rpx;height: 80rpx;">清空</button>
+    </view>
+  </view>
+</form>

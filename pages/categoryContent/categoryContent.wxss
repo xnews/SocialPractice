@@ -1,0 +1,77 @@
+.active_content {
+  height: 260rpx;
+  width: 100%;
+  border-bottom: 1rpx solid #cccccc;
+}
+.active_content .active_list{
+  display: flex;
+  padding: 10rpx 0;
+}
+
+.active_content .active_list .active_img{
+  flex: 2;
+  height: 240rpx;
+  line-height: 240rpx;
+}
+
+.active_content .active_list .active_img image{
+  width: 260rpx;
+  height: 220rpx;
+  margin: 10rpx 20rpx;
+}
+
+.active_content .active_list .active_info{
+  flex: 3;
+}
+
+.active_content .active_list .active_info > text:first-child{
+  font-weight: bold;
+  padding-top: 20rpx;
+}
+
+.active_content .active_list .active_info .active_desc{
+  display: flex;
+}
+
+.active_content .active_list .active_info .active_desc .active_icon{
+  padding: 10rpx 4rpx;
+  font-size: 30rpx;
+}
+
+.active_content .active_list .active_info .active_desc text{
+  font-size: 32rpx;
+  color: #848484;
+  margin-left: 20rpx;
+  padding-top: 5rpx;
+}
+
+.active_content .active_list .active_info .active_other{
+  height: 40rpx;
+  line-height: 40rpx;
+}
+
+.active_content .active_list .active_info .active_other > text{
+  color: 	#FFA500;
+  font-size: 38rpx;
+}
+
+.active_content .active_list .active_info .active_other{
+  display: flex;
+}
+
+.active_content .active_list .active_info .active_other .active_like{
+  display: flex;
+  padding-left: 15rpx;
+}
+
+.active_content .active_list .active_info .active_other .active_like text{
+  color: 	#848484;
+  padding-left: 2rpx;
+  font-size: 35rpx;
+}
+.icon-dianzan-copy{
+  font-size: 36rpx;
+}
+.icon-shoucang{
+  font-size: 36rpx;
+}

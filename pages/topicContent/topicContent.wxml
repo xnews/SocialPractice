@@ -1,0 +1,12 @@
+<view class="topicContainer">
+  <view class="topic_title">
+    <text>{{topicObj.title}}</text>
+  </view>
+  <view class="topic_user">
+    <image src="{{topicObj.user_img_url}}"></image>
+    <text>{{topicObj.user_name}}</text>
+  </view>
+  <view class="topic_content" wx:for="{{topicObj.content}}" wx:key="*this">
+    <text>{{item.p}}</text>
+  </view>
+</view>

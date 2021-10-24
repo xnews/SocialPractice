@@ -1,0 +1,23 @@
+<scroll-view scroll-x="true" style="width: 100%;white-space: nowrap;">
+  <view class="bar">
+    <view class="bar_nav" bindtap="handletab" wx:for="{{tabName}}" wx:key="*this" data-type="{{item.type}}" data-index="{{index}}">
+      <view class="bar_text">{{item.type}}</view>
+      <view class="bar_line {{currentIndex===index?'active':''}}"></view>
+    </view>
+  </view> 
+</scroll-view>
+<view class="activity_container">
+  <view class="activity_content" catchtap="switchToDynamicContent" data-id="{{item._id}}" wx:for="{{dynamicList}}" wx:key="_id">
+    <view class="activity_text_area">
+      <view class="text_title">
+        <text>{{item.title}}</text>
+      </view>
+      <view class="avtivity_time">
+        <text>{{item.time}}</text>
+      </view>
+    </view>
+    <view class="activity_img">
+      <image src="cloud://cloud-8gy1484h4171152a.636c-cloud-8gy1484h4171152a-1306324510/images/dynamic.jpg"></image>
+    </view>
+  </view>
+</view>

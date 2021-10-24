@@ -1,0 +1,49 @@
+.topicItem{
+  margin-top: 20rpx;
+  padding-left: 10rpx;
+  border-top: 1rpx solid #cccccc;
+  padding-top: 10rpx;
+}
+.topicTitle text{
+  font-size: 40rpx;
+}
+.topicUserInfo{
+  position: relative;
+}
+.topicUserInfo image{
+  width: 45rpx;
+  height: 45rpx;
+}
+/* .imagehidden{
+  display: none;
+}
+.imageshow{
+  height: 120rpx;
+  flex: 1;
+  border-radius: 10rpx;
+} */
+.topicUserInfo text{
+  display: inline-block;
+  font-size: 30rpx;
+  font-weight: bold;
+  padding-left: 20rpx;
+  position: absolute;
+  top: 5rpx;
+}
+.topicText{
+  display: flex;
+}
+.topicText text{
+  font-size: 32rpx;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+  flex: 3;
+  padding-left: 30rpx;
+}
+.topicText image{
+  height: 120rpx;
+  flex: 1;
+  border-radius: 10rpx;
+}

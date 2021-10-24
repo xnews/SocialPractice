@@ -1,0 +1,24 @@
+.accountContainer{
+  width: 100%;
+  height: 100%;
+  padding: 30rpx;
+}
+.accountItem{
+  display: flex;
+  justify-items: center;
+  align-items: center;
+  border-top: 1rpx solid #cccccc;
+  height: 110rpx;
+}
+.accountItem text:nth-child(1) {
+  font-size: 46rpx;
+  flex: 2;
+  color: #63717e;
+  text-align: center;
+}
+.accountItem text:nth-child(2) {
+  flex: 5;
+  font-size: 46rpx;
+  text-align: center;
+  color: gray;
+}

@@ -1,0 +1,66 @@
+<view class="profileContainer">
+  <view class="profileHead">
+    <view class="profile_login">
+      <block wx:if="{{!hasUserInfo}}">
+        <text class="iconfont icon-weidenglutouxiang"></text>
+        <text catchtap="handleUserLogin">获取头像昵称</text>
+      </block>
+      <block wx:else>
+        <image class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover"></image>
+        <text class="userinfo-nickname">{{userInfo.nickName}}</text>
+      </block>
+    </view>
+    <view class="profile_info">
+      <view class="info_item" catchtap="switchToProfileActivity">
+        <text>我的活动</text>
+        <text>{{activityCount}}</text>
+      </view>
+      <view class="info_item" catchtap="switchToProfileOrganization">
+        <text>我的组织</text>
+        <text>{{organiseCount}}</text>
+      </view>
+      <view class="info_item" catchtap="switchToProfileCollection">
+        <text>我的收藏</text>
+        <text>{{collectCount}}</text>
+      </view>
+    </view> 
+  </view> 
+ 
+  <view class="profile_middle">
+    <view class="profile_desc">
+      <view class="desc_item desc_item1" catchtap="switchToPersonalAccount">
+        <text class="iconfont icon-wodemingpian"></text>
+        <text>我的账号</text>
+        <text>></text>
+      </view>
+      <view class="desc_item desc_item2" catchtap="switchToActiveList">
+        <text class="iconfont icon-jiangbei"></text>
+        <text>活跃排名</text>
+        <text>></text>
+      </view>
+      <view class="desc_item desc_item3" catchtap="switchToContribute">
+        <text class="iconfont icon-xinxifabu"></text>
+        <text>我要投稿</text>
+        <text>></text>
+      </view>
+    </view>
+  </view>
+
+  <view class="profile_footer">
+    <view class="profile_other feedback" catchtap="switchToDraftBox">
+      <text class="iconfont icon-caogaoxiang"></text>
+      <text>草稿箱</text>
+      <text>></text>
+    </view>
+    <view class="profile_other notice">
+      <text class="iconfont icon-yijianfankui"></text>
+      <text>意见反馈</text>
+      <text>></text>
+    </view>
+    <view class="profile_other aboutus">
+      <text class="iconfont icon-guanyu"></text>
+      <text>关于我们</text>
+      <text>></text>
+    </view>
+  </view>
+</view>

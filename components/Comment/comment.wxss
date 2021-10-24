@@ -1,0 +1,23 @@
+.commentContainer{
+  position: fixed;
+  width: 100%;
+  bottom: 10rpx;
+  display: flex;
+  align-items: center;
+}
+.content{
+  padding: 5rpx;
+  margin-left: 20rpx;
+  width: 75%;
+  height: 80rpx;
+  border-radius: 10rpx;
+  border: 1rpx solid var(--themeColor);
+  background-color: #fff;
+}
+.SubmitBtn{
+  background-color: var(--themeColor);
+  color: #fff;
+  font-weight: normal;
+  width: 60rpx;
+  height: 80rpx;
+}
