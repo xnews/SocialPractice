@@ -171,6 +171,12 @@
         {
           "name": "投稿审核内容页",
           "pathName": "pages/reviewContribution/reviewContribution",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "意见反馈",
+          "pathName": "pages/feedback/feedback",
           "scene": null
         }
       ]

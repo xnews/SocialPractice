@@ -64,7 +64,7 @@ page {
 }
 .profile_desc .desc_item text:nth-child(1){
   font-size: 45rpx;
-  color: #696969;
+  color: var(--themeColor);
   line-height: 100rpx;
 }
 .profile_desc .desc_item text:nth-child(2){
@@ -94,7 +94,7 @@ page {
 }
 .profile_footer .profile_other text:nth-child(1){
   font-size: 45rpx;
-  color: #696969;
+  color: var(--themeColor);
   line-height: 100rpx;
 }
 .profile_footer .profile_other text:nth-child(2){

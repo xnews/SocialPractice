@@ -29,6 +29,8 @@ Page({
   switchToActivityIn(e) {
     const profileActivityId = e.currentTarget.dataset.id
     wx.setStorageSync('profileActivityId', profileActivityId)
-
+    wx.navigateTo({
+      url: '/pages/activityIn/activityIn',
+    })
   }
 })

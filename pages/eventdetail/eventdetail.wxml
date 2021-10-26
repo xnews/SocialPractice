@@ -51,19 +51,42 @@
       <text>{{activitiesHeat.browseNum}}</text>
     </view> 
     <!-- 点赞图标 -->
-    <view class="like">
+
+    <!-- <view class="like" wx:if="{{isClickLike}}">
       <view class="icon_foot2 {{$state.activity.isClickLike?'iconfont icon-dianzan active':'iconfont icon-dianzan1'}}" catchtap="handleLike"></view>
       <text>{{activitiesHeat.thumbupNum}}</text>
+    </view> -->
+    <view class="like" wx:if="{{isClickLike}}">
+      <view class="icon_foot2 iconfont icon-dianzan active" catchtap="handleLike"></view>
+      <text>{{activitiesHeat.thumbupNum}}</text>
     </view>
-    <button type="primary" catchtap="handleapply" style="width: 280rpx;height: 80rpx;background-color: var(--themeColor); color: #fff;">{{$state.activity.registrationTips}}</button>
+
+    <view class="like" wx:else>
+      <view class="icon_foot2 iconfont icon-dianzan1" catchtap="handleLike"></view>
+      <text>{{activitiesHeat.thumbupNum}}</text>
+    </view>
+    <!-- 报名 -->
+    <block wx:if="{{registrationTips}}">
+      <button type="primary" catchtap="handleapply" style="width: 280rpx;height: 80rpx;background-color: var(--themeColor); color: #fff;">立即报名</button>
+    </block>
+    <block wx:else>
+      <button type="primary" catchtap="handleapply" style="width: 280rpx;height: 80rpx;background-color: var(--themeColor); color: #fff;">取消报名</button>
+    </block>
+
+
     <!-- 评价图标 -->
     <view class="evaluate" catchtap="clickEvaluate">
       <view class="iconfont icon-pingjia icon_foot3"></view>
       <text>{{activitiesHeat.commentNum}}</text>
     </view>
     <!-- 收藏图标 -->
-    <view class="collection">
-      <view class="icon_foot4 {{$state.activity.isClickCollect?'iconfont icon-shoucang active':'iconfont icon-shoucang11'}}" catchtap="handleCollect"></view>
+    <view class="collection" wx:if="{{isClickCollect}}">
+      <view class="icon_foot4 iconfont icon-shoucang active" catchtap="handleCollect"></view>
+      <text>{{activitiesHeat.collectNum}}</text>
+    </view>
+
+    <view class="collection" wx:else>
+      <view class="icon_foot4 iconfont icon-shoucang11" catchtap="handleCollect"></view>
       <text>{{activitiesHeat.collectNum}}</text>
     </view>
    

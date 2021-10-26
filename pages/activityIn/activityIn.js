@@ -565,8 +565,8 @@ App.Page({
    * 生命周期函数--监听页面隐藏
    */
   onUnload: function () {
-    wx.redirectTo({
-      url: '/pages/profileActivity/profileActivity',
+    wx.navigateBack({
+      delta: 1
     })
     clearInterval(this.data.timer2)
     // const clickStatus = this.data.clickStatus

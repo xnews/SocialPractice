@@ -15,6 +15,11 @@ Page({
     this.activityCount()
     this.collectCount()
     this.organiseCount()
+    const userInfo = wx.getStorageSync('userInfo')
+    this.setData({
+      userInfo: userInfo,
+      hasUserInfo: true
+    })
   },
   onUnload() {
   },
@@ -75,6 +80,22 @@ Page({
       }
     })
   },
+  // 退出登录事件
+  handleCancellation() {
+    wx.showModal({
+      content: '是否退出登录',
+      success (res) {
+        if (res.confirm) {
+          console.log('用户点击确定')
+          wx.reLaunch({
+            url: '/examples/login/login'
+          })
+        } else if (res.cancel) {
+          console.log('用户点击取消')
+        }
+      }
+    })
+  },
   switchToProfileActivity() {
     wx.navigateTo({
       url: '/pages/profileActivity/profileActivity',
@@ -108,6 +129,11 @@ Page({
   switchToDraftBox() {
     wx.navigateTo({
       url: '/pages/draftBox/draftBox',
+    })
+  },
+  swithToFeedback() {
+    wx.navigateTo({
+      url: '/pages/feedback/feedback',
     })
   }
 })

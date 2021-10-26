@@ -1,3 +1,6 @@
+<view>
+  <image class="image" src="https://pic.imgdb.cn/item/6177a5f82ab3f51d91ce59f8.png"></image>
+</view>
 <view class="loginTypeContainer">
   <button class="stulogin" catchtap="switToStuLogin" type="primary" style="font-weight:400">学生登录</button>
   <button class="tealogin" catchtap="switToTeaLogin" type="primary" style="background-color:var(--themeColor);font-weight:400">教师登录</button>

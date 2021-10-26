@@ -1,10 +1,19 @@
 .pages{
   position: relative;
+  width: 100%;
+  height: 100%;
+}
+.image{
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
 }
 .loginTypeContainer{
   position: absolute;
   top: 35%;
-  left: 20%;
+  left: 23%;
+  z-index: 100;
 }
 .tealogin{
   margin-top: 30rpx;

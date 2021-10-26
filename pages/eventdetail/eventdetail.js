@@ -11,8 +11,8 @@ App.Page({
     isClickLike: false,
     isClickCollect: false,
     activities: {},
-    activitiesHeat: {}
-    // registrationTips: "立即报名",
+    activitiesHeat: {},
+    registrationTips: true,
     // isClickreRistra: false
   }, 
   onLoad() {
@@ -29,7 +29,10 @@ App.Page({
     _activities.deadline = util.formatTime(new Date(_activities.deadline))
     activityIndex = Index
     this.setData({
-      activities: _activities
+      activities: _activities,
+      isClickLike: _activities.isClickLike,
+      isClickCollect: _activities.isClickCollect,
+      registrationTips: _activities.registrationTips
     })
   }, 
   onShow() {   
@@ -108,11 +111,14 @@ App.Page({
           activity: activity
         }
       })
-      _activities.registrationTips = "取消报名",
+      _activities.registrationTips = false,
       _activities.isClickreRistra = true
       activities.splice(activityIndex,1,_activities)
       app.store.setState({
         activities
+      })
+      this.setData({
+        registrationTips:false
       })
     }else{
       wx.showToast({
@@ -129,11 +135,14 @@ App.Page({
       }).then(res => {
         console.log(res,'删除成功')
       })
-      _activities.registrationTips = "立即报名",
+      _activities.registrationTips = true,
       _activities.isClickreRistra = false
       activities.splice(activityIndex,1,_activities)
       app.store.setState({
         activities
+      })
+      this.setData({
+        registrationTips:true
       })
     }
   },
@@ -189,7 +198,8 @@ App.Page({
       })
     }
     this.setData({
-      activitiesHeat
+      activitiesHeat,
+      isClickLike
     })
     console.log(activitiesHeat,'q')
   },
@@ -250,7 +260,8 @@ App.Page({
       // wx.setStorageSync('profileCollect', profileCollect)
     }
     this.setData({
-      activitiesHeat
+      activitiesHeat,
+      isClickCollect
     })
   },
   // // 报名跳转页面

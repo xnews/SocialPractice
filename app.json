@@ -27,7 +27,8 @@
     "pages/categoryContent/categoryContent",
     "pages/loginType/loginType",
     "pages/review/review",
-    "pages/reviewContribution/reviewContribution"
+    "pages/reviewContribution/reviewContribution",
+    "pages/feedback/feedback"
   ],
   "window":{
     "backgroundTextStyle":"light",

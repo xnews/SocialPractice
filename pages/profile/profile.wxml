@@ -52,14 +52,14 @@
       <text>草稿箱</text>
       <text>></text>
     </view>
-    <view class="profile_other notice">
+    <view class="profile_other notice" catchtap="swithToFeedback">
       <text class="iconfont icon-yijianfankui"></text>
       <text>意见反馈</text>
       <text>></text>
     </view>
-    <view class="profile_other aboutus">
+    <view class="profile_other aboutus" catchtap="handleCancellation">
       <text class="iconfont icon-guanyu"></text>
-      <text>关于我们</text>
+      <text>退出登录</text>
       <text>></text>
     </view>
   </view>

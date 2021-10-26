@@ -5,7 +5,7 @@
     <view class="active_list" wx:for="{{cateActivies}}" wx:key="_id" data-id="{{item._id}}" catchtap="switchToAcDesc">
       <!-- 活动图片 -->
       <view class="active_img">
-        <image src="../../images/1.jpeg"></image>
+        <image src="cloud://cloud-8gy1484h4171152a.636c-cloud-8gy1484h4171152a-1306324510/images/1.jpeg"></image>
       </view>
       <!-- 活动信息 --> 
       <view class="active_info">

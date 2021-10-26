@@ -14,7 +14,7 @@ module.exports = new Store({
           success(res) {
             activities = res.result.data
             for(let i of activities) {
-              i.registrationTips = "立即报名"
+              i.registrationTips = true
               i.isClickreRistra = false,
               i.isClickLike = false,
               i.isClickCollect = false,
