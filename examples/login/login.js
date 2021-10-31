@@ -1,6 +1,8 @@
 // pages/login/login.js
-Page({
-
+const app = getApp()
+App.Page({
+  useStore: true,
+  useProp: ["loginStatus"],
   /**
    * 页面的初始数据
    */
@@ -57,6 +59,9 @@ Page({
           wx.setStorageSync('stuNum', loginInfo.zhanghao)
           const {name, stuNum, _openid} = res.result.data[0]
           wx.setStorageSync('name', name)
+          app.store.setState({
+            loginStatus: 1
+          })
           // 调用查询个人活动信息表函数
           this.queryProfileActivity(name,stuNum,_openid)
           wx.showToast({
@@ -71,6 +76,9 @@ Page({
             title: '登录失败',
             icon: 'error'
           })
+          app.store.setState({
+            loginStatus: 0
+          })
         }
       }).catch(console.error)
     }else if(userType==="教师") {
@@ -84,6 +92,9 @@ Page({
         if(res.result.data.length){
           wx.setStorageSync('teaName', res.result.data[0].name)
           wx.setStorageSync('teaNum', loginInfo.zhanghao)
+          app.store.setState({
+            loginStatus: 1
+          })
           wx.showToast({
             title: '登录成功',
             icon: 'success'
@@ -96,10 +107,12 @@ Page({
             title: '登录失败',
             icon: 'error'
           })
+          app.store.setState({
+            loginStatus: 0
+          })
         }
       })
     }
-
   },
   // 跳转到首页
   switchTab() {
@@ -112,6 +125,23 @@ Page({
       wx.navigateTo({
         url: '/pages/review/review',
       })
+    }
+  },
+  profileInfo() {
+    wx.getUserProfile({
+      desc: '是否同意获取您的用户信息', // 声明获取用户个人信息后的用途，后续会展示在弹窗中，请谨慎填写
+      success: (res) => {
+        wx.setStorageSync('userInfo', res.userInfo)
+      }
+    })
+  },
+  getProfileInfo(e) {
+    const that = this
+    let { loginStatus } = app.store.getState()
+    if(loginStatus === 0) {
+      return
+    }else{
+      that.profileInfo() 
     }
   }
 })

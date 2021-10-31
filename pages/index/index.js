@@ -52,12 +52,7 @@ App.Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    wx.getUserProfile({
-      desc: '是否同意获取您的用户信息', // 声明获取用户个人信息后的用途，后续会展示在弹窗中，请谨慎填写
-      success: (res) => {
-        wx.setStorageSync('userInfo', res.userInfo)
-      }
-    })
+
   },
   switchToAcDesc(e) {
     let activityId = e.currentTarget.dataset.id

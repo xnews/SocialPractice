@@ -260,9 +260,7 @@ App.Page({
   // 更新活动状态
   updateProfileActivityStatus(status) {
     const stuNum = wx.getStorageSync('stuNum')
-    console.log(stuNum)
     const profileActivityId = wx.getStorageSync('profileActivityId')
-    console.log(profileActivityId)
     wx.cloud.callFunction({
       name: 'updateProfileActivityStatus',
       data: {
@@ -389,6 +387,10 @@ App.Page({
               stuNum: stuNum,
               practice_time
             }
+          }).then(res =>{
+            console.log('添加时长成功')
+          }).catch(err =>{
+            console.log(err)
           })
           that.Reset()
           that.updateProfileActivityStatus('活动已结束')

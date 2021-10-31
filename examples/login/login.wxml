@@ -28,7 +28,7 @@
       <!-- 底部 -->
       <view class="footer-area">
         <view class="login_btn">
-          <button type="primary" form-type="submit">登录</button>
+          <button type="primary" form-type="submit" bindtap="getProfileInfo" open-type="getUserInfo">登录</button>
         </view>
         <view class="register_pwd_btn">
           <navigator url="../register/register">立即注册</navigator>

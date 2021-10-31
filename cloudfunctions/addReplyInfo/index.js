@@ -1,18 +1,19 @@
 // 云函数入口文件
 const cloud = require('wx-server-sdk')
 
-cloud.init()
+cloud.init({
+  env: cloud.DYNAMIC_CURRENT_ENV
+})
 const db = cloud.database()
-const _ = db.command
-
 // 云函数入口函数
+const _ = db.command
 exports.main = async (event, context) => {
   try {
-    return await db.collection('profile_activity_info').where({
-      stuNum: event.stuNum
-    }).update({
+    return await db.collection('activity_comment').doc(event.id).update({
       data: {
-        practiceTime: _.inc(event.practice_time)
+        detail: [{
+          replyInfo: _.push(event.replyInfo)
+        }]
       }
     })
   } catch (error) {

@@ -16,9 +16,14 @@ Page({
     this.collectCount()
     this.organiseCount()
     const userInfo = wx.getStorageSync('userInfo')
-    this.setData({
-      userInfo: userInfo,
-      hasUserInfo: true
+    if(userInfo) {
+      this.setData({
+        userInfo: userInfo,
+        hasUserInfo: true
+      })
+    }
+    else({
+      hasUserInfo: false
     })
   },
   onUnload() {
@@ -88,8 +93,9 @@ Page({
         if (res.confirm) {
           console.log('用户点击确定')
           wx.reLaunch({
-            url: '/examples/login/login'
+            url: '/pages/loginType/loginType'
           })
+          wx.removeStorageSync('userInfo')
         } else if (res.cancel) {
           console.log('用户点击取消')
         }

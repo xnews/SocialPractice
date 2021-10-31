@@ -4,6 +4,7 @@ module.exports = new Store({
   state: {
     activities: [],
     activity: {},
+    loginStatus: 1
   },
   methods: {
     addActivityStatus() {
