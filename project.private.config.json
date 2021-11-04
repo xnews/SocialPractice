@@ -177,6 +177,12 @@
         {
           "name": "意见反馈",
           "pathName": "pages/feedback/feedback",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "修改密码",
+          "pathName": "examples/changePwd/changePwd",
           "scene": null
         }
       ]

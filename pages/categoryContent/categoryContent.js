@@ -26,6 +26,9 @@ Page({
       })
       wx.hideLoading()
     })
+    wx.setNavigationBarTitle({
+      title: cateType,
+    })
   },
   onShow: function (options) {
   },

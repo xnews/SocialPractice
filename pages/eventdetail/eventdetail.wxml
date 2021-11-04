@@ -66,11 +66,14 @@
       <text>{{activitiesHeat.thumbupNum}}</text>
     </view>
     <!-- 报名 -->
-    <block wx:if="{{registrationTips}}">
+    <block wx:if="{{registrationTips===0}}">
       <button type="primary" catchtap="handleapply" style="width: 280rpx;height: 80rpx;background-color: var(--themeColor); color: #fff;">立即报名</button>
     </block>
-    <block wx:else>
+    <block wx:elif="{{registrationTips===1}}">
       <button type="primary" catchtap="handleapply" style="width: 280rpx;height: 80rpx;background-color: var(--themeColor); color: #fff;">取消报名</button>
+    </block>
+    <block wx:elif="{{registrationTips===-1}}">
+      <button type="primary" catchtap="handleapply" disabled="true" style="width: 280rpx;height: 80rpx;background-color: var(--themeColor); color: #fff;">报名截止</button>
     </block>
 
 

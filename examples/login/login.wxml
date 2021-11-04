@@ -32,7 +32,7 @@
         </view>
         <view class="register_pwd_btn">
           <navigator url="../register/register">立即注册</navigator>
-          <navigator>忘记密码</navigator>    
+          <navigator url="../changePwd/changePwd">忘记密码</navigator>    
         </view>
       </view>
     </view>

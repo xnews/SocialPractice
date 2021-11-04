@@ -591,6 +591,8 @@ App.Page({
         })
       }
     })
-
+    wx.stopLocationUpdate({success: (res) => {}})
+    // 取消监听实时地理位置变化事件
+    wx.offLocationChange((result) => {})
   }
 })

@@ -28,7 +28,8 @@
     "pages/loginType/loginType",
     "pages/review/review",
     "pages/reviewContribution/reviewContribution",
-    "pages/feedback/feedback"
+    "pages/feedback/feedback",
+    "examples/changePwd/changePwd"
   ],
   "window":{
     "backgroundTextStyle":"light",

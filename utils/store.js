@@ -15,7 +15,7 @@ module.exports = new Store({
           success(res) {
             activities = res.result.data
             for(let i of activities) {
-              i.registrationTips = true
+              i.registrationTips = 0
               i.isClickreRistra = false,
               i.isClickLike = false,
               i.isClickCollect = false,

@@ -22,9 +22,15 @@ App.Page({
     const Index = Number(activityId)
     let { registrationTips, isClickreRistra, activities, activityIndex } = app.store.getState();
     let _activities = activities.find(item => item._id === activityId)
-    app.store.setState({
-      activity: _activities
-    })
+    const deadline = new Date(_activities.deadline).getTime()
+    const newTime = new Date().getTime()
+    // 判断是否截止报名
+    if(newTime>deadline){
+      console.log('true')
+      _activities.registrationTips = -1
+    }else{
+      console.log('false')
+    }
     _activities.time = util.formatTime(new Date(_activities.time))
     _activities.deadline = util.formatTime(new Date(_activities.deadline))
     activityIndex = Index
@@ -33,6 +39,9 @@ App.Page({
       isClickLike: _activities.isClickLike,
       isClickCollect: _activities.isClickCollect,
       registrationTips: _activities.registrationTips
+    })
+    app.store.setState({
+      activity: _activities
     })
   }, 
   onShow() {   
@@ -83,6 +92,12 @@ App.Page({
       }
     })
   },  
+  // 处理截止报名
+  deadlineApply(activityId){
+    let { registrationTips, isClickreRistra, activities } = app.store.getState();
+    let _activities = activities.find(item => item._id === activityId)
+    console.log(_activities)
+  },
   // 点击报名事件
   handleapply() {
     const {_id,activityName,site,time,type,certification} = wx.getStorageSync('activities')[0]
@@ -111,14 +126,14 @@ App.Page({
           activity: activity
         }
       })
-      _activities.registrationTips = false,
+      _activities.registrationTips = 1,
       _activities.isClickreRistra = true
       activities.splice(activityIndex,1,_activities)
       app.store.setState({
         activities
       })
       this.setData({
-        registrationTips:false
+        registrationTips:1
       })
     }else{
       wx.showToast({
@@ -135,14 +150,14 @@ App.Page({
       }).then(res => {
         console.log(res,'删除成功')
       })
-      _activities.registrationTips = true,
+      _activities.registrationTips = 0,
       _activities.isClickreRistra = false
       activities.splice(activityIndex,1,_activities)
       app.store.setState({
         activities
       })
       this.setData({
-        registrationTips:true
+        registrationTips:0
       })
     }
   },

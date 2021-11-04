@@ -1,0 +1,57 @@
+page, .page {
+  height: 100%;
+  width: 100%;
+}
+.container .form_area{
+  margin-top: 50rpx;
+}
+.container .form_area .form_item{
+  margin-top: 30rpx;
+  display: flex;
+  height: 100rpx;
+  width: 100%;
+}
+
+.container .form_area .form_item .form_title{
+  padding-top: 16rpx;
+  padding-left: 10rpx;
+  font-size: 36rpx;
+  flex: 2;
+  text-align: center;
+}
+
+.container .form_area .form_item .form_input{
+  flex: 4;
+  height: 80rpx;
+  margin-right: 40rpx;
+  padding-top: 10rpx;
+  padding-left: 20rpx;
+  border: 2rpx solid #000000;
+  border-radius: 15rpx;
+}
+
+.container .foot_area{
+  margin-top: 140rpx;
+  padding-left: 60rpx;
+}
+.container .foot_area button{
+  width: 400rpx;
+  height: 100rpx;
+  color: #fff;
+  font-weight: 400;
+  font-size: 45rpx;
+}
+.code {
+  float: right;
+  width: 245rpx;
+  height: 100rpx;
+  padding-right: 60rpx;
+  margin: 0;
+}
+.code button{
+  color: var(--themeColor);
+  font-weight: 400;
+  background-color:rgb(255, 255, 255, .1);
+  font-size: 45rpx;
+}
+

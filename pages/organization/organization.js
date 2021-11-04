@@ -172,5 +172,24 @@ Page({
     this.setData({
       timeValue: value
     })
+  },
+  emptyFormInfo() {
+    const that = this
+    wx.showModal({
+      content: '是否清空所有信息',
+      success (res) {
+        if (res.confirm) {
+          console.log('用户点击确定')
+          const select = that.selectComponent('.Select')
+          // 向子组件传递数据
+          that.setData({
+            dateValue: "选择日期",
+            timeValue: "选择时间"
+          })
+        } else if (res.cancel) {
+          console.log('用户点击取消')
+        }
+      }
+    })
   }
 })
