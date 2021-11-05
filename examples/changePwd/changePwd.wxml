@@ -10,13 +10,13 @@
           </view>
           <!-- 输入框 -->
           <view class="form_input">
-            <input data-index="{{index}}" name="{{item.name}}" bindblur="handleInput" password="{{item.tagname=='密码'||item.tagname=='确认密码'?'true':''}}" />
+            <input data-index="{{index}}" value="{{inputValue}}" name="{{item.name}}" bindblur="handleInput" password="{{item.tagname=='新密码'||item.tagname=='确认新密码'?'true':''}}" />
           </view> 
         </view>
       </view>
-      <view class="code">
-        <button size="mini" style="width:245rpx;height:60rpx;">获取验证码</button>
-      </view>
+      <!-- <view class="code">
+        <button size="mini" bindtap="sendCode" style="width:245rpx;height:60rpx;">获取验证码</button>
+      </view> -->
       <!-- 确认按钮 -->
       <view class="foot_area">
         <button form-type="submit" type="primary">确认</button>

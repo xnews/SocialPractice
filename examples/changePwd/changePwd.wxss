@@ -31,7 +31,7 @@ page, .page {
 }
 
 .container .foot_area{
-  margin-top: 140rpx;
+  margin-top: 80rpx;
   padding-left: 60rpx;
 }
 .container .foot_area button{
@@ -41,7 +41,7 @@ page, .page {
   font-weight: 400;
   font-size: 45rpx;
 }
-.code {
+/* .code {
   float: right;
   width: 245rpx;
   height: 100rpx;
@@ -53,5 +53,5 @@ page, .page {
   font-weight: 400;
   background-color:rgb(255, 255, 255, .1);
   font-size: 45rpx;
-}
+} */
 
