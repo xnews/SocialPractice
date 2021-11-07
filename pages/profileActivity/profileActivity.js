@@ -1,4 +1,5 @@
 // pages/profileActivity/profileActivity.js
+var util= require('../../utils/util.js')
 Page({
 
   /**
@@ -21,6 +22,11 @@ Page({
       }
     }).then(res => {
       const data = res.result.data
+      for(let i=0;i < data[0].activity.length;i++) {
+        data[0].activity[i].time = util.formatTime(new Date(data[0].activity[i].time))
+        data[0].activity[i].deadline = util.formatTime(new Date(data[0].activity[i].deadline))
+      } 
+      console.log(data)
       this.setData({
         data
       })

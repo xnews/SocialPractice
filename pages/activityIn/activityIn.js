@@ -3,6 +3,7 @@ const util = require('../../utils/_util')
 const app = getApp()
 const urlList = require("../../utils/api.js");  // 根据实际项目自己配置
 var intTime;
+var addTime;
 // 实例化API核心类
 const qqmapsdk = app.globalData.qqmapsdk
 
@@ -104,22 +105,16 @@ App.Page({
       }
     })
   },
+  // 标记活动目的地
   getSite(){
-    const {_id,site} = wx.getStorageSync('activities')[0]
+    // const {_id,site} = wx.getStorageSync('activities')[0]
+    const id = wx.getStorageSync('profileActivityId')
+    let { activities } = app.store.getState();
+    // 活动场地
+    let { site } = activities.find(item => item._id === id)
     const markers = this.data.markers;
     const points = this.data.points;
     const _this = this;
-    // 获取活动场地信息
-    wx.cloud.callFunction({
-      name: 'getActivitySite',
-      data: {
-        id: _id
-      }
-    }).then(res => {
-      console.log(res, '获取成功')
-    }).catch(err => {
-      console.log(err)
-    })
     qqmapsdk.geocoder({
       address: site,
       success: function(res) {//成功后的回调
@@ -246,10 +241,10 @@ App.Page({
         that.setData({
           time: time.substr(-8)
         });
-        if (time == 0) {
-          // 页面跳转后，要把定时器清空掉，免得浪费性能
-          clearInterval(that.data.timer)
-        }
+        // if (time == 0) {
+        //   // 页面跳转后，要把定时器清空掉，免得浪费性能
+        //   clearInterval(that.data.timer)
+        // }
       }, 1000)
     })
   },
@@ -312,11 +307,6 @@ App.Page({
       activities
     })
   },
-  addPracticeTime() {
-    setInterval(()=>{
-      this.updatePracticeTime
-    },1000)
-  },
   // 获取实践时长
   getPracticeTime() {
     return new Promise(resolve => {
@@ -332,6 +322,7 @@ App.Page({
     console.log('用户点击了签到')
     var that = this
     var nowTime = util.formatTime(new Date())
+    const timeout = this.data.timecount
     wx.showModal({
       title: '请确认位置信息',
       // content: '请确认待整改项已整改完毕！',
@@ -393,7 +384,7 @@ App.Page({
             console.log(err)
           })
           that.Reset()
-          that.updateProfileActivityStatus('活动已结束')
+          that.updateProfileActivityStatus('活动结束')
           // wx.setStorageSync('clickStatus', -1)
           that.updateAcitvityInStatus(-1)
           that.setData({
@@ -489,8 +480,41 @@ App.Page({
   /**
    * 生命周期函数--监听页面加载
    */
+  // 增加后台时间
+  addContinue() {
+    this.getPracticeTime().then(res =>{
+      let timeout = res
+      let hours = Number(timeout.split(":")[0])
+      let minutes = Number(timeout.split(":")[1])
+      let second = Number(timeout.split(":")[2])
+      if(second < 60){
+        second ++
+      }
+      if(second >= 60) {
+        minutes = minutes + 1
+        second = 0
+      }
+      if(minutes >= 60) {
+        hours = hours + 1
+        hours = 0
+      }
+      timeout =  [hours, minutes, second].map(formatNumber).join(':')
+      // console.log(timeout,typeof timeout)
+      this.updatePracticeTime(timeout)
+    })
+
+  },
+  // 后台计时器
+  continueTime() {
+    const that = this
+    clearInterval(addTime)
+    addTime = setInterval(function () {
+      that.addContinue()
+    },1000)
+  },
   onLoad: function (options) {
     var that = this
+    clearInterval(addTime) //清除后台定时器
     that.getAddress()
     that.getSite()
     that.getTime()
@@ -522,6 +546,7 @@ App.Page({
     })
     // const clickStatus = wx.getStorageSync('clickStatus')
     // const practiceTime = wx.getStorageSync('practiceTime')
+    console.log(this.data.timecount)
     that.getPracticeTime().then(res=>{
       const practiceTime = res
       const hour = Number(practiceTime.split(':')[0]);
@@ -567,6 +592,7 @@ App.Page({
    * 生命周期函数--监听页面隐藏
    */
   onUnload: function () {
+    const that = this
     wx.navigateBack({
       delta: 1
     })
@@ -583,8 +609,10 @@ App.Page({
         this.Restart()
         const time = this.data.timecount
         this.updatePracticeTime(time)
+        this.continueTime()
       }else if(clickStatus==-1) {
         clearInterval(this.data.timer)
+        clearInterval(addTime)
         console.log("定时器已被清除")
         this.setData({
           clickStatus

@@ -13,7 +13,7 @@
 			<view class="checkInTime">{{timecount}}</view>
 		</view>
 		<view wx:elif="{{clickStatus==-1}}" class="checkInBtn {{canClick ? '' : 'disableClick'}}">
-			<view class="checkInTitle">活动已结束</view>
+			<view class="checkInTitle">活动结束</view>
 		</view>
 		<!-- <view class="whitePositionPanel" style="background:url('../../images/zcxj/jxk.png') center / contain no-repeat"> -->
 		<view class="whitePositionPanel">

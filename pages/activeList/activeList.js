@@ -32,7 +32,7 @@ Page({
       ActivityInfo.sort(this.compare('practiceTime'))
       for(let item of ActivityInfo){
         const time =  item.practiceTime/3600
-        item.practiceTime = time
+        item.practiceTime = time.toFixed(2)
       }
       const rank = ActivityInfo.findIndex(item => item.stuNum === stuNum)
       const practiceTime = ActivityInfo[rank].practiceTime

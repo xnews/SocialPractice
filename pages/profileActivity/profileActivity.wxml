@@ -1,6 +1,6 @@
 <view class="profileActivityContainer">
-  <block wx:for="{{data}}">
-    <view class="active_content" wx:for="{{item.activity}}" wx:key="{{item._id}}">
+  <block wx:for="{{data}}" wx:key="*this">
+    <view class="active_content" wx:for="{{item.activity}}"  wx:key="{{item._id}}">
       <view class="active_list" catchtap="switchToActivityIn" data-id="{{item._id}}">
         <!-- 活动图片 -->
         <view class="active_img">
