@@ -1,5 +1,6 @@
 {
   "pages":[
+    "pages/loginType/loginType",
     "examples/login/login",
     "pages/index/index",
     "examples/register/register",
@@ -25,7 +26,6 @@
     "pages/profileCollection/profileCollection",
     "pages/profileOrganization/profileOrganization",
     "pages/categoryContent/categoryContent",
-    "pages/loginType/loginType",
     "pages/review/review",
     "pages/reviewContribution/reviewContribution",
     "pages/feedback/feedback",

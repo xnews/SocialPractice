@@ -5,11 +5,12 @@ Page({
    * 页面的初始数据
    */
   data: {
-    activityNav:["活动审核","投稿审核"],
+    activityNav:["活动审核","投稿审核","活动发布","活动分析","公告管理","意见反馈"],
     indexNav: 0,
     reviewInfo: [],
     filePath: "",
-    contributeInfo: []
+    contributeInfo: [],
+    passIndex: null
   },
   onShow() {
     wx.showLoading({
@@ -59,47 +60,51 @@ Page({
       indexNav: index
     })
   },
-  // 文件下载事件
+  // 文件预览事件
   handleDownloadFile(e) {
     const that = this
     const index = e.currentTarget.dataset.index
     this.getReviewOrganiseInfo().then(res =>{
       const fileID = res[index].uploadFile.fileId
       const fileName = res[index].uploadFile.fileName
+      console.log(fileName)
       console.log(res[index])
       wx.cloud.downloadFile({
           fileID
       }).then(res => {
         console.log(res.tempFilePath)
-        wx.downloadFile({
-          url: res.tempFilePath,
-          success(res){
-            console.log(res)
-            const filePath = '/' + fileName
-            that.setData({
-              filePath
-            })
-            wx.getFileSystemManager().saveFile({
-              tempFilePath: res.tempFilePath,
-              filePath: wx.env.USER_DATA_PATH + that.data.filePath,
-              success(res) {
-                console.log('save ->', res) // 上传文件结果
-                wx.showToast({
-                  title: '文件已保存至：' + res.savedFilePath,
-                  icon: 'none',
-                  duration: 1500
-                })
+        // wx.downloadFile({
+        //   url: res.tempFilePath,
+        //   success(res){
+        //     console.log(res)
+        //     const filePath = fileName
+        //     console.log(filePath)
+        //     that.setData({
+        //       filePath
+        //     })
+            // wx.getFileSystemManager().saveFile({
+            //   tempFilePath: res.tempFilePath,
+            //   filePath: wx.env.USER_DATA_PATH + that.data.filePath,
+            //   success(res) {
+            //     console.log('save ->', res) // 上传文件结果
+            //     wx.showToast({
+            //       title: '文件已保存至：' + res.savedFilePath,
+            //       icon: 'none',
+            //       duration: 1500
+            //     })
                 wx.openDocument({
-                  filePath: res.savedFilePath,
+                  // filePath: res.savedFilePath,
+                  filePath: res.tempFilePath,
                  success(res) {
                    console.log('打开文档成功')
                  }
                })
               }
-            })
-          }
-        })
-      }).catch(error => {
+            // })
+          // }
+        // })
+      // }
+      ).catch(error => {
         console.log(error)
       })
     })
@@ -135,13 +140,17 @@ Page({
               }
             }).then(res =>{
               console.log('更新成功')
-              reviewInfo.splice(index,1)
-              that.showReviewOrganiseInfo()
+              // reviewInfo.splice(index,1)
+              // that.showReviewOrganiseInfo()
+
             }).catch(err=>{
               console.log('更新失败')
             })
           } else if (res.cancel) {
             console.log('用户点击取消')
+            that.setData({
+              passIndex: index
+            })
           }
         }
       })
@@ -188,6 +197,62 @@ Page({
         }
       })
     })
+  },
+  // 活动发布
+  handleOrganiseRelease(e) {
+    const that = this
+    const index = e.currentTarget.dataset.index
+    const passIndex = this.data.passIndex
+    console.log(passIndex,'通过情况')
+    console.log(index,'索引')
+    if(index===passIndex) {
+      wx.showModal({
+        content: "请确认是否发布",
+        success (res) {
+          if (res.confirm) {
+            console.log('用户确定发布')
+            that.getReviewOrganiseInfo().then(res=>{
+              const reviewInfo = res
+              const data = res[index]
+              const activityName = data.activityName
+              const adviser = data.adviser
+              const noteInfo = data.noteInfo
+              const number = data.number
+              const place = data.place
+              const principal = data.principal
+              const teamName = data.teamName
+              const type = data.type
+              const uploadFile = data.uploadFile
+              const time = new Date(data.time)
+              console.log(time)
+              const deadline = new Date(time.setDate(time.getDate()-2)) 
+              console.log(deadline)
+              wx.cloud.callFunction({
+                name: 'addActivityDetail',
+                data: {
+                  activityName,
+                  certification: teamName,
+                  deadline,
+                  heat: {"browseNum": 0,"collectNum": 0,"commentNum": 0,"thumbupNum": 0},
+                  manager: principal,
+                  site: place,
+                  teacher: adviser,
+                  time,
+                  type
+                }
+              }).then(()=>{
+                console.log('添加成功')
+              }).catch(()=>{
+                console.log('添加失败')
+              })
+            })
+
+          } else if (res.cancel) {
+            console.log('用户取消发布')
+          }
+        }
+      })
+    }
   },
   // 获取投稿所有信息
   getContributeInfo() {

@@ -1,13 +1,14 @@
 <view class="reviewContainer">
       <!-- 导航栏 -->
-  <view class="activity_head">
-    <view class="activity_nav" wx:for="{{activityNav}}" wx:key="*this" data-index="{{index}}" bindtap="ClickNav">
-      <view class="activity_nav_item {{indexNav===index?'active_nav':''}}">
-        <text>{{item}}</text>
+  <scroll-view scroll-x="true" style="width: 100%;white-space: nowrap;">
+    <view class="activity_head">
+      <view class="activity_nav" wx:for="{{activityNav}}" wx:key="*this" data-index="{{index}}" bindtap="ClickNav">
+        <view class="activity_nav_item {{indexNav===index?'active_nav':''}}">
+          <text>{{item}}</text>
+        </view>
       </view>
     </view>
-  </view>
-
+  </scroll-view>
     <!-- 活动审核内容 -->
   <block wx:if="{{indexNav===0}}">
     <view class="reviewItem" wx:for-index="reviewIndex" wx:for="{{reviewInfo}}" wx:key="*this">
@@ -23,7 +24,8 @@
         <text>{{item.number}}</text>
       </view>
       <view class="review_status">
-        <button size="mini" catchtap="handleDownloadFile" data-index="{{reviewIndex}}" class="file" style="width: 160rpx;height: 60rpx;font-size: 30rpx;line-height:60rpx;text-align:center">文件下载</button>
+        <button size="mini" catchtap="handleDownloadFile" data-index="{{reviewIndex}}" class="file" style="width: 160rpx;height: 60rpx;font-size: 30rpx;line-height:60rpx;text-align:center">文件预览</button>
+        <button size="mini" catchtap="handleOrganiseRelease" data-index="{{reviewIndex}}" class="release {{passIndex===reviewIndex? 'active_release':''}}" style="width: 100rpx;height: 60rpx;font-size: 30rpx;line-height:60rpx;text-align:center">发布</button>
         <button size="mini" catchtap="handleOrganisePass" data-index="{{reviewIndex}}" class="pass" style="width: 100rpx;height: 60rpx;font-size: 30rpx;line-height:60rpx;text-align:center">通过</button>
         <button size="mini" catchtap="hanleOrganiseUnqualify" data-index="{{reviewIndex}}" class="nopass" style="width: 130rpx;height: 60rpx;font-size: 30rpx;line-height:60rpx;text-align:center">未通过</button>
       </view>
@@ -43,6 +45,7 @@
         <text>{{item.time}}</text>
       </view>
       <view class="contribute_btn">
+        <button size="mini" catchtap="handleContributeRelease" data-index="{{reviewIndex}}" class="release" style="width: 100rpx;height: 60rpx;font-size: 30rpx;line-height:60rpx;text-align:center">发布</button>
         <button size="mini" class="pass" data-index="{{contributeIndex}}" catchtap="hanleContributePass" style="width: 100rpx;height: 60rpx;font-size: 30rpx;line-height:60rpx;text-align:center">通过</button>
         <button size="mini" class="nopass" data-index="{{contributeIndex}}" catchtap="handleContributeUnqualify" style="width: 130rpx;height: 60rpx;font-size: 30rpx;line-height:60rpx;text-align:center">未通过</button>
       </view>
