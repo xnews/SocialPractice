@@ -5,16 +5,13 @@ cloud.init()
 const db = cloud.database()
 // 云函数入口函数
 exports.main = async (event, context) => {
-  return await db.collection('activity_contribute').add({
+  return await db.collection('activity_dynamic').add({
     data: {
-      stuNum: event.stuNum,
-      name: event.name,
+      img_url: event.img_url,
       time: event.time,
       title: event.title,
-      articleContent: event.articleContent,
-      images: event.images,
-      status: "审核中",
-      type: event.type
+      type: event.type,
+      content: event.content,
     }
   })
 }

@@ -10,7 +10,8 @@ Page({
   data: {
     height:"",
     inputValue: {},
-    tempImgFiles: []
+    tempImgFiles: [],
+    array:["社会调研","志愿服务","公益宣传","参观学习","文艺下乡","科技服务","义务支教","实习实训","创新创业","勤工助学"]
   },
   onShow() {
     let id = "#textareawrap";
@@ -57,6 +58,11 @@ Page({
             tempImgFiles,
             inputValue
           })
+          setTimeout(function(){
+            wx.navigateBack({
+              delta: 1
+            })
+          },2000)
         }
       })
       wx.removeStorageSync('contributeInfo')
@@ -65,6 +71,10 @@ Page({
   // 投稿表单提交
   handleContribute(e) {
     const contributeInfo = e.detail.value
+    console.log(contributeInfo)
+    const content = contributeInfo.articleContent.split(/[\n]/)
+    console.log(content)
+    contributeInfo.articleContent = content
     contributeInfo.stuNum = wx.getStorageSync('stuNum')
     contributeInfo.name = wx.getStorageSync('name')
     contributeInfo.time = formatTime(new Date)
@@ -72,7 +82,7 @@ Page({
     if(e.detail.target.dataset.type == 1) {
       this.handleSaveDrafts(contributeInfo,contributeInfo.title,contributeInfo.articleContent,contributeInfo.images)
     }else if(e.detail.target.dataset.type == 2) {
-      this.handleSaveSubmit(contributeInfo,contributeInfo.title,contributeInfo.articleContent,contributeInfo.images)
+      this.handleSaveSubmit(contributeInfo,contributeInfo.title,contributeInfo.articleContent,contributeInfo.images,contributeInfo.type)
     }
   },
   // 处理保存草稿事件
@@ -85,7 +95,7 @@ Page({
         title: '保存成功',
         icon: 'success'
       })
-    }else if(images == ""&&title != ''&&content!= '') {
+    }else if(images == ""&&title != ''&&content.length!= 0) {
       const dataArr = []
       dataArr.push(data)
       console.log(dataArr)
@@ -94,7 +104,7 @@ Page({
         title: '保存成功',
         icon: 'success'
       })
-    }else if(title == ""||content ==""){
+    }else if(title == ""||content.length ==0){
       wx.showToast({
         title: '请填写空项',
         icon: 'error'
@@ -102,7 +112,7 @@ Page({
     }
   },
   // 处理保存投稿事件
-  handleSaveSubmit(data,title,content,images) {
+  handleSaveSubmit(data,title,content,images,type) {
     const that = this
     const imagesArr = []
     if(this.objectValueAllEmpty(data)) {
@@ -123,12 +133,15 @@ Page({
         }) 
       }
       data.images = imagesArr
+      data.type = type
+      console.log(data)
       // 设置定时器确保图片path添加成功
+      console.log(content.length)
       setTimeout(() =>{
         // 添加投稿数据函数
         that.addContributeInfo(data)
       },3000)
-    }else if(images == ""&&title != ''&&content!= '') {
+    }else if(images == ""&&title != ''&&content.length!= 0) {
       wx.showToast({
         title: '请上传图片',
         icon: 'error'
@@ -175,5 +188,12 @@ Page({
         }
       }
     })
-  }
+  },
+  // 投稿类型
+  bindPickerChange: function(e) {
+    console.log('picker发送选择改变，携带值为', e.detail.value)
+    this.setData({
+      index: e.detail.value
+    })
+  },
 })

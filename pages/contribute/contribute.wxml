@@ -4,6 +4,11 @@
       <button class="btn1" catchtap="handleSaveDrafts" data-type="1" form-type="submit" size="mini" style="width: 200rpx;height: 80rpx;font-size: 30rpx;line-height:80rpx;text-align:center;">保存为草稿</button>
       <button class="btn2" catchtap="handleSaveSubmit" data-type="2" size="mini" form-type="submit" style="width: 200rpx;height: 80rpx;font-size: 30rpx;line-height:80rpx;text-align:center">保存并投稿</button>
     </view>
+    <view class="type">
+      <picker mode="selector" name="type" class="picker" bindchange="bindPickerChange" value="{{array[index]}}" range="{{array}}">
+        选择投稿类型：{{array[index]}}
+      </picker>
+    </view>
     <view class="title">
       <input name="title" value="{{inputValue.title}}" type="text" maxlength="40" placeholder="标题"/>
     </view>

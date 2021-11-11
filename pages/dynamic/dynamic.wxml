@@ -17,7 +17,7 @@
       </view>
     </view>
     <view class="activity_img">
-      <image src="cloud://cloud-8gy1484h4171152a.636c-cloud-8gy1484h4171152a-1306324510/images/dynamic.jpg"></image>
+      <image src="{{item.img_url}}"></image>
     </view>
   </view>
 </view>

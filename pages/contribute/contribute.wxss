@@ -33,11 +33,20 @@ page{
   border-radius: 40rpx;
   color: #fff;
 }
+.type{
+  padding: 10rpx 20rpx;
+  margin-top: 40rpx;
+  height: 80rpx;
+  background-color: #fff;
+}
 .title{
   padding: 10rpx 20rpx;
   margin-top: 40rpx;
   height: 80rpx;
   background-color: #fff;
+}
+.picker{
+  color: #6c6c6c;
 }
 #textareawrap{
   width: 100%;

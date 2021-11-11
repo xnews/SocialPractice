@@ -31,6 +31,7 @@
       </view>
     </view>
   </block>
+  <!-- 投稿审核内容 -->
   <block wx:elif="{{indexNav===1}}">
     <view class="contributeItem" wx:for-index="contributeIndex" wx:for="{{contributeInfo}}" wx:key="*this">
       <view class="contribute_content">
@@ -45,11 +46,94 @@
         <text>{{item.time}}</text>
       </view>
       <view class="contribute_btn">
-        <button size="mini" catchtap="handleContributeRelease" data-index="{{reviewIndex}}" class="release" style="width: 100rpx;height: 60rpx;font-size: 30rpx;line-height:60rpx;text-align:center">发布</button>
+        <button size="mini" catchtap="handleContributeRelease" data-index="{{contributeIndex}}" class="release  {{passIndex===contributeIndex? 'active_release':''}}" style="width: 100rpx;height: 60rpx;font-size: 30rpx;line-height:60rpx;text-align:center">发布</button>
         <button size="mini" class="pass" data-index="{{contributeIndex}}" catchtap="hanleContributePass" style="width: 100rpx;height: 60rpx;font-size: 30rpx;line-height:60rpx;text-align:center">通过</button>
         <button size="mini" class="nopass" data-index="{{contributeIndex}}" catchtap="handleContributeUnqualify" style="width: 130rpx;height: 60rpx;font-size: 30rpx;line-height:60rpx;text-align:center">未通过</button>
       </view>
     </view>
   </block>
 
+  <!-- 活动发布 -->
+  <block wx:elif="{{indexNav===2}}">
+    <form bindsubmit="organiseSubmit">
+      <view class="organiseContainer">
+        <view class="origaniseItem itemHead">
+          <text>活动名称</text>
+          <input name="activityName" type="text"/>
+        </view>
+        <view class="origaniseItem">
+          <text>活动地点</text>
+          <input name="place" type="text"/>
+        </view>
+        <view class="origaniseItemTime">
+          <text>报名时间</text>
+          <picker name="registradate" mode="date" bindchange="chooseRegistraDate">
+            <view class="choosedate">{{registradateValue}}</view>
+          </picker>
+          <text>-</text>
+          <picker name="registratime" mode="time" bindchange="chooseRegistraTime">
+            <view class="choosetime">{{registratimeValue}}</view>
+          </picker>
+        </view>
+        <view class="origaniseItemTime">
+          <text>截止时间</text>
+          <picker name="deadlinedate" mode="date" bindchange="chooseDeadlineDate">
+            <view class="choosedate">{{deadlinedateValue}}</view>
+          </picker>
+          <text>-</text>
+          <picker name="deadlinetime" mode="time" bindchange="chooseDeadlineTime">
+            <view class="choosetime">{{deadlinetimeValue}}</view>
+          </picker>
+        </view>
+        <view class="origaniseItemType">
+          <text>活动类型</text>
+          <!-- 调用下拉框组件 -->
+          <view class="container" bindtap="close">
+            <view class="select-wrap">
+              <select id="select" class="Select" options="{{optionsType}}" key="type_id" text="type_name" bind:change="changeType"></select>
+            </view>
+          </view>
+        </view>
+        <view class="origaniseItem">
+          <text>活动举办方</text>
+          <input name="host" type="text"/>
+        </view>
+        <!-- <view class="origaniseTeamNum">
+          <text>活动人数</text>
+          <view class="container" bindtap="close">
+            <view class="select-wrap">
+              <select id="select" options="{{optionsNum}}" key="team_id" text="team_num" bind:change="changeNum"></select>
+            </view>
+          </view>
+        </view> -->
+        <view class="origaniseItem">
+          <text>活动负责人</text>
+          <input name="principal" type="text"/>
+        </view>
+        <view class="origaniseItem">
+          <text>活动指导人</text>
+          <input name="adviser" type="text"/>
+        </view>
+        <view class="organiseBtn">
+          <button size="mini" form-type="submit" style="width: 210rpx;height: 80rpx;">发布</button>
+          <button size="mini" form-type="reset" catchtap="emptyFormInfo" style="width: 210rpx;height: 80rpx;">清空</button>
+        </view>
+      </view>
+    </form>
+  </block>
+
+    <!-- 活动分析 -->
+  <block wx:elif="{{indexNav===3}}">
+    <view>活动分析</view>
+  </block>
+
+    <!-- 公告管理 -->
+  <block wx:elif="{{indexNav===4}}">
+    <view>公告管理</view>
+  </block>
+
+      <!-- 意见反馈 -->
+  <block wx:elif="{{indexNav===5}}">
+    <view>意见反馈</view>
+  </block>
 </view>

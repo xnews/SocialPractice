@@ -10,7 +10,51 @@ Page({
     reviewInfo: [],
     filePath: "",
     contributeInfo: [],
-    passIndex: null
+    passIndex: null,
+    optionsType: [{
+      type_id: '1',
+      type_name: '志愿服务'
+    }, {
+      type_id: '2',
+      type_name: '支教服务'
+    }, {
+      type_id: '4',
+      type_name: '社会调研'
+    }, {
+      type_id: '5',
+      type_name: '公益宣传'
+    }, {
+      type_id: '6',
+      type_name: '参观学习'
+    }, {
+      type_id: '7',
+      type_name: '学术科研'
+    }, {
+      type_id: '8',
+      type_name: '文艺下乡'
+    }],
+    // optionsNum: [{
+    //   team_id: '1',
+    //   team_num: '个人'
+    // },{
+    //   team_id: '2',
+    //   team_num: '2-5人'
+    // },{
+    //   team_id: '3',
+    //   team_num: '6-9人'
+    // },{
+    //   team_id: '4',
+    //   team_num: '10-15人'
+    // },{
+    //   team_id: '5',
+    //   team_num: '15人以上'
+    // }],
+    selected: {},
+    fileId: "",
+    registradateValue: "选择日期",
+    registratimeValue: "选择时间",
+    deadlinedateValue: "选择日期",
+    deadlinetimeValue: "选择时间"
   },
   onShow() {
     wx.showLoading({
@@ -114,97 +158,102 @@ Page({
   handleOrganisePass(e) {
     const that = this
     const index = e.currentTarget.dataset.index
-    this.getReviewOrganiseInfo().then(res =>{
-      const reviewInfo = res
-      const data = res[index]
-      const activityName = data.activityName
-      const adviser = data.adviser
-      const noteInfo = data.noteInfo
-      const number = data.number
-      const place = data.place
-      const principal = data.principal
-      const teamName = data.teamName
-      const time = data.time
-      const type = data.type
-      const uploadFile = data.uploadFile
-      wx.showModal({
-        title: '提示',
-        content: '请确认通过',
-        success (res) {
-          if (res.confirm) {
-            wx.cloud.callFunction({
-              name: 'updateOrganiseStatus',
-              data: {
-                activityName,adviser,noteInfo,number,place,principal,teamName,time,type,uploadFile,
-                status: "已通过"
-              }
-            }).then(res =>{
-              console.log('更新成功')
-              // reviewInfo.splice(index,1)
-              // that.showReviewOrganiseInfo()
-
-            }).catch(err=>{
-              console.log('更新失败')
-            })
-          } else if (res.cancel) {
-            console.log('用户点击取消')
-            that.setData({
-              passIndex: index
-            })
+    try {
+      this.getReviewOrganiseInfo().then(res =>{
+        const reviewInfo = res
+        const data = res[index]
+        const activityName = data.activityName
+        const adviser = data.adviser
+        const noteInfo = data.noteInfo
+        const number = data.number
+        const place = data.place
+        const principal = data.principal
+        const teamName = data.teamName
+        const time = data.time
+        const type = data.type
+        const uploadFile = data.uploadFile
+        wx.showModal({
+          title: '提示',
+          content: '请确认通过',
+          success (res) {
+            if (res.confirm) {
+              wx.cloud.callFunction({
+                name: 'updateOrganiseStatus',
+                data: {
+                  activityName,adviser,noteInfo,number,place,principal,teamName,time,type,uploadFile,
+                  status: "已通过"
+                }
+              }).then(res =>{
+                console.log('更新成功')
+                // reviewInfo.splice(index,1)
+                // that.showReviewOrganiseInfo()
+                that.setData({
+                  passIndex: index
+                })
+              }).catch(err=>{
+                console.log('更新失败')
+              })
+            } else if (res.cancel) {
+              console.log('用户点击取消')
+            }
           }
-        }
-      })
-    })
-  },
+        })
+      })  
+    } catch (error) {
+      console.log(error)
+    }
+    },
   // 活动未通过事件
   hanleOrganiseUnqualify(e) {
     const that = this
     const index = e.currentTarget.dataset.index
-    this.getReviewOrganiseInfo().then(res =>{
-      const reviewInfo = res
-      const data = res[index]
-      const activityName = data.activityName
-      const adviser = data.adviser
-      const noteInfo = data.noteInfo
-      const number = data.number
-      const place = data.place
-      const principal = data.principal
-      const teamName = data.teamName
-      const time = data.time
-      const type = data.type
-      const uploadFile = data.uploadFile
-      wx.showModal({
-        title: '提示',
-        content: '请确认未通过',
-        success (res) {
-          if (res.confirm) {
-            wx.cloud.callFunction({
-              name: 'updateOrganiseStatus',
-              data: {
-                activityName,adviser,noteInfo,number,place,principal,teamName,time,type,uploadFile,
-                status: "未通过"
-              }
-            }).then(res =>{
-              console.log('更新成功')
-              reviewInfo.splice(index,1)
-              that.showReviewOrganiseInfo()
-            }).catch(err=>{
-              console.log('更新失败')
-            })
-          } else if (res.cancel) {
-            console.log('用户点击取消')
+    try {
+      this.getReviewOrganiseInfo().then(res =>{
+        const reviewInfo = res
+        const data = res[index]
+        const activityName = data.activityName
+        const adviser = data.adviser
+        const noteInfo = data.noteInfo
+        const number = data.number
+        const place = data.place
+        const principal = data.principal
+        const teamName = data.teamName
+        const time = data.time
+        const type = data.type
+        const uploadFile = data.uploadFile
+        wx.showModal({
+          title: '提示',
+          content: '请确认未通过',
+          success (res) {
+            if (res.confirm) {
+              wx.cloud.callFunction({
+                name: 'updateOrganiseStatus',
+                data: {
+                  activityName,adviser,noteInfo,number,place,principal,teamName,time,type,uploadFile,
+                  status: "未通过"
+                }
+              }).then(res =>{
+                console.log('更新成功')
+                reviewInfo.splice(index,1)
+                that.showReviewOrganiseInfo()
+              }).catch(err=>{
+                console.log('更新失败')
+              })
+            } else if (res.cancel) {
+              console.log('用户点击取消')
+            }
           }
-        }
-      })
-    })
-  },
+        })
+      })  
+    } catch (error) {
+      console.log(error)
+    }
+   },
   // 活动发布
   handleOrganiseRelease(e) {
     const that = this
     const index = e.currentTarget.dataset.index
     const passIndex = this.data.passIndex
-    console.log(passIndex,'通过情况')
-    console.log(index,'索引')
     if(index===passIndex) {
       wx.showModal({
         content: "请确认是否发布",
@@ -224,9 +273,7 @@ Page({
               const type = data.type
               const uploadFile = data.uploadFile
               const time = new Date(data.time)
-              console.log(time)
               const deadline = new Date(time.setDate(time.getDate()-2)) 
-              console.log(deadline)
               wx.cloud.callFunction({
                 name: 'addActivityDetail',
                 data: {
@@ -242,6 +289,12 @@ Page({
                 }
               }).then(()=>{
                 console.log('添加成功')
+                wx.showToast({
+                  title: '发布成功',
+                  icon: 'success'
+                })
+              reviewInfo.splice(index,1)
+              that.showReviewOrganiseInfo()
               }).catch(()=>{
                 console.log('添加失败')
               })
@@ -283,77 +336,142 @@ Page({
   hanleContributePass(e) {
     const that = this
     const index = e.currentTarget.dataset.index
-    this.getContributeInfo().then(res =>{
-      const data = res[index]
-      console.log(data)
-      const contributeInfo = res
-      const title = data.title
-      const articleContent = data.articleContent
-      const name = data.name
-      const stuNum = data.stuNum
-      const time = data.time
-      const images = data.images
-      wx.showModal({
-        title: '提示',
-        content: '请确认通过',
-        success (res) {
-          if (res.confirm) {
-            wx.cloud.callFunction({
-              name: 'updateContributeStatus',
-              data: {
-                title,articleContent,name,stuNum,time,images,
-                status: "已通过"
-              }
-            }).then(res =>{
-              console.log('更新成功')
-              contributeInfo.splice(index,1)
-              that.showReviewContributeInfo()
-            }).catch(err =>{
-              console.log('更新失败')
-            })
-          } else if (res.cancel) {
-            console.log('用户点击取消')
+    try {
+      this.getContributeInfo().then(res =>{
+        const data = res[index]
+        console.log(data)
+        const contributeInfo = res
+        const title = data.title
+        const articleContent = data.articleContent
+        const name = data.name
+        const stuNum = data.stuNum
+        const time = data.time
+        const images = data.images
+        wx.showModal({
+          title: '提示',
+          content: '请确认通过',
+          success (res) {
+            if (res.confirm) {
+              wx.cloud.callFunction({
+                name: 'updateContributeStatus',
+                data: {
+                  title,articleContent,name,stuNum,time,images,
+                  status: "已通过"
+                }
+              }).then(res =>{
+                console.log('更新成功')
+              }).catch(err =>{
+                console.log('更新失败')
+              })
+              that.setData({
+                passIndex: index
+              })
+            } else if (res.cancel) {
+              console.log('用户点击取消')
+            }
           }
-        }
+        })
       })
-    })
-  },
+    
+    } catch (error) {
+      console.log(error)
+    }
+   },
   // 投稿审核未通过事件
   handleContributeUnqualify(e) {
     const that = this
     const index = e.currentTarget.dataset.index
-    this.getContributeInfo().then(res =>{
-      const data = res[index]
-      const contributeInfo = res
-      const title = data.title
-      const articleContent = data.articleContent
-      const name = data.name
-      const stuNum = data.stuNum
-      const time = data.time
-      const images = data.images
-      wx.showModal({
-        title: '提示',
-        content: '请确认未通过',
-        success (res) {
-          if (res.confirm) {
+    try {
+      this.getContributeInfo().then(res =>{
+        const data = res[index]
+        const contributeInfo = res
+        const title = data.title
+        const articleContent = data.articleContent
+        const name = data.name
+        const stuNum = data.stuNum
+        const time = data.time
+        const images = data.images
+        wx.showModal({
+          title: '提示',
+          content: '请确认未通过',
+          success (res) {
+            if (res.confirm) {
+              wx.cloud.callFunction({
+                name: 'updateContributeStatus',
+                data: {
+                  title,articleContent,name,stuNum,time,images,
+                  status: "未通过"
+                }
+              }).then(res =>{
+                console.log('更新成功')
+                contributeInfo.splice(index,1)
+                that.showReviewContributeInfo()
+              }).catch(err =>{
+                console.log('更新失败')
+              })
+            } else if (res.cancel) {
+              console.log('用户点击取消')
+            }
+          }
+        })
+      })  
+    } catch (error) {
+      console.log(error)
+    }
+  },
+  // 投稿发布事件
+  handleContributeRelease(e) {
+    const that = this
+    const index = e.currentTarget.dataset.index
+    wx.showModal({
+      content: '是否确认发布',
+      success (res) {
+        if (res.confirm) {
+          console.log('用户点击确定')
+          that.getContributeInfo().then(res =>{
+            const data = res[index]
+            console.log(data)
+            const contributeInfo = res
+            const title = data.title
+            const articleContent = data.articleContent
+            const name = data.name
+            const stuNum = data.stuNum
+            const time = data.time
+            const images = data.images
+            const type = data.type
+            const content = []
+            for(let i of articleContent){
+              content.push({text: i})
+            }
+            for(let i=0;i<articleContent.length;i++) {
+              for(let j of images) {
+                content[i]["content_img_url"] = j.path
+              }
+            }
+            console.log(content)
             wx.cloud.callFunction({
-              name: 'updateContributeStatus',
+              name: 'addDynamicInfo',
               data: {
-                title,articleContent,name,stuNum,time,images,
-                status: "未通过"
+                img_url: images[0].path,
+                time: time,
+                title: title,
+                type: type,
+                content,
+                content_time: time,
+                content_title: title
               }
             }).then(res =>{
-              console.log('更新成功')
+              console.log('投稿发布成功')
               contributeInfo.splice(index,1)
               that.showReviewContributeInfo()
-            }).catch(err =>{
-              console.log('更新失败')
+            }).catch(()=>{
+              console.log('投稿发布失败')
             })
-          } else if (res.cancel) {
-            console.log('用户点击取消')
-          }
+          })
+        } else if (res.cancel) {
+          console.log('用户点击取消')
         }
-      })
+      }
     })
   },
   // 点击更多事件
@@ -362,6 +480,92 @@ Page({
     wx.setStorageSync('contributeIndex', contributeIndex)
     wx.navigateTo({
       url: '/pages/reviewContribution/reviewContribution',
+    })
+  },
+  changeType(e) {
+    this.setData({
+      selected: { ...e.detail }
+    })
+    // 缓存活动类型
+    wx.setStorageSync('changeType', e.detail.name)
+  },
+  // changeNum(e){
+  //   this.setData({
+  //     selected: { ...e.detail }
+  //   })
+  //   // 缓存团队人数
+  //   wx.setStorageSync('changeNum', e.detail.name)
+  // },
+  close () {
+    // 关闭select
+    this.selectComponent('#select').close()
+  },
+    // 提交表单数据
+  organiseSubmit(e) {
+    const acReleaseInfo = e.detail.value;
+    let type = wx.getStorageSync('changeType')
+    let number = wx.getStorageSync('changeNum')
+    acOrInfo['type'] = type
+    acOrInfo['number'] = number
+    console.log(acReleaseInfo,'活动信息')
+    wx.showModal({
+      content: '是否确认发布',
+      success (res) {
+        if (res.confirm) {
+          console.log('用户点击确定')
+
+        } else if (res.cancel) {
+          console.log('用户点击取消')
+        }
+      }
+    })
+  },
+  // 选择报名日期事件
+  chooseRegistraDate(e) {
+    const {value} = e.detail
+    this.setData({
+      registradateValue: value
+    })
+  },
+  // 选择报名时间
+  chooseRegistraTime(e) {
+    const {value} = e.detail
+    this.setData({
+      registratimeValue: value
+    })
+  },
+    // 选择截止日期事件
+    chooseDeadlineDate(e) {
+      const {value} = e.detail
+      this.setData({
+        deadlinedateValue: value
+      })
+    },
+    // 选择截止报名时间
+    chooseDeadlineTime(e) {
+      const {value} = e.detail
+      this.setData({
+        deadlinetimeValue: value
+      })
+    },
+  // 清空表单信息
+  emptyFormInfo() {
+    const that = this
+    wx.showModal({
+      content: '是否清空所有信息',
+      success (res) {
+        if (res.confirm) {
+          console.log('用户点击确定')
+          const select = that.selectComponent('.Select')
+          // 向子组件传递数据
+          that.setData({
+            dateValue: "选择日期",
+            timeValue: "选择时间"
+          })
+        } else if (res.cancel) {
+          console.log('用户点击取消')
+        }
+      }
     })
   }
 })

@@ -5,8 +5,10 @@
       <text>{{contributeInfo.name}}</text>
       <text>{{contributeInfo.time}}</text>
     </view>
-    <view class="content">
-      <text>{{contributeInfo.articleContent}}</text>
+    <view class="content" wx:for="{{contributeInfo.articleContent}}">
+      <block >
+        <text class="contentItem">{{item}}\n</text>
+      </block>
     </view>
     <view class="img">
       <block wx:for="{{contributeInfo.images}}">

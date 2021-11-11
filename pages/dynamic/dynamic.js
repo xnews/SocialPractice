@@ -55,6 +55,7 @@ Page({
 },
   switchToDynamicContent(e) {
     let dynamicId = e.currentTarget.dataset.id
+    console.log(dynamicId)
     wx.setStorageSync('dynamicId', dynamicId)
     wx.navigateTo({
       url: '/pages/dynamicContent/dynamicContent',
