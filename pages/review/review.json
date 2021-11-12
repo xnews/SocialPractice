@@ -1,5 +1,6 @@
 {
   "usingComponents": {
-    "select": "../../components/select/select"
+    "select": "../../components/select/select",
+    "ec-canvas": "../../ec-canvas/ec-canvas"
   }
 }

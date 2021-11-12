@@ -59,11 +59,11 @@
       <view class="organiseContainer">
         <view class="origaniseItem itemHead">
           <text>活动名称</text>
-          <input name="activityName" type="text"/>
+          <input name="activityName" value="{{inputValue}}" type="text"/>
         </view>
         <view class="origaniseItem">
           <text>活动地点</text>
-          <input name="place" type="text"/>
+          <input name="place" value="{{inputValue}}" type="text"/>
         </view>
         <view class="origaniseItemTime">
           <text>报名时间</text>
@@ -96,7 +96,7 @@
         </view>
         <view class="origaniseItem">
           <text>活动举办方</text>
-          <input name="host" type="text"/>
+          <input name="host" value="{{inputValue}}" type="text"/>
         </view>
         <!-- <view class="origaniseTeamNum">
           <text>活动人数</text>
@@ -108,11 +108,11 @@
         </view> -->
         <view class="origaniseItem">
           <text>活动负责人</text>
-          <input name="principal" type="text"/>
+          <input name="principal" value="{{inputValue}}" type="text"/>
         </view>
         <view class="origaniseItem">
           <text>活动指导人</text>
-          <input name="adviser" type="text"/>
+          <input name="adviser" value="{{inputValue}}" type="text"/>
         </view>
         <view class="organiseBtn">
           <button size="mini" form-type="submit" style="width: 210rpx;height: 80rpx;">发布</button>
@@ -124,7 +124,9 @@
 
     <!-- 活动分析 -->
   <block wx:elif="{{indexNav===3}}">
-    <view>活动分析</view>
+    <view class="container" style="width:800rpx;height:800rpx;">
+      <ec-canvas type="2d" id="mychart_bar" class="ec-canvas" ec="{{ ec }}"></ec-canvas>
+    </view>
   </block>
 
     <!-- 公告管理 -->
