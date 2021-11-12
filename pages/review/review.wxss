@@ -1,3 +1,6 @@
+.reviewContainer{
+  position: relative;
+}
 .activity_head{
   display: flex;
   margin-top: 20rpx;
@@ -215,6 +218,15 @@
   border: 1rpx solid #cccccc;
   color: #606266;
   font-weight: normal;
+}
+.searchActivity{
+  position: absolute;
+  top: 100rpx;
+  width: 100%;
+}
+.activityContainer{
+  margin-top: 120rpx;
+  padding: 0 20rpx;
 }
 
 

@@ -1,0 +1,9 @@
+<view class="search_row">
+  <input value="{{inputValue}}" placeholder="请输入您要搜索的活动" bindinput="handleInput"></input>
+  <button bindtap="handleCancel" hidden="{{!isFocus}}">取消</button>
+</view>
+<view class="search_content">
+  <view catchtap="chooseActivity" data-id="{{item._id}}" class="search_item" wx:for="{{activities}}" wx:key="_id">
+    {{item.activityName}}
+  </view>
+</view>

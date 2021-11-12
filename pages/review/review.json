@@ -1,6 +1,7 @@
 {
   "usingComponents": {
     "select": "../../components/select/select",
-    "ec-canvas": "../../ec-canvas/ec-canvas"
+    "ec-canvas": "../../ec-canvas/ec-canvas",
+    "search": "../../components/Search/search"
   }
 }

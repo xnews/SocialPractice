@@ -1,32 +1,8 @@
 // pages/review/review.js
-import initChart from '../../echarts/activityHot.js'
-// import * as echarts from '../../ec-canvas/echarts.js'
-// function initChart(canvas, width, height, dpr) {
-//   const chart = echarts.init(canvas, null, {
-//     width: width,
-//     height: height,
-//     devicePixelRatio: dpr // 像素
-//   });
-//   canvas.setChart(chart);
-
-//   var option = {
-//     xAxis: {
-//       type: 'category',
-//       data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-//     },
-//     yAxis: {
-//       type: 'value'
-//     },
-//     series: [
-//       {
-//         data: [120, 200, 150, 80, 70, 110, 130],
-//         type: 'bar'
-//       }
-//     ]
-//   };
-//   chart.setOption(option);
-//   return chart;
-// }
+import hotChart from '../../echarts/activityHot.js'
+import detailChart from '../../echarts/activityDetail.js'
+import typeChart from '../../echarts/activityType.js'
+var util= require('../../utils/util.js')
 Page({
 
   /**
@@ -84,9 +60,19 @@ Page({
     deadlinedateValue: "选择日期",
     deadlinetimeValue: "选择时间",
     inputValue: "",
-    ec: {
-      onInit: initChart
-    }
+    activityHot: {
+      onInit: hotChart
+    },
+    activityDetail: {
+      onInit: detailChart
+    },
+    activityType: {
+      onInit: typeChart
+    },
+    activityName: "",
+    activityTime: ""
+    
+
   },
   onShow() {
     wx.showLoading({
@@ -612,24 +598,15 @@ Page({
       deadlinedateValue: "选择日期",
       deadlinetimeValue: "选择时间"
     })
-    // const that = this
-    // wx.showModal({
-    //   content: '是否清空所有信息',
-    //   success (res) {
-    //     if (res.confirm) {
-    //       console.log('用户点击确定')
-    //       const select = that.selectComponent('.Select')
-    //       // 向子组件传递数据
-    //       that.setData({
-    //         registradateValue: "选择日期",
-    //         registratimeValue: "选择时间",
-    //         deadlinedateValue: "选择日期",
-    //         deadlinetimeValue: "选择时间"
-    //       })
-    //     } else if (res.cancel) {
-    //       console.log('用户点击取消')
-    //     }
-    //   }
-    // })
+  },
+  // 搜索活动
+  searchActivity(e) {
+    console.log(e,'搜索活动')
+    let {activityName,time} = e.detail
+    time = util.formatTime(new Date(time))
+    this.setData({
+      activityName,
+      activityTime: time
+    })
   }
 })

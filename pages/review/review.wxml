@@ -124,8 +124,23 @@
 
     <!-- 活动分析 -->
   <block wx:elif="{{indexNav===3}}">
-    <view class="container" style="width:800rpx;height:800rpx;">
-      <ec-canvas type="2d" id="mychart_bar" class="ec-canvas" ec="{{ ec }}"></ec-canvas>
+    <search bind:search="searchActivity" class="searchActivity"></search>
+    <view class="activityContainer">
+      <view>
+        <text>活动名称：{{activityName}}</text>
+      </view>
+      <view>
+        <text>活动时间：{{activityTime}}</text>
+      </view>
+    </view>
+    <view class="chartContainer" style="width:100%;height:1200rpx;margin-top:20rpx;">
+      <ec-canvas id="mychart_bar" style="width:100%;height:100%;" class="ec-canvas" ec="{{ activityHot }}"></ec-canvas>
+    </view>
+    <view class="chartContainer" style="width:100%;height:1200rpx;">
+      <ec-canvas id="mychart_bar" style="width:100%;height:100%;" class="ec-canvas" ec="{{ activityDetail }}"></ec-canvas>
+    </view>
+    <view class="chartContainer" style="width:100%;height:1200rpx;">
+      <ec-canvas id="mychart_bar" style="width:100%;height:100%;" class="ec-canvas" ec="{{ activityType }}"></ec-canvas>
     </view>
   </block>
 
