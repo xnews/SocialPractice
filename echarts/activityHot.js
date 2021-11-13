@@ -1,11 +1,5 @@
 import * as echarts from '../ec-canvas/echarts.js'
-function hotChart(canvas, width, height, dpr) {
-  const chart = echarts.init(canvas, null, {
-    width: width,
-    height: height,
-    devicePixelRatio: dpr // 像素
-  });
-  canvas.setChart(chart);
+function getOption(data) {
   const  option = {
     title: {
       text: "活动热度",
@@ -57,16 +51,11 @@ function hotChart(canvas, width, height, dpr) {
             shadowColor: 'rgba(0, 0, 0, 0.5)'
           }
         },
-        data: [
-          { value: 1048, name: '浏览量' },
-          { value: 735, name: '点赞量' },
-          { value: 580, name: '评论量' },
-          { value: 484, name: '收藏量' }
-        ]
+        data:  data
       }
     ]
   };
-  chart.setOption(option);
-  return chart;
+  return option
 }
-export default hotChart
+
+export default getOption

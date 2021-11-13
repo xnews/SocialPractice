@@ -1,5 +1,5 @@
 {
-  "pages":[
+  "pages": [
     "pages/loginType/loginType",
     "examples/login/login",
     "pages/index/index",
@@ -29,17 +29,18 @@
     "pages/review/review",
     "pages/reviewContribution/reviewContribution",
     "pages/feedback/feedback",
-    "examples/changePwd/changePwd"
+    "examples/changePwd/changePwd",
+    "components/activityHot/hot"
   ],
-  "window":{
-    "backgroundTextStyle":"light",
+  "window": {
+    "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#0066FF",
     "navigationBarTitleText": "大学生社会实践平台",
-    "navigationBarTextStyle":"white"
+    "navigationBarTextStyle": "white"
   },
   "tabBar": {
-    "color":"#2B2B2B",
-    "selectedColor":"#0066FF",
+    "color": "#2B2B2B",
+    "selectedColor": "#0066FF",
     "list": [
       {
         "pagePath": "pages/index/index",

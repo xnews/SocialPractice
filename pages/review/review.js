@@ -1,5 +1,6 @@
 // pages/review/review.js
-import hotChart from '../../echarts/activityHot.js'
+// import hotChart from '../../echarts/activityHot.js'
+import getOptions from '../../echarts/activityHot.js'
 import detailChart from '../../echarts/activityDetail.js'
 import typeChart from '../../echarts/activityType.js'
 var util= require('../../utils/util.js')
@@ -60,9 +61,9 @@ Page({
     deadlinedateValue: "选择日期",
     deadlinetimeValue: "选择时间",
     inputValue: "",
-    activityHot: {
-      onInit: hotChart
-    },
+    // activityHot: {
+    //   onInit: init_chart
+    // },
     activityDetail: {
       onInit: detailChart
     },
@@ -70,9 +71,8 @@ Page({
       onInit: typeChart
     },
     activityName: "",
-    activityTime: ""
-    
-
+    activityTime: "",
+    option: {}
   },
   onShow() {
     wx.showLoading({
@@ -83,7 +83,7 @@ Page({
     wx.hideLoading()
   },
   onReady() {
-
+    this.getData()
   },
   // 获取活动审核所有信息
   getReviewOrganiseInfo() {
@@ -607,6 +607,18 @@ Page({
     this.setData({
       activityName,
       activityTime: time
+    })
+  },
+  getData() {
+     const data = [
+      { value: 1048, name: '浏览量' },
+      { value: 735, name: '点赞量' },
+      { value: 580, name: '评论量' },
+      { value: 484, name: '收藏量' }
+    ]
+    const option = getOptions(data)
+    this.setData({
+      option
     })
   }
 })
