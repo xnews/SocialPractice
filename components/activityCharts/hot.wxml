@@ -1,0 +1,4 @@
+<view class="chartContainer" style="width:100%;height:1200rpx;">
+  <ec-canvas option="{{option}}" id="{{chartId}}" style="width:100%;height:100%;" class="ec-canvas" ec="{{ ec }}" ></ec-canvas>
+  <!-- <ec-canvas option="{{option}}" id="{{chartId}}" style="width:100%;height:100%;" class="ec-canvas" ec="{{ ec }}" force-use-old-canvas="true"></ec-canvas> -->
+</view>

@@ -30,7 +30,8 @@
     "pages/reviewContribution/reviewContribution",
     "pages/feedback/feedback",
     "examples/changePwd/changePwd",
-    "components/activityHot/hot"
+    "components/activityCharts/hot",
+    "pages/monitor/monitor"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -79,6 +80,10 @@
     "routePlan": {
       "version": "1.0.13",
       "provider": "wx50b5593e81dd937a"
+    },
+    "chooseLocation": {
+      "version": "1.0.9",
+      "provider": "wx76a9a06e5b4e693e"
     }
   }
 }

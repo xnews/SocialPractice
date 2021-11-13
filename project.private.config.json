@@ -183,6 +183,12 @@
         {
           "name": "修改密码",
           "pathName": "examples/changePwd/changePwd",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "活动监控",
+          "pathName": "pages/monitor/monitor",
           "scene": null
         }
       ]

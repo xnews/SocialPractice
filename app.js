@@ -30,7 +30,6 @@ App({
      }),
     //  路线规划插件
      showRoute(name,latitude,longitude) {
-      let plugin = requirePlugin('routePlan');
       let key = 'G7DBZ-OYC62-OKKUB-CVCND-YTXFV-QXBU2';  //使用在腾讯位置服务申请的key
       let referer = '腾讯位置服务路线规划';   //调用插件的app的名称
       let endPoint = JSON.stringify({  //终点
@@ -40,6 +39,19 @@ App({
       });
       wx.navigateTo({
         url: 'plugin://routePlan/index?key=' + key + '&referer=' + referer + '&endPoint=' + endPoint
+      });
+     },
+     chooseLocation(latitude,longitude) {
+      const key = 'G7DBZ-OYC62-OKKUB-CVCND-YTXFV-QXBU2'; //使用在腾讯位置服务申请的key
+      const referer = '腾讯位置服务地图选点'; //调用插件的app的名称
+      const location = JSON.stringify({
+        latitude: latitude,
+        longitude: longitude
+      });
+      const category = '活动监控';
+       
+      wx.navigateTo({
+        url: 'plugin://chooseLocation/index?key=' + key + '&referer=' + referer + '&location=' + location + '&category=' + category
       });
      }
   }

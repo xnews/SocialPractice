@@ -2,6 +2,6 @@
   "usingComponents": {
     "select": "../../components/select/select",
     "search": "../../components/Search/search",
-    "activityHot": "../../components/activityHot/hot"
+    "activityHot": "../../components/activityCharts/hot"
   }
 }

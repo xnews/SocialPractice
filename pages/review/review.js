@@ -1,16 +1,19 @@
 // pages/review/review.js
 // import hotChart from '../../echarts/activityHot.js'
-import getOptions from '../../echarts/activityHot.js'
-import detailChart from '../../echarts/activityDetail.js'
-import typeChart from '../../echarts/activityType.js'
+import getHotOptions from '../../echarts/activityHot.js'
+import getDetailOptions from '../../echarts/activityDetail.js'
+import getProcessOptions from '../../echarts/activityProcess.js'
 var util= require('../../utils/util.js')
+// 实例化API核心类
+const app = getApp()
+const qqmapsdk = app.globalData.qqmapsdk
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    activityNav:["活动审核","投稿审核","活动发布","活动分析","公告管理","意见反馈"],
+    activityNav:["活动审核","投稿审核","活动发布","活动分析","活动监控","公告管理","意见反馈"],
     indexNav: 0,
     reviewInfo: [],
     filePath: "",
@@ -61,18 +64,34 @@ Page({
     deadlinedateValue: "选择日期",
     deadlinetimeValue: "选择时间",
     inputValue: "",
-    // activityHot: {
-    //   onInit: init_chart
-    // },
-    activityDetail: {
-      onInit: detailChart
-    },
-    activityType: {
-      onInit: typeChart
-    },
     activityName: "",
     activityTime: "",
-    option: {}
+    optionHot: {},
+    optionProcess: {},
+    optionDetail: {},
+    timer: "",
+    data1: 0,
+    data2: [
+      {value: 0,name:"浏览量"},
+      {value: 0,name:"点赞量"},
+      {value: 0,name:"评论量"},
+      {value: 0,name:"收藏量"}
+    ],
+    markers: [],
+    poiDest: {
+      latitude: '',
+      longitude: ''
+    }
+  },
+  onLoad() {
+    this.getData()
+    var _this = this;
+    this.getData()
+    // this.setData({                    //每隔10s刷新一次数据
+    //   timer: setInterval(function () {
+    //     _this.getData()
+    // }, 10000)
+    // })
   },
   onShow() {
     wx.showLoading({
@@ -83,7 +102,7 @@ Page({
     wx.hideLoading()
   },
   onReady() {
-    this.getData()
+
   },
   // 获取活动审核所有信息
   getReviewOrganiseInfo() {
@@ -115,7 +134,7 @@ Page({
   },
   ClickNav(e) {
     const index = e.currentTarget.dataset.index
-    console.log(index)
+    // console.log(index)
     if(index===0) {
       this.showReviewOrganiseInfo()
     }else if(index===1) {
@@ -599,26 +618,92 @@ Page({
       deadlinetimeValue: "选择时间"
     })
   },
-  // 搜索活动
-  searchActivity(e) {
-    console.log(e,'搜索活动')
-    let {activityName,time} = e.detail
+  // 搜索活动分析
+  activityAnalyse(e) {
+    // console.log(e,'搜索活动')
+    const that = this
+    let {activityName,time,deadline,heat} = e.detail
     time = util.formatTime(new Date(time))
-    this.setData({
+    deadline = util.formatTime(new Date(deadline))
+    const totalTime = new Date(time) - new Date(deadline)
+    const name2 = ["浏览量","点赞量","评论量","收藏量"]
+    const data2 = [
+      {value: heat.browseNum,name:name2[0]},
+      {value: heat.collectNum,name:name2[1]},
+      {value: heat.commentNum,name:name2[2]},
+      {value: heat.thumbupNum,name:name2[3]}
+    ]
+    // console.log(data2,'data2')
+    this.setData({                    //每隔10s刷新一次
+      timer: setInterval( ()=> {
+        const processTime = new Date() - new Date(time)
+        let data1 = -(processTime/totalTime).toFixed(4)*100 
+        data1 = Number(data1.toFixed(2))
+        that.setData({
+          data1
+        })
+        that.onLoad()
+    }, 1000),
       activityName,
-      activityTime: time
+      activityTime: time,
+      data2
     })
   },
+  // 获取图表数据
   getData() {
-     const data = [
-      { value: 1048, name: '浏览量' },
-      { value: 735, name: '点赞量' },
-      { value: 580, name: '评论量' },
-      { value: 484, name: '收藏量' }
-    ]
-    const option = getOptions(data)
+    const data1 = this.data.data1
+    // console.log(data1)
+    const data2 = this.data.data2
+    // console.log(data2,'data2')
+    const optionProcess = getProcessOptions(data1)
+    const optionHot = getHotOptions(data2)
+    const optionDetail = getDetailOptions()
     this.setData({
-      option
+      optionProcess,
+      optionHot,
+      optionDetail
+    })
+  },
+  // 搜索活动监控
+  activityMonitor(e) {
+    let {site} = e.detail
+    // 标记活动目的地
+    const markers = this.data.markers;
+    const _this = this;
+    qqmapsdk.geocoder({
+      address: site,
+      success: function(res) {//成功后的回调
+        var res = res.result;
+        let poiDest = {
+          latitude: res.location.lat,
+          longitude: res.location.lng
+        }
+        //根据地址解析在地图上标记解析地址位置
+        markers.push({ // 获取返回结果，放到mks数组中
+          title: res.title,
+          id: 1,
+          latitude: res.location.lat,
+          longitude: res.location.lng,
+          iconPath: '../../images/hdqd/destination.png', // 图标路径
+          width: 35,
+          height: 35,
+        },
+        { // 获取返回结果，放到mks数组中
+          title: res.title,
+          id: 2,
+          latitude: res.location.lat,
+          longitude: res.location.lng,
+          iconPath: '../../images/hdqd/cyx.gif', // 图标路径
+          width: 20,
+          height: 20,
+        });
+        _this.setData({ // 获取返回结果，放到markers及poi中，并在地图展示
+          markers,poiDest
+        });
+      },
+      fail: function(error) {
+        console.error(error);
+      }
     })
   }
 })

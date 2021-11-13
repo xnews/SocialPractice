@@ -51,7 +51,9 @@ function getOption(data) {
             shadowColor: 'rgba(0, 0, 0, 0.5)'
           }
         },
-        data:  data
+        data:  data,
+        animation: true,
+        animationDuration: 3000,
       }
     ]
   };

@@ -1,117 +1,87 @@
 import * as echarts from '../ec-canvas/echarts.js'
-function detailChart(canvas, width, height, dpr) {
-  const chart = echarts.init(canvas, null, {
-    width: width,
-    height: height,
-    devicePixelRatio: dpr // 像素
-  });
-  canvas.setChart(chart);
-
-  // let category = [];
-  // let dottedBase = +new Date();
-  // let lineData = [];
-  // let barData = [];
-  // for (let i = 0; i < 20; i++) {
-  // let date = new Date((dottedBase += 3600 * 24 * 1000));
-  // category.push(
-  //   [date.getFullYear(), date.getMonth() + 1, date.getDate()].join('-')
-  // );
-  // console.log(category)
-  // let b = Math.random() * 200;
-  // let d = Math.random() * 200;
-  // barData.push(b);
-  // lineData.push(d + b);
-  // }
-  const lineData = [200,180,20,140,40]
-  const category = ["报名","签到","未签到","签退","未签退"]
-  const option = {
+function getOption() {
+  const data = [70, 34, 60, 78, 69]
+  const titlename = ['报名人数', '签到人数', '未签到人数', '签退人数', '未签退人数'];
+  const myColor = ['#1089E7', '#8B78F6', '#56D0E3', '#F8B448','#F57474' ];
+  const option = {      
+    grid:{
+      left: '30%'
+    },
     title: {
-      text: '活动详情',
+      text: "活动详情",
       textStyle: {
         fontSize: 25
       },
       textAlign: 'center',
       left: '50%'
     },
-    tooltip: {
-      trigger: 'axis',
-      axisPointer: {
-        type: 'shadow'
+      xAxis: {
+          show: false
+      },
+      yAxis: [{
+          show: true,
+          data: titlename,
+          inverse: true,
+          axisLine: {
+              show: false
+          },
+          splitLine: {
+              show: false
+          },
+          axisTick: {
+              show: false
+          },
+          axisLabel: {
+              color: '#000',
+              fontSize: 14,
+              formatter: function(value, index) {
+                  return [
+                      value
+                  ].join('\n')
+              },
+              // rich: {
+              //     lg: {
+              //         backgroundColor: '#339911',
+              //         color: '#fff',
+              //         borderRadius: 15,
+              //         align: 'center',
+              //         width: 5,
+              //         height: 5
+              //     },
+              // }
+          },
       }
-    },
-    legend:{
-      show: true,
-      top: '10%',
-      textStyle:{
-        fontSize: 15
-      }
-    },
-    xAxis: {
-      data: category,
-      axisLine: {
-        lineStyle: {
-          color: '#464646'
-        }
-      }
-    },
-    yAxis: {
-      splitLine: { show: false },
-      axisLine: {
-        lineStyle: {
-          color: '#464646'
-        }
-      }
-    },
-    series: [
-      {
-        name: '人数',
-        type: 'bar',
-        barGap: '-100%',
-        barWidth: 35,
-        itemStyle: {
-          color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-            { offset: 0, color: '#83bff6' },
-            { offset: 0.5, color: '#188df0' },
-            { offset: 1, color: '#188df0' }
-          ])
-        },
-        emphasis: {
+  ],
+      series: [{
+          name: '条',
+          type: 'bar',
+          yAxisIndex: 0,
+          data: data,
+          barWidth: 25,
+          barGap:'10%',/*多个并排柱子设置柱子之间的间距*/
+          // barCategoryGap:'10%',/*多个并排柱子设置柱子之间的间距*/
           itemStyle: {
-            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-              { offset: 0, color: '#2378f7' },
-              { offset: 0.7, color: '#2378f7' },
-              { offset: 1, color: '#83bff6' }
-            ])
-          }
-        },
-        z: -12,
-        data: lineData
-      },
-      {
-        name: '人数',
-        type: 'line',
-        smooth: true,
-        showAllSymbol: true,
-        symbol: 'emptyCircle',
-        symbolSize: 10,
-        data: lineData
-      },
-      {
-        name: '人数',
-        type: 'pictorialBar',
-        symbol: 'rect',
-        itemStyle: {
-          color: '#fff'
-        },
-        symbolRepeat: true,
-        symbolSize: [20,1],
-        symbolMargin: 4,
-        z: -10,
-        data: lineData
+              normal: {
+                  barBorderRadius: 30,
+                  color: function(params) {
+                      var num = myColor.length;
+                      return myColor[params.dataIndex]
+                  },
+              }
+          },
+          label: {
+              normal: {
+                  show: true,
+                  position: 'right',
+                  formatter: '{c}',
+                  color: "#000",
+                  fontSize: 15
+              },
+
+          },
       }
-    ]
+      ]
   };
-  chart.setOption(option);
-  return chart;
+  return option;
 }
-export default detailChart
+export default getOption
