@@ -223,6 +223,7 @@
   position: absolute;
   top: 100rpx;
   width: 100%;
+  z-index: 999;
 }
 .activityContainer{
   margin-top: 120rpx;

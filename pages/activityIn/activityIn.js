@@ -39,14 +39,15 @@ App.Page({
     pointsDest: [],
     polyline: []
   },
-  addActivityIn() {
-    const {_id,site} = wx.getStorageSync('activities')[0]
-    const {latitude,longitude} = wx.getStorageSync('poiDest')
-    const stuNum = wx.getStorageSync('stuNum')
+  addActivityIn(poi) {
+    const site = wx.getStorageSync('site')
+    // const {latitude,longitude} = wx.getStorageSync('Mypoints')
+    const _id = wx.getStorageSync('profileActivityId')
+    const name = wx.getStorageSync('name')
     wx.cloud.callFunction({
       name: "addActivityIn",
       data: {
-        stuNum,activityId: _id,site,time: 0,location:{latitude,longitude}
+        stuName:name,activityId: _id,site,location: poi
       }
     })
   },
@@ -90,6 +91,7 @@ App.Page({
           longitude: res.location.lng
         });
         that.getRoute(points[points.length-1])
+        that.addActivityIn(points[points.length-1])
         wx.setStorageSync('Mypoints', points[points.length-1])
         that.setData({ // 设置markers属性和地图位置poi，将结果在地图展示
           markers,
@@ -112,6 +114,7 @@ App.Page({
     let { activities } = app.store.getState();
     // 活动场地
     let { site } = activities.find(item => item._id === id)
+    wx.setStorageSync('site', site)
     const markers = this.data.markers;
     const points = this.data.points;
     const _this = this;
@@ -133,7 +136,7 @@ App.Page({
           longitude: res.location.lng,
           iconPath: '../../images/hdqd/destination.png', // 图标路径
           width: 35,
-          height: 35,
+          height: 35
         });
         points.push({            
           latitude: res.location.lat,
@@ -331,7 +334,7 @@ App.Page({
       success (res) {
         if (res.confirm) {
           console.log('用户点击确定')
-          that.addActivityIn()
+          // that.addActivityIn()
           wx.showToast({
             title: '签到成功'
           }).then(()=> {
@@ -554,7 +557,7 @@ App.Page({
       const second = Number(practiceTime.split(':')[2]);
       that.getAcitvityInStatus().then(res =>{
         const clickStatus = res
-        console.log(clickStatus,'clickStatus')
+        // console.log(clickStatus,'clickStatus')
   
         if(clickStatus == 1) {
           that.setData({
@@ -619,8 +622,8 @@ App.Page({
         })
       }
     })
-    wx.stopLocationUpdate({success: (res) => {}})
-    // 取消监听实时地理位置变化事件
-    wx.offLocationChange((result) => {})
+    // wx.stopLocationUpdate({success: (res) => {}})
+    // // 取消监听实时地理位置变化事件
+    // wx.offLocationChange((result) => {})
   }
 })

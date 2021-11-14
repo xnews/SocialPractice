@@ -146,7 +146,7 @@
   <!-- 活动监控 -->
   <block wx:elif="{{indexNav===4}}">
     <search bind:search="activityMonitor" class="searchActivity"></search>
-    <map id="myMap" markers="{{markers}}" style="width:100%;height:100vh;margin-top:100rpx;background-color:#fff;z-index:-100" longitude="{{poiDest.longitude}}" latitude="{{poiDest.latitude}}"  scale='16' show-location>
+    <map id="myMap" markers="{{markers}}" bindtap="getLocation" circles="{{circles}}" bindcallouttap="callouttap" include-points="{{points}}" style="width:100%;height:100vh;margin-top:100rpx;" longitude="{{poiDest.longitude}}" latitude="{{poiDest.latitude}}"  scale='17' show-location>
     </map>
   </block>
 

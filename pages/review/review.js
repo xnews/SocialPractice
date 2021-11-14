@@ -7,6 +7,23 @@ var util= require('../../utils/util.js')
 // 实例化API核心类
 const app = getApp()
 const qqmapsdk = app.globalData.qqmapsdk
+var EARTH_RADIUS = 6378.137; //地球半径
+function rad(d) {
+    return d * Math.PI / 180.0;
+}
+function getDistance(lng1, lat1, lng2, lat2) {
+  var radLat1 = rad(lat1);
+  var radLat2 = rad(lat2);
+  var a = radLat1 - radLat2;
+  var b = rad(lng1) - rad(lng2);
+  var s = 2 * Math.asin(Math.sqrt(Math.pow(Math.sin(a / 2), 2)
+    + Math.cos(radLat1) * Math.cos(radLat2)
+    * Math.pow(Math.sin(b / 2), 2)));
+  s = s * EARTH_RADIUS;
+  s = Math.round(s * 10000) / 10000;
+  return s;//返回数值单位：公里
+}
+
 Page({
 
   /**
@@ -81,7 +98,9 @@ Page({
     poiDest: {
       latitude: '',
       longitude: ''
-    }
+    },
+    points: [],
+    circles: []
   },
   onLoad() {
     this.getData()
@@ -102,7 +121,7 @@ Page({
     wx.hideLoading()
   },
   onReady() {
-
+    // this.includePoints();
   },
   // 获取活动审核所有信息
   getReviewOrganiseInfo() {
@@ -666,9 +685,11 @@ Page({
   },
   // 搜索活动监控
   activityMonitor(e) {
-    let {site} = e.detail
+    let {_id,site} = e.detail
     // 标记活动目的地
     const markers = this.data.markers;
+    const points = this.data.points
+    const circles = this.data.circles
     const _this = this;
     qqmapsdk.geocoder({
       address: site,
@@ -678,25 +699,18 @@ Page({
           latitude: res.location.lat,
           longitude: res.location.lng
         }
+        console.log(poiDest,'目的地')
         //根据地址解析在地图上标记解析地址位置
         markers.push({ // 获取返回结果，放到mks数组中
           title: res.title,
-          id: 1,
+          id: 999,
           latitude: res.location.lat,
           longitude: res.location.lng,
           iconPath: '../../images/hdqd/destination.png', // 图标路径
           width: 35,
-          height: 35,
-        },
-        { // 获取返回结果，放到mks数组中
-          title: res.title,
-          id: 2,
-          latitude: res.location.lat,
-          longitude: res.location.lng,
-          iconPath: '../../images/hdqd/cyx.gif', // 图标路径
-          width: 20,
-          height: 20,
+          height: 35
         });
+        _this.circleRange(res.location.lat,res.location.lng)
         _this.setData({ // 获取返回结果，放到markers及poi中，并在地图展示
           markers,poiDest
         });
@@ -705,5 +719,126 @@ Page({
         console.error(error);
       }
     })
+    // 获取用户的实时定位信息
+    wx.cloud.callFunction({
+      name: 'getActivityIn',
+      data: {
+        activityId: _id
+      }
+    }).then(res=>{
+      const data = res.result.data
+      let newArr = data.map((item,index) =>{
+        return {
+          id: index,
+          latitude: item.location.latitude,
+          longitude: item.location.longitude,
+          iconPath: '../../images/hdqd/'+'myPosition.png', // 图标路径
+          width: 20,
+          height: 30,
+          callout: {
+            content: item.name,
+            color: '#ffffff',
+            bgColor: 'rgb(0, 102, 255)',
+            fontSize: 15,
+            borderRadius: 50,
+            borderWidth: 5,
+            display: 'BYCLICK',
+            anchorY: 2
+          }
+        }
+      })
+      markers.push(...newArr)
+      _this.setData({
+        markers
+      })
+    })
+    this.calcDistance()
+  },
+  // 点击标记点对应的气泡时触
+  callouttap(e) {
+    const {markerId} = e.detail
+    console.log(markerId)
+  },
+  // 签到范围
+  circleRange(lat,lng) {
+    const mapCtx = wx.createMapContext('myMap',this);
+    const that = this
+    mapCtx.getRegion({
+      success: function(res) {
+        let lng1 = res.northeast.longitude;
+        let lat1 = res.northeast.latitude;
+        let lng2 = res.southwest.longitude;
+        let lat2 = res.southwest.latitude;
+        let longitude = lng1 - lng2;
+        let latitude = lat1 - lat2;
+        let flag = longitude>latitude?true:false;
+        let radius = 0;
+        let circles = that.data.circles
+        //计算得到短边，然后再通过*1000转变为m，除2得到半径，*0.8优化显示，让圈圈只占界面的80%
+        if(flag){
+            radius= getDistance(lng1,lat1,lng1,lat2)*1000/3.05*0.8;
+        }else{
+            radius= getDistance(lng1,lat1,lng2,lat1)*1000/3.05*0.8;
+        }
+        console.log(radius,'半径')
+        circles = [{
+          "radius":radius,
+          "latitude":lat,
+          "longitude":lng,
+          "color": '#0066ff',
+          "strokeWidth": 4
+        }]
+       that.setData({
+          circles
+       });
+      }
+    }
+  )
+  },
+  // 缩放视野以包含所有给定的坐标点
+  // includePoints() {
+  //   const points = this.data.points
+  //     points.push({
+  //       latitude: 26.659328,
+  //       longitude: 119.588789
+  //   },
+  //     {
+  //       latitude: 26.651292,
+  //       longitude: 119.588725
+  //   },
+  //     {
+  //       latitude: 26.652788,
+  //       longitude: 119.59675
+  //   },
+  //     {
+  //       latitude: 26.659289,
+  //       longitude: 119.598488
+  //   }
+  // )
+  //   this.setData({
+  //     points
+  //   })
+  // }
+  // 计算距离
+  calcDistance() {
+    qqmapsdk.calculateDistance({
+      mode: 'straight',
+      from: {
+        latitude: 26.66185488457434,
+        longitude: 119.56872497488098
+        },
+      to: [{
+        latitude: 26.661032,
+        longitude: 119.568321
+      }],
+      success: (res) =>{
+        const distance = res.result.elements[0].distance
+        console.log(distance,'距离')
+      }
+    })
+  },
+  // 获取经纬度信息
+  getLocation(e) {
+    console.log(e,'地理位置')
   }
 })

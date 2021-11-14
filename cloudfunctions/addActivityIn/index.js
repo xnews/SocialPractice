@@ -10,10 +10,9 @@ exports.main = async (event, context) => {
   try {
     return await db.collection('activity_in').add({
       data: {
-        stuNum: event.stuNum,
+        name: event.stuName,
         activityId: event.activityId,
         site: event.site,
-        practice_time: event.time,
         location: event.location
       }
     })
