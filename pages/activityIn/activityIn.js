@@ -7,6 +7,23 @@ var addTime;
 // 实例化API核心类
 const qqmapsdk = app.globalData.qqmapsdk
 
+var EARTH_RADIUS = 6378.137; //地球半径
+function rad(d) {
+    return d * Math.PI / 180.0;
+}
+function getDistance(lng1, lat1, lng2, lat2) {
+  var radLat1 = rad(lat1);
+  var radLat2 = rad(lat2);
+  var a = radLat1 - radLat2;
+  var b = rad(lng1) - rad(lng2);
+  var s = 2 * Math.asin(Math.sqrt(Math.pow(Math.sin(a / 2), 2)
+    + Math.cos(radLat1) * Math.cos(radLat2)
+    * Math.pow(Math.sin(b / 2), 2)));
+  s = s * EARTH_RADIUS;
+  s = Math.round(s * 10000) / 10000;
+  return s;//返回数值单位：公里
+}
+
 // 时间格式
 const formatNumber = n => {
   n = n.toString()
@@ -37,7 +54,8 @@ App.Page({
     clickStatus: 0,
     points: [],
     pointsDest: [],
-    polyline: []
+    polyline: [],
+    circles: []
   },
   addActivityIn(poi) {
     const site = wx.getStorageSync('site')
@@ -95,10 +113,10 @@ App.Page({
         wx.setStorageSync('Mypoints', points[points.length-1])
         that.setData({ // 设置markers属性和地图位置poi，将结果在地图展示
           markers,
-          // poi: {
-          //   latitude: res.location.lat,
-          //   longitude: res.location.lng
-          // },
+          poi: {
+            latitude: res.location.lat,
+            longitude: res.location.lng
+          },
           points
         });
       },
@@ -142,6 +160,7 @@ App.Page({
           latitude: res.location.lat,
           longitude: res.location.lng
         });
+        _this.circleRange(res.location.lat,res.location.lng)
         _this.setData({ // 获取返回结果，放到markers及poi中，并在地图展示
           markers,points,poiDest
           // 'poiDest.latitude': res.location.lat.toString(),
@@ -326,30 +345,40 @@ App.Page({
     var that = this
     var nowTime = util.formatTime(new Date())
     const timeout = this.data.timecount
-    wx.showModal({
-      title: '请确认位置信息',
-      // content: '请确认待整改项已整改完毕！',
-      content: `地点：${this.data.addressName}\n时间：${nowTime}`,  // 开发者工具上没有换行，真机调试时会有的
-      confirmText: '确认',
-      success (res) {
-        if (res.confirm) {
-          console.log('用户点击确定')
-          // that.addActivityIn()
-          wx.showToast({
-            title: '签到成功'
-          }).then(()=> {
-            that.start()
-            that.updateProfileActivityStatus('签退')
-          })
-          // wx.setStorageSync('clickStatus', 1)
-          that.updateAcitvityInStatus(1)
-
-          
-        } else if (res.cancel) {
-          console.log('用户点击取消')
+    const distance = this.calcDistance()
+    if(distance>100){
+      wx.showToast({
+        title: '超出签到范围',
+        icon: 'error'
+      })
+    }
+    else {
+      wx.showModal({
+        title: '请确认位置信息',
+        // content: '请确认待整改项已整改完毕！',
+        content: `地点：${this.data.addressName}\n时间：${nowTime}`,  // 开发者工具上没有换行，真机调试时会有的
+        confirmText: '确认',
+        success (res) {
+          if (res.confirm) {
+            console.log('用户点击确定')
+            // that.addActivityIn()
+            wx.showToast({
+              title: '签到成功'
+            }).then(()=> {
+              that.start()
+              that.updateProfileActivityStatus('签退')
+            })
+            // wx.setStorageSync('clickStatus', 1)
+            that.updateAcitvityInStatus(1)
+  
+            
+          } else if (res.cancel) {
+            console.log('用户点击取消')
+          }
         }
-      }
-    })
+      })
+    }
+
   },
   // 签到时间转化为秒
   transformTime(time) {
@@ -515,6 +544,50 @@ App.Page({
       that.addContinue()
     },1000)
   },
+  // 签到范围
+  circleRange(lat,lng) {
+    const mapCtx = wx.createMapContext('myMap',this);
+    const that = this
+    mapCtx.getRegion({
+      success: function(res) {
+        let lng1 = res.northeast.longitude;
+        let lat1 = res.northeast.latitude;
+        let lng2 = res.southwest.longitude;
+        let lat2 = res.southwest.latitude;
+        let longitude = lng1 - lng2;
+        let latitude = lat1 - lat2;
+        let flag = longitude>latitude?true:false;
+        let radius = 0;
+        let circles = that.data.circles
+        //计算得到短边，然后再通过*1000转变为m，除2得到半径，*0.8优化显示，让圈圈只占界面的80%
+        if(flag){
+            radius= getDistance(lng1,lat1,lng1,lat2)*1000/3.082*0.8;
+        }else{
+            radius= getDistance(lng1,lat1,lng2,lat1)*1000/3.082*0.8;
+        }
+        console.log(radius,'半径')
+        circles = [{
+          "radius":radius,
+          "latitude":lat,
+          "longitude":lng,
+          "color": '#0066ff',
+          "strokeWidth": 4
+        }]
+       that.setData({
+          circles
+       });
+      }
+    }
+  )
+  },
+  // // 计算我的位置与目的地的距离
+  calcDistance() {
+    const myPoi = this.data.poi //我的位置
+    const poiDest = wx.getStorageSync('poiDest') //目的地
+    let distance = getDistance(myPoi.latitude,myPoi.longitude,poiDest.latitude,poiDest.longitude) * 1000
+    console.log(distance,'距离')
+    return distance
+  },
   onLoad: function (options) {
     var that = this
     clearInterval(addTime) //清除后台定时器
@@ -596,6 +669,7 @@ App.Page({
    */
   onUnload: function () {
     const that = this
+    wx.removeStorageSync('poiDest')
     wx.navigateBack({
       delta: 1
     })

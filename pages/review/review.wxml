@@ -139,7 +139,7 @@
     <view class="chartContainer" style="width:100%;height:1200rpx;">
       <activityHot chartId="activityHot" option="{{ optionHot }}"></activityHot>
     </view>
-    <view class="chartContainer" style="width:100%;height:1200rpx;">
+    <view class="chartContainer" style="width:100%;height:800rpx;">
       <activityHot chartId="activityDetail" option="{{ optionDetail }}"></activityHot>
     </view>
   </block>

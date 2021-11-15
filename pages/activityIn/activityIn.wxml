@@ -1,6 +1,6 @@
 <!--location_check_in/location_check_in.wxml-->
 <view class="wholeContinaer">
-	<map id="myMap" markers="{{markers}}" style="width:100%;height:100vh;" longitude="{{poi.longitude}}" polyline="{{polyline}}" latitude="{{poi.latitude}}" include-points="{{points}}" scale='16' show-location>
+	<map id="myMap" markers="{{markers}}" circles="{{circles}}" style="width:100%;height:100vh;" longitude="{{poi.longitude}}" polyline="{{polyline}}" latitude="{{poi.latitude}}" include-points="{{points}}" scale='17' show-location>
 	</map>
 	<view class="checkInPanel">
 		<!-- <view class="checkInBtn" bindtap="checkIn" style="background:url('../../images/zcxj/checkInBj.png') center / contain no-repeat"> -->
