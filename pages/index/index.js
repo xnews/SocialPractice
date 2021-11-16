@@ -38,9 +38,14 @@ App.Page({
       name: 'getActivityDetailAll'
     }).then(res => {
       let activities = res.result.data;
+      // activities.forEach(item => Number(new Date(item.time).getTime()))
+      for(let i=0;i< activities.length;i++) {
+        activities[i].time = Number(new Date(activities[i].time).getTime())
+      }
+      activities = activities.sort(this.compare(("time")))
       // 转换数据库时间格式
       for(let i=0;i < activities.length;i++) {
-        activities[i].time = util.formatTime(new Date(activities[i].time))
+        activities[i].time = util.formatTime(new Date(activities[i].time).toString())
         activities[i].deadline = util.formatTime(new Date(activities[i].deadline))
       }  
       this.setData({
@@ -53,6 +58,13 @@ App.Page({
    */
   onShow: function () {
 
+  },
+  compare(p){ //这是比较函数
+    return function(m,n){
+        var a = m[p];
+        var b = n[p];
+        return b - a; //降序
+    }
   },
   switchToAcDesc(e) {
     let activityId = e.currentTarget.dataset.id

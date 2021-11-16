@@ -30,6 +30,13 @@ Page({
       const activityComment = res.result.data[0].detail
       console.log(typeof activityComment)
       const commentCount = activityComment.length
+      wx.cloud.callFunction({
+        name: 'updateCommentNum',
+        data: {
+          id: activityId,
+          commentNum: commentCount
+        }
+      })
       this.setData({
         activityComment,
         commentCount

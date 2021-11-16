@@ -8,9 +8,11 @@ const db = cloud.database()
 // 云函数入口函数
 exports.main = async (event, context) => {
   try {
-    return await db.collection('activity_heat').doc(event.id).update({
+    return await db.collection('activity_detail').doc(event.id).update({
       data: {
-        commentNum: event.commentNum
+        heat: {
+          commentNum: event.commentNum
+        }
       }
     })
   } catch (error) {

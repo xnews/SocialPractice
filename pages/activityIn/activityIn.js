@@ -55,7 +55,8 @@ App.Page({
     points: [],
     pointsDest: [],
     polyline: [],
-    circles: []
+    circles: [],
+    distance: null
   },
   addActivityIn(poi) {
     const site = wx.getStorageSync('site')
@@ -345,8 +346,9 @@ App.Page({
     var that = this
     var nowTime = util.formatTime(new Date())
     const timeout = this.data.timecount
-    const distance = this.calcDistance()
-    if(distance>100){
+    this.calcDistance()
+    console.log(this.data.distance,'距离')
+    if(this.data.distance>100){
       wx.showToast({
         title: '超出签到范围',
         icon: 'error'
@@ -584,9 +586,31 @@ App.Page({
   calcDistance() {
     const myPoi = this.data.poi //我的位置
     const poiDest = wx.getStorageSync('poiDest') //目的地
-    let distance = getDistance(myPoi.latitude,myPoi.longitude,poiDest.latitude,poiDest.longitude) * 1000
-    console.log(distance,'距离')
-    return distance
+    // let distance = getDistance(myPoi.latitude,myPoi.longitude,poiDest.latitude,poiDest.longitude) * 1000
+    // console.log(distance,'距离')
+    qqmapsdk.calculateDistance({
+      mode: 'straight',
+      from: {
+        latitude: myPoi.latitude,
+        longitude: myPoi.longitude
+        },
+      to: [{
+        latitude: poiDest.latitude,
+        longitude: poiDest.longitude
+      }],
+      success: (res) =>{
+        const distance = res.result.elements[0].distance
+        console.log(distance,'距离')
+        this.setData({
+          distance
+        })
+      }
+    })
+    // return distance
+  },
+  // 获取经纬度信息
+  getLocation(e) {
+    console.log(e,'经纬度')
   },
   onLoad: function (options) {
     var that = this

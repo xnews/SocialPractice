@@ -53,23 +53,11 @@ App.Page({
           // 获取活动的id值
     // const _id = activities.map(v => v['_id']);
     const _id = wx.getStorageSync('activityId')
-      // 获取评价数量
-    db.collection('activity_comment').where({
-      _openid: 'ofAXE4gumvdxuV6olp4U-IFS7Kkk'
-    }).count().then(res => {
-      wx.cloud.callFunction({
-        name: 'updateCommentNum',
-        data: {
-          id: _id, 
-          commentNum: res.total + 1
-        }
-      })
-    }).catch(e => {console.log(e)}) 
     // 获取活动热度信息
     wx.cloud.callFunction({
       name: 'getActivityHeat',
       data: { 
-        id: _id
+        id: _idl
       } 
     }).then(res => {
       let {heat} = res.result.data
