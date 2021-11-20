@@ -16,7 +16,7 @@
         <text>{{activityCount}}</text>
       </view>
       <view class="info_item" catchtap="switchToProfileOrganization">
-        <text>我的组织</text>
+        <text>我的申请</text>
         <text>{{organiseCount}}</text>
       </view>
       <view class="info_item" catchtap="switchToProfileCollection">

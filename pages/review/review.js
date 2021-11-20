@@ -94,6 +94,7 @@ Page({
       {value: 0,name:"评论量"},
       {value: 0,name:"收藏量"}
     ],
+    data3: [0,0,0,0,0],
     markers: [],
     poiDest: {
       latitude: '',
@@ -103,12 +104,13 @@ Page({
     circles: [],
     adviserArray: [],
     index: null,
-    height:""
+    height:"",
+    distance: ""
   },
   onLoad() {
-    this.getData()
+    // this.getData()
     var _this = this;
-    this.getData()
+    // this.getData()
     // this.setData({                    //每隔10s刷新一次数据
     //   timer: setInterval(function () {
     //     _this.getData()
@@ -133,7 +135,6 @@ Page({
     this.showReviewOrganiseInfo()
     this.showReviewContributeInfo()
     wx.hideLoading()
-
   },
   onReady() {
     // this.includePoints();
@@ -183,6 +184,8 @@ Page({
       //     height: res[0].height + "px"
       //   });
       // });
+    }else if(index===3) {
+      this.getData()
     }
     this.setData({
       indexNav: index
@@ -667,7 +670,7 @@ Page({
   activityAnalyse(e) {
     // console.log(e,'搜索活动')
     const that = this
-    let {activityName,time,deadline,heat} = e.detail
+    let {activityName,time,deadline,heat,particular} = e.detail
     time = util.formatTime(new Date(time))
     deadline = util.formatTime(new Date(deadline))
     const totalTime = new Date(time) - new Date(deadline)
@@ -678,20 +681,35 @@ Page({
       {value: heat.commentNum,name:name2[2]},
       {value: heat.thumbupNum,name:name2[3]}
     ]
+    const data3 = [
+      particular.apply,
+      particular.signIn,
+      particular.apply-particular.signIn,
+      particular.signBack,
+      particular.signIn-particular.signBack
+    ]
     // console.log(data2,'data2')
     this.setData({                    //每隔10s刷新一次
       timer: setInterval( ()=> {
         const processTime = new Date() - new Date(time)
         let data1 = -(processTime/totalTime).toFixed(4)*100 
         data1 = Number(data1.toFixed(2))
-        that.setData({
-          data1
-        })
+        if(data1 <=100) {
+          that.setData({
+            data1
+          })
+        }
+        else{
+          that.setData({
+            data1: 100
+          })
+        }
         that.onLoad()
     }, 1000),
       activityName,
       activityTime: time,
-      data2
+      data2,
+      data3
     })
   },
   // 获取图表数据
@@ -699,10 +717,11 @@ Page({
     const data1 = this.data.data1
     // console.log(data1)
     const data2 = this.data.data2
+    const data3 = this.data.data3
     // console.log(data2,'data2')
     const optionProcess = getProcessOptions(data1)
     const optionHot = getHotOptions(data2)
-    const optionDetail = getDetailOptions()
+    const optionDetail = getDetailOptions(data3)
     this.setData({
       optionProcess,
       optionHot,
@@ -711,8 +730,9 @@ Page({
   },
   // 搜索活动监控
   activityMonitor(e) {
-    let {_id,site} = e.detail
+    let {_id,site,activityName,time} = e.detail
     // 标记活动目的地
+    time = util.formatTime(new Date(time))
     const markers = this.data.markers;
     const points = this.data.points
     const circles = this.data.circles
@@ -726,6 +746,7 @@ Page({
           longitude: res.location.lng
         }
         console.log(poiDest,'目的地')
+        wx.setStorageSync('poiDest', poiDest)
         //根据地址解析在地图上标记解析地址位置
         markers.push({ // 获取返回结果，放到mks数组中
           title: res.title,
@@ -778,7 +799,12 @@ Page({
         markers
       })
     })
-    this.calcDistance()
+    this.setData({
+      activityName,
+      activityTime: time,
+      distance: ""
+    })
+    // this.calcDistance()
   },
   // 点击标记点对应的气泡时触
   callouttap(e) {
@@ -866,6 +892,21 @@ Page({
   // 获取经纬度信息
   getLocation(e) {
     console.log(e,'地理位置')
+    const location = e.detail
+    const poiDest = wx.getStorageSync('poiDest')
+    console.log(poiDest,'目的地')
+    qqmapsdk.calculateDistance({
+      mode:'straight',
+      from: location,
+      to: [poiDest],
+      success: (res)=> {
+        console.log(res,'距离')
+        const distance = res.result.elements[0].distance
+        this.setData({
+          distance: distance + '米'
+        })
+      } 
+    })
   },
   chooseAdviser(e) {
     const {value} = e.detail

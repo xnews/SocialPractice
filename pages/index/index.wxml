@@ -25,7 +25,7 @@
   <view class="cate_item">
     <navigator class="iconfont icon-orgnazie" url="/pages/organization/organization" open-type="navigate">
     </navigator>
-    <text>组织</text>
+    <text>申请</text>
   </view>
   <view class="cate_item">
     <navigator class="iconfont icon-gonggao-" url="/pages/announcement/announcement" open-type="navigate">

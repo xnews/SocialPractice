@@ -15,7 +15,8 @@ exports.main = async (event, context) => {
       site: event.site,
       teacher: event.teacher,
       time: event.time,
-      type: event.type
+      type: event.type,
+      particular: {apply:0,signIn:0,signBack:0}
     }
   })
 }

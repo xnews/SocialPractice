@@ -225,8 +225,11 @@
   z-index: 999;
 }
 .activityContainer{
-  margin-top: 120rpx;
+  position: absolute;
+  margin-top: 100rpx;
   padding: 0 20rpx;
+  z-index: 100;
+  background-color: rgb(255,255,255,.1);
 }
 .chooseadviser,.chooseannouncementdate {
   border: 1rpx solid #cccccc;

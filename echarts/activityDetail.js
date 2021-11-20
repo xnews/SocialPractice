@@ -1,6 +1,6 @@
 import * as echarts from '../ec-canvas/echarts.js'
-function getOption() {
-  const data = [70, 34, 60, 78, 69]
+function getOption(data) {
+//   const data = [70, 34, 60, 78, 69]
   const titlename = ['报名人数', '签到人数', '未签到人数', '签退人数', '未签退人数'];
   const myColor = ['#1089E7', '#8B78F6', '#56D0E3', '#F8B448','#F57474' ];
   const option = {      
