@@ -175,7 +175,6 @@
   height: 80rpx;
   padding-left: 10rpx;
   font-size: 36rpx;
-  color: #c0c4cc;
 }
 .choosedate{
   margin-left: 36rpx;
@@ -207,7 +206,7 @@
 }
 .organiseBtn{
   display: flex;
-  margin-top: 180rpx;
+  margin-top: 80rpx;
 }
 .organiseBtn button:nth-child(1){
   background-color: var(--themeColor);
@@ -228,6 +227,26 @@
 .activityContainer{
   margin-top: 120rpx;
   padding: 0 20rpx;
+}
+.chooseadviser,.chooseannouncementdate {
+  border: 1rpx solid #cccccc;
+  border-radius: 10rpx;
+  line-height: 80rpx;
+  width: 500rpx;
+  height: 80rpx;
+  padding-left: 10rpx;
+  font-size: 36rpx;
+  text-align: center;
+}
+.announcementContent{
+  margin-top: 30rpx;
+}
+.announcementContent textarea{
+  border: 1rpx solid var(--themeColor);
+  border-radius: 10rpx;
+  width: 90%;
+  height:600rpx;
+  margin-left: 50rpx;
 }
 
 

@@ -45,7 +45,10 @@
     </view>
     <view class="origaniseItem">
       <text>指导老师</text>
-      <input name="adviser" type="text"/>
+      <!-- <input name="adviser" type="text"/> -->
+      <picker name="adviser" bindchange="chooseAdviser" value="{{adviserArray[index]}}" range="{{adviserArray}}">
+        <view class="chooseadviser">{{adviserArray[index]}}</view>
+      </picker>
     </view>
     <view class="organiseUpfile">
       <textarea name="noteInfo" placeholder="备注信息:">

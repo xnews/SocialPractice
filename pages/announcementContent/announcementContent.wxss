@@ -1,0 +1,25 @@
+.dynamicContent_container{
+  padding: 10rpx;
+}
+.dynamic_head{
+  margin-top: 10rpx;
+  display: flex;
+  flex-direction: column;
+}
+.dynamic_head text:nth-child(1){
+  font-weight: bold;
+}
+.dynamic_head text:nth-child(2){
+  margin-top: 20rpx;
+}
+.dynamic_content{
+  margin-top: 30rpx;
+  padding: 10rpx;
+}
+.dynamic_content text{
+  /* margin-top: 10rpx; */
+  padding: 10rpx;
+  display: inline-block;
+  text-indent: 2rem;
+  font-size: 38rpx;
+}

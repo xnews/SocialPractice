@@ -30,7 +30,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-    activityNav:["活动审核","投稿审核","活动发布","活动分析","活动监控","公告管理","意见反馈"],
+    activityNav:["活动审核","投稿审核","活动发布","活动分析","活动监控","公告发布","意见反馈"],
     indexNav: 0,
     reviewInfo: [],
     filePath: "",
@@ -100,7 +100,10 @@ Page({
       longitude: ''
     },
     points: [],
-    circles: []
+    circles: [],
+    adviserArray: [],
+    index: null,
+    height:""
   },
   onLoad() {
     this.getData()
@@ -111,6 +114,17 @@ Page({
     //     _this.getData()
     // }, 10000)
     // })
+    wx.cloud.callFunction({
+      name: 'getTeaInfo'
+    }).then(res => {
+      // console.log(res)
+      const data = res.result.data
+      const teaName = data.map(item => item.name)
+      // console.log(teaName)
+      this.setData({
+        adviserArray: teaName
+      })
+    })
   },
   onShow() {
     wx.showLoading({
@@ -119,6 +133,7 @@ Page({
     this.showReviewOrganiseInfo()
     this.showReviewContributeInfo()
     wx.hideLoading()
+
   },
   onReady() {
     // this.includePoints();
@@ -158,6 +173,16 @@ Page({
       this.showReviewOrganiseInfo()
     }else if(index===1) {
       this.showReviewContributeInfo()
+    }else if(index===5) {
+      // let id = "#textareawrap";
+      // let query = wx.createSelectorQuery();//创建查询对象
+      // query.select(id).boundingClientRect();//获取view的边界及位置信息
+      // query.exec(res => {
+      //   console.log(res)
+      //   this.setData({
+      //     height: res[0].height + "px"
+      //   });
+      // });
     }
     this.setData({
       indexNav: index
@@ -593,6 +618,7 @@ Page({
             registratimeValue: "选择时间",
             deadlinedateValue: "选择日期",
             deadlinetimeValue: "选择时间",
+            index: null
           })
         } else if (res.cancel) {
           console.log('用户点击取消')
@@ -622,7 +648,7 @@ Page({
       })
     },
     // 选择截止报名时间
-    chooseDeadlineTime(e) {
+  chooseDeadlineTime(e) {
       const {value} = e.detail
       this.setData({
         deadlinetimeValue: value
@@ -742,7 +768,7 @@ Page({
             fontSize: 15,
             borderRadius: 50,
             borderWidth: 5,
-            display: 'BYCLICK',
+            display: 'ALWAYS',
             anchorY: 2
           }
         }
@@ -840,5 +866,40 @@ Page({
   // 获取经纬度信息
   getLocation(e) {
     console.log(e,'地理位置')
+  },
+  chooseAdviser(e) {
+    const {value} = e.detail
+    console.log(value)
+    this.setData({
+      index: value
+    })
+  },
+  // 提交公告信息
+  announcementSubmit(e) {
+    console.log(e,'公告信息')
+    const {announcementContent,publisher,publishdate,title} = e.detail.value
+    const content = {}
+    content.paragraph = announcementContent.split(/[\n]/)
+    console.log(content,'文章')
+    wx.cloud.callFunction({
+      name: 'addActivityAnnouncement',
+      data: {
+        content,
+        publisher,
+        time: publishdate,
+        title,
+        browseNum: 0
+      }
+    }).then(() =>{
+      wx.showToast({
+        title: '发布成功',
+        icon: 'success'
+      }).then(() => {
+        this.setData({
+          inputValue: "",
+          registradateValue: "选择日期"
+        })
+      })
+    })
   }
 })

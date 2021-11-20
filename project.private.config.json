@@ -189,6 +189,18 @@
         {
           "name": "活动监控",
           "pathName": "pages/monitor/monitor",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "公告内容页面",
+          "pathName": "pages/announcementContent/announcementContent",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "话题发布",
+          "pathName": "pages/releaseSubject/releaseSubject",
           "scene": null
         }
       ]

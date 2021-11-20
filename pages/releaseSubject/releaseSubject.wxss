@@ -1,0 +1,87 @@
+.itemHead{
+  margin-top: 30rpx;
+}
+.origaniseItem,.origaniseItemTime,.origaniseItemType,.origaniseTeamNum{
+  display: flex;
+  margin: 20rpx 30rpx;
+  justify-content: center;
+  align-items: center;
+  /* border-top: 1rpx solid #cccccc; */
+  height: 80rpx;
+  padding-top: 20rpx;
+}
+.origaniseItem text{
+  flex: 3;
+  text-align: center;
+  font-size: 35rpx;
+}
+.origaniseItem input{
+  border: 1rpx solid #cccccc;
+  border-radius: 10rpx;
+  flex: 7;
+  height: 80rpx;
+  margin: o auto;
+  padding: 0 10rpx;
+}
+.origaniseItemTime text:nth-child(1){
+  flex: 2;
+  text-align: center;
+  font-size: 35rpx;
+  padding-left: 20rpx;
+}
+.origaniseItemTime text:nth-child(3){
+  margin: 0 10rpx;
+}
+.origaniseItemTime picker{
+  flex: 3;
+}
+.organiseBtn{
+  display: flex;
+  margin-top: 300rpx;
+}
+.organiseBtn button:nth-child(1){
+  background-color: var(--themeColor);
+  color: #ffffff;
+  font-weight: normal;
+}
+.organiseBtn button:nth-child(2){
+  border: 1rpx solid #cccccc;
+  color: #606266;
+  font-weight: normal;
+}
+.fb_tool {
+  display: flex;
+  flex-wrap: wrap;
+  padding-bottom: 30rpx;
+  float: left;
+  margin-left: 60rpx;
+}
+.fb_tool button {
+  margin: 0;
+  font-size: 60rpx;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20rpx;
+  color: var(--themeColor);
+  background-color: #BEBEBE;
+}
+.fb_tool .up_img_item {
+  margin-left: 20rpx;
+  margin-top: 20rpx;
+}
+.announcementContent{
+  border: 1rpx solid #ccc;
+  border-radius: 10rpx;
+  width: 90%;
+  height: 800rpx;
+  margin-left: 60rpx;
+}
+.fb_content {
+  background-color: #fff;
+  margin-top: 30rpx;
+}
+.fb_content textarea {
+  padding: 10rpx;
+}

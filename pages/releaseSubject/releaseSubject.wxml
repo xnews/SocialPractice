@@ -1,0 +1,34 @@
+    <!-- 公告管理 -->
+<form bindsubmit="objectSubmit">
+  <view class="objectContainer">
+    <view class="origaniseItem itemHead">
+      <text>标题</text>
+      <input name="title" value="{{inputValue}}" type="text"/>
+    </view>
+    <view style="margin-left:60rpx;margin-bottom:20rpx;">
+        <text style="text-align:center;font-size:38rpx;">话题内容</text>
+    </view>
+    <view class="announcementContent">
+      <textarea name="announcementContent" value="{{inputValue}}" id="textareawrap" maxlength="-1" style="height:{{height}}" 
+      placeholder="请输入话题内容"></textarea>
+    </view>
+    <view class="fb_content">
+      <view class="fb_tool">
+          <button bindtap="handleChooseImg" style="width: 140rpx;height: 140rpx;">+</button>
+          <view class="up_img_item"
+            wx:for="{{chooseImgs}}"
+            wx:key="*this"
+            bindtap="handleRemoveImg"
+            data-index="{{index}}"
+            >
+            <UpImg src="{{item}}" ></UpImg>
+          </view>
+      </view>
+    </view>
+    <view class="organiseBtn">
+      <button size="mini" form-type="submit" style="width: 210rpx;height: 80rpx;">发布</button>
+      <button size="mini" form-type="reset" catchtap="emptyFormInfo" style="width: 210rpx;height: 80rpx;">清空</button>
+    </view>
+  </view>
+</form>
+

@@ -1,0 +1,5 @@
+{
+  "usingComponents": {
+    "UpImg":"../../components/UpImg/UpImg"
+  }
+}

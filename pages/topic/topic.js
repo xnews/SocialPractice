@@ -30,5 +30,10 @@ Page({
     wx.navigateTo({
       url: '/pages/topicContent/topicContent',
     })
+  },
+  switchToTopicContent() {
+    wx.navigateTo({
+      url: '/pages/releaseSubject/releaseSubject',
+    })
   }
 })

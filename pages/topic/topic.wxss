@@ -1,8 +1,12 @@
+.topicContainer{
+  position: relative;
+}
 .topicItem{
   margin-top: 20rpx;
   padding-left: 10rpx;
   border-top: 1rpx solid #cccccc;
   padding-top: 10rpx;
+  margin-bottom: 10rpx;
 }
 .topicTitle text{
   font-size: 40rpx;
@@ -46,4 +50,11 @@
   height: 120rpx;
   flex: 1;
   border-radius: 10rpx;
+}
+.icon-jiahao1{
+  position: fixed;
+  font-size: 100rpx;
+  color: var(--themeColor);
+  bottom: 5%;
+  right: 5%;
 }

@@ -112,7 +112,10 @@
         </view>
         <view class="origaniseItem">
           <text>活动指导人</text>
-          <input name="adviser" value="{{inputValue}}" type="text"/>
+          <!-- <input name="adviser" value="{{inputValue}}" type="text"/> -->
+          <picker header-text="请选择" name="adviser" bindchange="chooseAdviser" value="{{adviserArray[index]}}" range="{{adviserArray}}">
+            <view class="chooseadviser">{{adviserArray[index]}}</view>
+          </picker>
         </view>
         <view class="organiseBtn">
           <button size="mini" form-type="submit" style="width: 210rpx;height: 80rpx;">发布</button>
@@ -152,9 +155,33 @@
 
     <!-- 公告管理 -->
   <block wx:elif="{{indexNav===5}}">
-    <view>公告管理</view>
+    <form bindsubmit="announcementSubmit">
+      <view class="organiseContainer">
+        <view class="origaniseItem itemHead">
+          <text>标题</text>
+          <input name="title" value="{{inputValue}}" type="text"/>
+        </view>
+        <view class="origaniseItem">
+          <text>发布人</text>
+          <input name="publisher" value="{{inputValue}}" type="text"/>
+        </view>
+        <view class="origaniseItemTime">
+          <text>发布时间</text>
+          <picker name="publishdate" mode="date" bindchange="chooseRegistraDate">
+            <view class="chooseannouncementdate">{{registradateValue}}</view>
+          </picker>
+        </view>
+        <view class="announcementContent">
+          <textarea name="announcementContent" value="{{inputValue}}" id="textareawrap" maxlength="-1" style="height:{{height}}" 
+          placeholder="请输入公告内容"></textarea>
+        </view>
+        <view class="organiseBtn">
+          <button size="mini" form-type="submit" style="width: 210rpx;height: 80rpx;">发布</button>
+          <button size="mini" form-type="reset" catchtap="emptyFormInfo" style="width: 210rpx;height: 80rpx;">清空</button>
+        </view>
+      </view>
+    </form>
   </block>
-
       <!-- 意见反馈 -->
   <block wx:elif="{{indexNav===6}}">
     <view>意见反馈</view>

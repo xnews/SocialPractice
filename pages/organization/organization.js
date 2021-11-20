@@ -46,7 +46,22 @@ Page({
     selected: {},
     fileId: "",
     dateValue: "选择日期",
-    timeValue: "选择时间"
+    timeValue: "选择时间",
+    adviserArray: [],
+    index: null
+  },
+  onLoad() {
+    wx.cloud.callFunction({
+      name: 'getTeaInfo'
+    }).then(res => {
+      console.log(res)
+      const data = res.result.data
+      const teaName = data.map(item => item.name)
+      console.log(teaName)
+      this.setData({
+        adviserArray: teaName
+      })
+    })
   },
   changeType(e) {
     this.setData({
@@ -106,6 +121,12 @@ Page({
       wx.showToast({
         title: '提交成功待审核',
         icon: 'success'
+      }).then(() =>{
+        setTimeout(function() {
+          wx.navigateBack({
+            delta: 1
+          })
+        },2000)
       })
     })
     console.log(acOrInfo,'组织信息')
@@ -193,6 +214,13 @@ Page({
           console.log('用户点击取消')
         }
       }
+    })
+  },
+  chooseAdviser(e) {
+    const {value} = e.detail
+    console.log(value)
+    this.setData({
+      index: value
     })
   }
 })

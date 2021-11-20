@@ -1,4 +1,5 @@
 <view class="topicContainer">
+  <view class="iconfont icon-jiahao1" catchtap="switchToTopicContent"></view>
   <view class="topicItem" wx:for="{{topicList}}" wx:key="_id">
     <view class="topicTitle">
       <text>{{item.title}}</text>
@@ -9,7 +10,7 @@
     </view> 
     <view class="topicText">
       <image src="{{item.img_url}}" mode="heightFix"></image>
-      <text data-id="{{item._id}}" catchtap="switchToContent">{{item.text}}</text>
+      <text data-id="{{item._id}}" catchtap="switchToContent">{{item.content[0].p}}</text>
     </view>
   </view>  
 </view>

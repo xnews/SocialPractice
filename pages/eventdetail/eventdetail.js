@@ -57,7 +57,7 @@ App.Page({
     wx.cloud.callFunction({
       name: 'getActivityHeat',
       data: { 
-        id: _idl
+        id: _id
       } 
     }).then(res => {
       let {heat} = res.result.data

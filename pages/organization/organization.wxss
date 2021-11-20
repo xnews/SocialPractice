@@ -42,7 +42,6 @@
   height: 80rpx;
   padding-left: 10rpx;
   font-size: 36rpx;
-  color: #c0c4cc;
 }
 .choosedate{
   margin-left: 36rpx;
@@ -120,6 +119,16 @@
   border: 1rpx solid #cccccc;
   color: #606266;
   font-weight: normal;
+}
+.chooseadviser {
+  border: 1rpx solid #cccccc;
+  border-radius: 10rpx;
+  line-height: 80rpx;
+  width: 500rpx;
+  height: 80rpx;
+  padding-left: 10rpx;
+  font-size: 36rpx;
+  text-align: center;
 }
 
 

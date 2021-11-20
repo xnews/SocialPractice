@@ -1,12 +1,12 @@
 <view class="announceContainer">
-  <view class="announceItem" wx:for="{{4}}">
+  <view class="announceItem" data-announcementId="{{item._id}}" wx:for="{{announcementList}}" wx:key="_id" bindtap="switchToAnnouncementContent">
     <view class="announceTitle">
-    <text>关于组织开展2021年暑期社会实践活动的通知</text>
+    <text>{{item.title}}</text>
     </view>
     <view class="announceOther">
-      <text>2021-09-23</text>
+      <text>{{item.time}}</text>
       <text>|</text>
-      <text>浏览量:{{browseNum}}</text>
+      <text>浏览量:{{item.browseNum}}</text>
     </view>
   </view>
 </view>

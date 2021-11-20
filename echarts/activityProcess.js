@@ -1,6 +1,6 @@
 
 function getOptions(data) {
-    // const dataArr = 44;
+    const dataArr = 44;
     const colorSet = {
         color: '#468EFD'
     };
@@ -66,7 +66,7 @@ function getOptions(data) {
                 },
                 data: [{
                     name: "活动进度",
-                    value: data,
+                    value: dataArr,
                 }],
                 pointer: {
                     show: true,

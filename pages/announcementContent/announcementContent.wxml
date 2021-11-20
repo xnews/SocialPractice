@@ -1,0 +1,11 @@
+<view class="dynamicContent_container">
+  <view class="dynamic_head">
+    <text>{{announcementObj.title}}</text>
+    <text>时间：{{announcementObj.time}}</text>
+  </view>
+  <view class="dynamic_content">
+    <block wx:for="{{announcementObj.content.paragraph}}" wx:key="*this">
+      <text>{{item}}</text>
+    </block>
+  </view>
+</view>

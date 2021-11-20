@@ -31,7 +31,9 @@
     "pages/feedback/feedback",
     "examples/changePwd/changePwd",
     "components/activityCharts/hot",
-    "pages/monitor/monitor"
+    "pages/monitor/monitor",
+    "pages/announcementContent/announcementContent",
+    "pages/releaseSubject/releaseSubject"
   ],
   "window": {
     "backgroundTextStyle": "light",
