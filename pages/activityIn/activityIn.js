@@ -1,5 +1,6 @@
 // location_check_in/location_check_in.js
 const util = require('../../utils/_util')
+const utilSign = require('../../utils/util')
 const app = getApp()
 const urlList = require("../../utils/api.js");  // 根据实际项目自己配置
 var intTime;
@@ -51,22 +52,90 @@ App.Page({
     minute: 0,
     second: 0,
     timecount: '00:00:00',
-    clickStatus: 0,
+    clickStatus: null,
     points: [],
     pointsDest: [],
     polyline: [],
     circles: [],
-    distance: null
+    distance: 0,
+    signInTime: "",
+    signBackTime: ""
+  },
+  // 获取个人活动更新签到状态
+  getProfileActivity() {
+    const that = this
+    const stuNum = wx.getStorageSync('stuNum')
+    const profileActivityId = wx.getStorageSync('profileActivityId')
+    wx.cloud.callFunction({
+      name: 'getProfileActivity',
+      data: {
+        stuNum
+      }
+    }).then(res => {
+      // console.log(res,'个人活动')
+      const {activity} = res.result.data[0]
+      const myactivity = activity.find(item => item._id === profileActivityId)
+      // console.log(myactivity,'个人活动')
+      const {status} = myactivity
+      if(status === "签到"){
+        that.setData({
+          clickStatus: 0
+        })
+      }else if(status === "签退"){
+        that.setData({
+          clickStatus: 1
+        })
+      }else if(status === "活动结束"){
+        that.setData({
+          clickStatus: -1
+        })
+      }
+    })
+  },
+  // 获取签到的活动
+  getActivity() {
+    const profileActivityId = wx.getStorageSync('profileActivityId')
+    // const index = Number(profileActivityId)
+    let { activities } = app.store.getState();
+    // console.log(activities)
+    const activity = activities.find(item => item._id === profileActivityId)
+    return activity
+    // console.log(activity,'活动')
+  },
+  // 获取签到信息
+  getActivitySign() {
+    const activity = this.getActivity()
+    const signInTime = utilSign.formatTime(new Date(activity.signInTime))
+    const signBackTime = utilSign.formatTime(new Date(activity.signBackTime))
+    // console.log(deadline,'截止时间')
+    this.setData({
+      signInTime,
+      signBackTime
+    })
   },
   addActivityIn(poi) {
     const site = wx.getStorageSync('site')
     // const {latitude,longitude} = wx.getStorageSync('Mypoints')
     const _id = wx.getStorageSync('profileActivityId')
     const name = wx.getStorageSync('name')
+    const stuNum = wx.getStorageSync('stuNum')
     wx.cloud.callFunction({
       name: "addActivityIn",
       data: {
-        stuName:name,activityId: _id,site,location: poi
+        stuName:name,activityId: _id,site,location: poi,stuNum
+      }
+    })
+  },
+  updateActivityIn(poi) {
+    const site = wx.getStorageSync('site')
+    // const {latitude,longitude} = wx.getStorageSync('Mypoints')
+    const _id = wx.getStorageSync('profileActivityId')
+    const name = wx.getStorageSync('name')
+    const stuNum = wx.getStorageSync('stuNum')
+    wx.cloud.callFunction({
+      name: 'updateActivityIn',
+      data: {
+        stuNum,activityId: _id,location: poi
       }
     })
   },
@@ -110,7 +179,8 @@ App.Page({
           longitude: res.location.lng
         });
         that.getRoute(points[points.length-1])
-        that.addActivityIn(points[points.length-1])
+        // that.addActivityIn(points[points.length-1])
+        that.updateActivityIn(points[points.length-1])  //更新地理位置
         wx.setStorageSync('Mypoints', points[points.length-1])
         that.setData({ // 设置markers属性和地图位置poi，将结果在地图展示
           markers,
@@ -314,7 +384,7 @@ App.Page({
       const profileActivityId = wx.getStorageSync('profileActivityId')
       // const index = Number(profileActivityId)
       let { activities } = app.store.getState();
-      console.log(activities)
+      // console.log(activities)
       const activity = activities.find(item => item._id === profileActivityId)
       let { activityInStatus } = activity
       resolve(activityInStatus)
@@ -363,7 +433,7 @@ App.Page({
         success (res) {
           if (res.confirm) {
             console.log('用户点击确定')
-            // that.addActivityIn()
+            that.addActivityIn({latitude:26.657949,longitude:119.591517}) //添加默认的签到表
             wx.showToast({
               title: '签到成功'
             }).then(()=> {
@@ -613,6 +683,7 @@ App.Page({
     console.log(e,'经纬度')
   },
   onLoad: function (options) {
+    this.getProfileActivity() //更新签到状态
     var that = this
     clearInterval(addTime) //清除后台定时器
     that.getAddress()
@@ -684,6 +755,8 @@ App.Page({
 
   },
   onShow(){
+    // this.getActivity()
+    this.getActivitySign()
   },
   onReady(){
     // this.getRoute()
@@ -720,8 +793,8 @@ App.Page({
         })
       }
     })
-    // wx.stopLocationUpdate({success: (res) => {}})
-    // // 取消监听实时地理位置变化事件
-    // wx.offLocationChange((result) => {})
+    wx.stopLocationUpdate({success: (res) => {}})
+    // 取消监听实时地理位置变化事件
+    wx.offLocationChange((result) => {})
   }
 })

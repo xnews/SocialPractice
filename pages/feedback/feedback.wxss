@@ -19,7 +19,7 @@ page {
 }
 .fb_main .fb_content {
   background-color: #fff;
-  margin-top: 30rpx;
+  margin-top: 10rpx;
 }
 .fb_main .fb_content textarea {
   padding: 10rpx;

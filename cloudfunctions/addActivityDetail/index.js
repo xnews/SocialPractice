@@ -16,7 +16,10 @@ exports.main = async (event, context) => {
       teacher: event.teacher,
       time: event.time,
       type: event.type,
-      particular: {apply:0,signIn:0,signBack:0}
+      particular: {apply:0,signIn:0,signBack:0},
+      limitNum: event.limitNum,
+      signInTime: event.signInTime,
+      signBackTime: event.signBackTime
     }
   })
 }

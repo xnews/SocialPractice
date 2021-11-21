@@ -13,7 +13,8 @@ exports.main = async (event, context) => {
         name: event.stuName,
         activityId: event.activityId,
         site: event.site,
-        location: event.location
+        location: event.location,
+        stuNum: event.stuNum
       }
     })
   } catch (error) {

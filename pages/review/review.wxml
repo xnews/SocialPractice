@@ -117,6 +117,30 @@
             <view class="chooseadviser">{{adviserArray[index]}}</view>
           </picker>
         </view>
+        <view class="origaniseItem">
+          <text>限制人数</text>
+          <input name="limitNum" value="{{inputValue}}" type="text"/>
+        </view>
+        <view class="origaniseItemTime">
+          <text>签到时间</text>
+          <picker name="acindate" mode="date" bindchange="chooseAcinDate">
+            <view class="choosedate">{{acindateValue}}</view>
+          </picker>
+          <text>-</text>
+          <picker name="acintime" mode="time" bindchange="chooseAcinTime">
+            <view class="choosetime">{{acintimeValue}}</view>
+          </picker>
+        </view>
+        <view class="origaniseItemTime">
+          <text>签退时间</text>
+          <picker name="acoutdate" mode="date" bindchange="chooseAcoutDate">
+            <view class="choosedate">{{acoutdateValue}}</view>
+          </picker>
+          <text>-</text>
+          <picker name="acouttime" mode="time" bindchange="chooseAcoutTime">
+            <view class="choosetime">{{acouttimeValue}}</view>
+          </picker>
+        </view>
         <view class="organiseBtn">
           <button size="mini" form-type="submit" style="width: 210rpx;height: 80rpx;">发布</button>
           <button size="mini" form-type="reset" catchtap="emptyFormInfo" style="width: 210rpx;height: 80rpx;">清空</button>
@@ -136,7 +160,7 @@
         <text>活动时间：{{activityTime}}</text>
       </view>
     </view>
-    <view class="chartContainer" style="width:100%;height:1200rpx;">
+    <view class="chartContainer" style="width:100%;height:1200rpx;margin-top:120rpx;">
       <activityHot chartId="activityProcess" option="{{ optionProcess }}"></activityHot>
     </view>
     <view class="chartContainer" style="width:100%;height:1200rpx;">
@@ -193,6 +217,34 @@
   </block>
       <!-- 意见反馈 -->
   <block wx:elif="{{indexNav===6}}">
-    <view>意见反馈</view>
+    <view class="feedbackContainer">
+      <view class="feedbackItem" wx:for="{{feedBackList}}" wx:key="_id">
+        <view class="feedbackcontent">
+        <text>类型：{{item.type}}</text>
+        </view>
+        <view class="feedbackcontent">
+          <text>活动名称：{{item.activityName}}</text>
+        </view>
+        <view class="feedbackcontent">
+          <text>投诉内容：{{item.content}}</text>
+        </view>
+        <view class="feedbackimg">
+          <view style="font-size:38rpx">投诉图片：</view>
+          <block wx:for="{{item.images}}" wx:key="*this" wx:for-item="imgItem">
+            <image bindtap="previewImg" data-url="{{imgItem}}" src="{{imgItem}}"></image>
+          </block>
+        </view>
+        <view class="feedbackfooter">
+          <block wx:for="{{stuInfoList}}" wx:key="*this">
+            <text>投诉人：{{item.name}}</text>
+            <text>联系方式：{{item.contact}}</text>
+          </block>
+          <text>投诉时间：{{item.time}}</text>
+        </view>
+        <view>
+          <button size="mini" catchtap="deleteFeedBack" data-id="{{item._id}}" class="deleteFeedBack" style="width: 130rpx;height: 60rpx;font-size: 30rpx;line-height:60rpx;text-align:center">删除</button>
+        </view>
+      </view>
+    </view>
   </block>
 </view>

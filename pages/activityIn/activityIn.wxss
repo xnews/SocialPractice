@@ -67,6 +67,7 @@ Page{
 	border-radius: 10rpx;
   
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
 }
@@ -75,7 +76,7 @@ Page{
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: 80rpx;
+  margin-top: 200rpx;
 }
 .positonTextRow .positionIcon{
   width: 20rpx;
@@ -88,7 +89,20 @@ Page{
 	line-height: 29rpx;
 	color: #9c9c9c;
 }
-
+.signInTime{
+  font-family: FZLTZHK--GBK1-0;
+	font-size: 30rpx;
+  color: #9c9c9c;
+  margin-top: 20rpx;
+  /* margin-left: -220rpx; */
+}
+.signBackTime{
+  font-family: FZLTZHK--GBK1-0;
+	font-size: 30rpx;
+  color: #9c9c9c;
+  margin-top: 10rpx;
+  /* margin-left: -220rpx; */
+}
 .rePosition{
 	width: 130rpx;
 	height: 35rpx;

@@ -9,7 +9,11 @@ exports.main = async (event, context) => {
   return await db.collection('feedback').add({
     data: {
       content: event.content,
-      images: event.images
+      images: event.images,
+      activityName: event.activityName,
+      type: event.type,
+      stuNum: event.stuNum,
+      time: event.time
     }
   })
 }

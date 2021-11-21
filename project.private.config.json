@@ -163,7 +163,7 @@
           "scene": null
         },
         {
-          "name": "教师审核",
+          "name": "管理员审核",
           "pathName": "pages/review/review",
           "query": "",
           "scene": null
@@ -201,6 +201,7 @@
         {
           "name": "话题发布",
           "pathName": "pages/releaseSubject/releaseSubject",
+          "query": "",
           "scene": null
         }
       ]

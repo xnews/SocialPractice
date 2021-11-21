@@ -26,7 +26,7 @@ Page({
         data[0].activity[i].time = util.formatTime(new Date(data[0].activity[i].time))
         data[0].activity[i].deadline = util.formatTime(new Date(data[0].activity[i].deadline))
       } 
-      console.log(data)
+      // console.log(data)
       this.setData({
         data
       })

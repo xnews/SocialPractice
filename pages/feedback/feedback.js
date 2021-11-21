@@ -17,17 +17,23 @@ Page({
     chooseImgs: [],
     // 文本域的内容
     textVal: "",
+    tabIndex: 0,
+    inputValue: ""
   },
   upLoadImages:[], //定义上传图片数组
   handleTabsItemChange(e) {
     // 1 获取被点击的标题索引
     const { index } = e.detail;
+    // console.log(index,'索引')
     // 2 修改源数组
     let { tabs } = this.data;
+    console.log(tabs,'66')
+    wx.setStorageSync('feedbackType', tabs[index].value)
     tabs.forEach((v, i) => i === index ? v.isActive = true : v.isActive = false);
     // 3 赋值到data中
     this.setData({
-      tabs
+      tabs,
+      tabIndex:index
     })
   },
   // 点击 “+” 选择图片
@@ -68,10 +74,18 @@ Page({
       textVal: e.detail.value
     })
   },
+  // 活动名称输入的事件
+  handlenameInput(e) {
+    this.setData({
+      inputValue: e.detail.value
+    })
+  },
   // 提交按钮的点击
   handleFormSubmit() {
     // 1 获取文本域的内容 图片数组
-    const { textVal, chooseImgs } = this.data;
+    const { textVal, chooseImgs,inputValue } = this.data;
+    const feedbackType = wx.getStorageSync('feedbackType')
+    const stuNum = wx.getStorageSync('stuNum')
     // 2 合法性的验证
     if (!textVal.trim()) {
       // 不合法
@@ -113,7 +127,8 @@ Page({
                 // 重置页面
                 this.setData({
                   textVal: "",
-                  chooseImgs: []
+                  chooseImgs: [],
+                  inputValue: ""
                 })
               }
             }
@@ -125,19 +140,54 @@ Page({
             name: 'addFeedback',
             data: {
               content: textVal,
-              images: res
+              images: res,
+              activityName: inputValue,
+              type: feedbackType,
+              stuNum,
+              time: new Date()
             }
           }).then(res =>{
             console.log(res)
           })
       })
     }else{
+      // console.log("只是提交了文本");
+      wx.cloud.callFunction({
+        name: 'addFeedback',
+        data: {
+          content: textVal,
+          images: [],
+          activityName: inputValue,
+          type: feedbackType,
+          stuNum,
+          time: new Date()
+        }
+      }).then(res =>{
+        console.log(res)
+        wx.showToast({
+          title: '提交成功',
+          icon: 'success'
+        })
+      })
       wx.hideLoading();
-      console.log("只是提交了文本");
       this.setData({
         textVal: "",
-        chooseImgs: []
+        chooseImgs: [],
+        inputValue: ""
       })
     }
+  },
+  funcProblem() {
+    // console.log(e)
+    wx.setStorageSync('feedbackType','功能建议')
+  },
+  actProblem() {
+    wx.setStorageSync('feedbackType','活动问题')
+  },
+  perProblem() {
+    wx.setStorageSync('feedbackType','性能问题')
+  },
+  otherProblem() {
+    wx.setStorageSync('feedbackType','其他问题')
   }
 })

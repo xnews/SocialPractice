@@ -30,7 +30,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-    activityNav:["活动审核","投稿审核","活动发布","活动分析","活动监控","公告发布","意见反馈"],
+    activityNav:["活动审核","投稿审核","活动发布","活动分析","活动监控","公告发布","意见箱"],
     indexNav: 0,
     reviewInfo: [],
     filePath: "",
@@ -80,6 +80,10 @@ Page({
     registratimeValue: "选择时间",
     deadlinedateValue: "选择日期",
     deadlinetimeValue: "选择时间",
+    acindateValue: "选择日期",
+    acintimeValue: "选择时间",
+    acoutdateValue: "选择日期",
+    acouttimeValue: "选择时间",
     inputValue: "",
     activityName: "",
     activityTime: "",
@@ -105,7 +109,10 @@ Page({
     adviserArray: [],
     index: null,
     height:"",
-    distance: ""
+    distance: "",
+    feedBackList: [],
+    stuInfoList: [],
+    imgList: []
   },
   onLoad() {
     // this.getData()
@@ -186,6 +193,8 @@ Page({
       // });
     }else if(index===3) {
       this.getData()
+    }else if(index===6) {
+      this.getFeedBackInfo()
     }
     this.setData({
       indexNav: index
@@ -604,6 +613,9 @@ Page({
     const site = acReleaseInfo.place
     const teacher = acReleaseInfo.adviser
     const time = new Date(acReleaseInfo.registradate+" "+acReleaseInfo.registratime)
+    const limitNum = parseInt(acReleaseInfo.limitNum)
+    const signInTime = new Date(acReleaseInfo.acindate+" "+acReleaseInfo.acintime)
+    const signBackTime = new Date(acReleaseInfo.acoutdate+" "+acReleaseInfo.acouttime)
     wx.showModal({
       content: '是否确认发布',
       success (res) {
@@ -612,8 +624,18 @@ Page({
           wx.cloud.callFunction({
             name: 'addActivityDetail',
             data: {
-              activityName,certification,deadline,heat,manager,site,teacher,time,type
+              activityName,certification,deadline,heat,manager,site,teacher,time,type,limitNum,signInTime,signBackTime
             }
+          }).then(res =>{
+            wx.showToast({
+              title: '发布成功',
+              icon: 'success'
+            })
+          }).catch(() =>{
+            wx.showToast({
+              title: '发布失败',
+              icon: 'error'
+            })
           })
           that.setData({
             inputValue: "",
@@ -621,6 +643,10 @@ Page({
             registratimeValue: "选择时间",
             deadlinedateValue: "选择日期",
             deadlinetimeValue: "选择时间",
+            acindateValue: "选择日期",
+            acintimeValue: "选择时间",
+            acoutdateValue: "选择日期",
+            acouttimeValue: "选择时间",
             index: null
           })
         } else if (res.cancel) {
@@ -655,6 +681,34 @@ Page({
       const {value} = e.detail
       this.setData({
         deadlinetimeValue: value
+      })
+    },
+    // 选择签到日期事件
+    chooseAcinDate(e) {
+      const {value} = e.detail
+      this.setData({
+        acindateValue: value
+      })
+    },
+    // 选择签到时间
+    chooseAcinTime(e) {
+      const {value} = e.detail
+      this.setData({
+        acintimeValue: value
+      })
+    },
+    // 选择签退日期事件
+    chooseAcoutDate(e) {
+      const {value} = e.detail
+      this.setData({
+        acoutdateValue: value
+      })
+    },
+    // 选择签退时间
+    chooseAcoutTime(e) {
+      const {value} = e.detail
+      this.setData({
+        acouttimeValue: value
       })
     },
   // 清空表单信息
@@ -941,6 +995,81 @@ Page({
           registradateValue: "选择日期"
         })
       })
+    })
+  },
+  // 获取意见反馈信息
+  getFeedBackInfo() {
+    const stuNameList = []
+    const contactList = []
+    const that = this
+    wx.showLoading({
+      title: ''
+    })
+    wx.cloud.callFunction({
+      name: 'getFeedBackInfo'
+    }).then(res =>{
+      // console.log(res,'意见')
+      const feedBackList = res.result.data
+      for(let i of feedBackList) {
+        i.time = util.formatTime(new Date(i.time))
+      }
+      for(let i of feedBackList) {
+        wx.cloud.callFunction({
+          name: 'getStuInfo',
+          data: {
+            stuNum: i.stuNum
+          }
+        }).then(res =>{
+          const stuInfoList = res.result.data
+          that.setData({
+            stuInfoList
+          })
+        })
+      }
+      this.setData({
+        feedBackList
+      })
+      wx.hideLoading()
+    })
+  },
+  // 预览意见反馈图片
+  previewImg(e) {
+    const currentUrl = e.currentTarget.dataset.url
+    // console.log(currentUrl)
+    let imgList = this.data.imgList
+    imgList.push(currentUrl)
+    wx.previewImage({
+      current: currentUrl, // 当前显示图片的http链接
+      urls: imgList // 需要预览的图片http链接列表
+    }).then(res=>{
+      console.log('图片预览成功')
+    })
+  },
+  deleteFeedBack(e) {
+    const id = e.currentTarget.dataset.id
+    console.log(id)
+    wx.showModal({
+      content: '请确认是否删除 ？',
+      success (res) {
+        if(res.confirm) {
+          wx.cloud.callFunction({
+            name: 'removeFeedBack',
+            data: {
+              id
+            }
+          }).then(res =>{
+            wx.showToast({
+              title: '删除成功',
+              icon: 'success'
+            })
+          }).catch(() =>{
+            wx.showToast({
+              title: '删除失败',
+              icon: 'error'
+            })
+          })
+        }
+      }
     })
   }
 })

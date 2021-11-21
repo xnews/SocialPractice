@@ -21,6 +21,8 @@
 				<image class="positionIcon" src="../../images/hdqd/positionIcon.png"></image>
 				<view class="positionFont">{{addressName}}</view>
 			</view>
+			<view class="signInTime">签到时间：{{signInTime}}</view>
+			<view class="signBackTime">签退截止：{{signBackTime}}</view>
 		</view>
 		<view class="rePosition" bindtap="rePosition">
 			<image class="positionIcon" src="../../images/hdqd/rePosition.png"></image>

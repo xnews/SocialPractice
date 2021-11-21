@@ -1,11 +1,22 @@
 <Tabs tabs="{{tabs}}" bindtabsItemChange="handleTabsItemChange" >
   <view class="fb_main">
-    <view class="fb_title">问题的种类</view>
-    <view class="fb_tips">
-      <text>功能建议</text>
-      <text>活动问题</text>
-      <text>性能问题</text>
-      <text>其他</text>
+    <block wx:if="{{tabIndex === 0}}">
+      <view class="fb_title">问题的种类</view>
+      <view class="fb_tips">
+        <text catchtap="funcProblem">功能建议</text>
+        <text catchtap="actProblem">活动问题</text>
+        <text catchtap="perProblem">性能问题</text>
+        <text catchtap="otherProblem">其他</text>
+      </view>
+    </block>
+    <block  wx:elif="{{tabIndex}} === 1">
+      <view catchtap="comProblem">
+        <text>请输入活动名称：</text>
+        <input value="{{inputValue}}" bindinput="handlenameInput" style="border:1rpx solid #ccc;border-radius:10rpx;height:80rpx;background-color:#fff;" type="text" />
+      </view>
+    </block>
+    <view style="margin-top:20rpx;">
+      <text>详细描述：</text>
     </view>
     <view class="fb_content">
       <textarea value="{{textVal}}" bindinput="handleTextInput" placeholder="请描述一下您的问题"> </textarea>
