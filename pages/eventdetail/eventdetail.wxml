@@ -26,7 +26,7 @@
       </view>
       <view class="edetail_item">
         <text class="iconfont icon-shijian icon5"></text>
-        <text>活动时间:</text>
+        <text>报名时间:</text>
         <text>{{activities.time}}</text>
       </view>
       <view class="edetail_item">
@@ -82,6 +82,9 @@
     </block>
     <block wx:elif="{{registrationTips===-1}}">
       <button type="primary" catchtap="handleapply" disabled="true" style="width: 280rpx;height: 80rpx;background-color: var(--themeColor); color: #fff;">报名截止</button>
+    </block>
+    <block wx:elif="{{registrationTips===-2}}">
+      <button type="primary" catchtap="handleapply" disabled="true" style="width: 280rpx;height: 80rpx;background-color: var(--themeColor); color: #fff;font-size:35rpx;">未开放报名</button>
     </block>
 
 

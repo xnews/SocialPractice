@@ -23,13 +23,15 @@ App.Page({
     let { registrationTips, isClickreRistra, activities, activityIndex } = app.store.getState();
     let _activities = activities.find(item => item._id === activityId)
     const deadline = new Date(_activities.deadline).getTime()
+    const applytime = new Date(_activities.time).getTime()
     const newTime = new Date().getTime()
     // 判断是否截止报名
     if(newTime>deadline){
       console.log('true')
       _activities.registrationTips = -1
-    }else{
+    }else if(newTime < applytime){
       console.log('false')
+      _activities.registrationTips = -2
     }
     _activities.time = util.formatTime(new Date(_activities.time))
     _activities.deadline = util.formatTime(new Date(_activities.deadline))

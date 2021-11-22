@@ -61,8 +61,44 @@ App.Page({
     signInTime: "",
     signBackTime: ""
   },
+  // 个人签到信息
+  // getProfileActivityIn() {
+  //   const that = this
+  //   const stuNum = wx.getStorageSync('stuNum')
+  //   return new Promise((resolve,reject)=> {
+  //     const profileActivityId = wx.getStorageSync('profileActivityId')
+  //     wx.cloud.callFunction({
+  //       name: 'getActivityDetail',
+  //       data: {
+  //         id:profileActivityId
+  //       }
+  //     }).then(res => {
+  //       const {signInTime,signBackTime} = res.result.data[0]
+  //       resolve(signInTime)
+  //       reject(signBackTime)
+  //     })
+  //   })
+  // },
+  // 添加签到人数
+  addSignInNum (profileActivityId) {
+    wx.cloud.callFunction({
+      name: 'updateSignIn',
+      data: {
+        _id: profileActivityId
+      }
+    })
+  },
+  // 添加签退人数
+  addSignBackNum(profileActivityId) {
+    wx.cloud.callFunction({
+      name: 'updateSignBackNum',
+      data: {
+        _id: profileActivityId
+      }
+    })
+  },
   // 获取个人活动更新签到状态
-  getProfileActivity() {
+  getProfileActivityStatus() {
     const that = this
     const stuNum = wx.getStorageSync('stuNum')
     const profileActivityId = wx.getStorageSync('profileActivityId')
@@ -416,9 +452,18 @@ App.Page({
     var that = this
     var nowTime = util.formatTime(new Date())
     const timeout = this.data.timecount
+    const profileActivityId = wx.getStorageSync('profileActivityId')
     this.calcDistance()
     console.log(this.data.distance,'距离')
-    if(this.data.distance>100){
+    this.getActivitySign()
+    const signInTime = new Date(this.data.signInTime).getTime()
+    const signBackTime = new Date(this.data.signBackTime).getTime()
+    if(new Date().getTime()<signInTime) {
+      wx.showToast({
+        title: '活动未开始',
+        icon: 'error'
+      })
+    }else if(this.data.distance>100){
       wx.showToast({
         title: '超出签到范围',
         icon: 'error'
@@ -439,6 +484,7 @@ App.Page({
             }).then(()=> {
               that.start()
               that.updateProfileActivityStatus('签退')
+              that.addSignInNum(profileActivityId) //添加签到人数
             })
             // wx.setStorageSync('clickStatus', 1)
             that.updateAcitvityInStatus(1)
@@ -464,8 +510,11 @@ App.Page({
     // console.log('用户点击了签签退')
     const {_id,site} = wx.getStorageSync('activities')[0]
     const stuNum = wx.getStorageSync('stuNum')
+    const profileActivityId = wx.getStorageSync('profileActivityId')
     let that = this
     that.stop()
+    this.getActivitySign()
+    const signBackTime = new Date(this.data.signBackTime).getTime()
     wx.showModal({
       title: '请确认签退信息',
       content: `实践时长: ${this.data.timecount}`,
@@ -475,32 +524,56 @@ App.Page({
           // console.log('用户确定签退')
           console.log(that.data.timecount,'that.data.timecount')
           // wx.setStorageSync('practiceTime', that.data.timecount)
-         const practice_time = that.transformTime(that.data.timecount)
-          wx.cloud.callFunction({
-            name: 'UpdatePracticeTime',
-            data: {
-              stuNum: stuNum,
-              practice_time
-            }
-          }).then(res =>{
-            console.log('添加时长成功')
-          }).catch(err =>{
-            console.log(err)
-          })
-          that.Reset()
-          that.updateProfileActivityStatus('活动结束')
-          // wx.setStorageSync('clickStatus', -1)
-          that.updateAcitvityInStatus(-1)
-          that.setData({
-            canClick: false
-          })
+          const practice_time = that.transformTime(that.data.timecount)
+          if(practice_time<3600) {
+            wx.showModal({
+              title: '提示',
+              content: '实践时长不少于1小时',
+              confirmText: '确认',
+            })
+          }else if(new Date().getTime() > signBackTime) {
+            wx.showToast({
+              title: '超时签退失败',
+              icon: 'error'
+            }).then(() => {
+              that.updateProfileActivityStatus('活动结束')
+              that.updateAcitvityInStatus(-1)
+              that.Reset()
+              that.setData({
+                canClick: false
+              })
+            })
+          } else{
+            wx.cloud.callFunction({
+              name: 'UpdatePracticeTime',
+              data: {
+                stuNum: stuNum,
+                practice_time
+              }
+            }).then(res =>{
+              console.log('添加时长成功')
+              wx.showToast({
+                title: '签退成功',
+                icon: 'success'
+              })
+            }).catch(err =>{
+              console.log(err)
+            })
+            that.addSignBackNum(profileActivityId) //添加签退人数
+            that.Reset()
+            that.updateProfileActivityStatus('活动结束')
+            // wx.setStorageSync('clickStatus', -1)
+            that.updateAcitvityInStatus(-1)
+            that.setData({
+              canClick: false
+            })
+          }
         }else if(res.cancel) {
           // console.log('用户取消签退')
           that.Restart()
         }
       }
     })
-
   },
 
   // realyCheckIn: function() { 
@@ -683,7 +756,7 @@ App.Page({
     console.log(e,'经纬度')
   },
   onLoad: function (options) {
-    this.getProfileActivity() //更新签到状态
+    this.getProfileActivityStatus() //更新签到状态
     var that = this
     clearInterval(addTime) //清除后台定时器
     that.getAddress()
