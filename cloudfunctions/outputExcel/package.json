@@ -1,19 +1,14 @@
 {
-  "name": "socialpractice",
+  "name": "outputExcel",
   "version": "1.0.0",
   "description": "",
-  "main": "app.js",
-  "directories": {
-    "example": "examples",
-    "lib": "lib"
-  },
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "node-xlsx": "^0.17.2",
-    "wxministore": "^1.3.1"
+    "wx-server-sdk": "~2.5.3"
   }
 }

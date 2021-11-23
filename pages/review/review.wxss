@@ -134,7 +134,7 @@
 .itemHead{
   margin-top: 30rpx;
 }
-.origaniseItem,.origaniseItemTime,.origaniseItemType,.origaniseTeamNum{
+.origaniseItem,.origaniseItemTime,.origaniseItemType,.origaniseTeamNum,.choosePracItem{
   display: flex;
   margin: 20rpx 30rpx;
   justify-content: center;
@@ -231,7 +231,7 @@
   z-index: 100;
   background-color: rgb(255,255,255,.1);
 }
-.chooseadviser,.chooseannouncementdate {
+.chooseadviser,.chooseannouncementdate,.choosepracticeDesc {
   border: 1rpx solid #cccccc;
   border-radius: 10rpx;
   line-height: 80rpx;
@@ -289,6 +289,12 @@
   position: absolute;
   right: 20rpx;
   bottom: 20rpx;
+}
+.practiceDescContainer{
+  padding: 20rpx 10rpx;
+}
+.choosePracItem text{
+  margin-right: 40rpx;
 }
 
 

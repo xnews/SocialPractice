@@ -30,7 +30,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-    activityNav:["活动审核","投稿审核","活动发布","活动分析","活动监控","公告发布","意见箱"],
+    activityNav:["活动审核","投稿审核","活动发布","活动分析","活动监控","公告发布","意见箱","实践详情"],
     indexNav: 0,
     reviewInfo: [],
     filePath: "",
@@ -84,6 +84,7 @@ Page({
     acintimeValue: "选择时间",
     acoutdateValue: "选择日期",
     acouttimeValue: "选择时间",
+    practiceValue: "请选择",
     inputValue: "",
     activityName: "",
     activityTime: "",
@@ -1045,6 +1046,7 @@ Page({
       console.log('图片预览成功')
     })
   },
+  // 删除意见信息
   deleteFeedBack(e) {
     const id = e.currentTarget.dataset.id
     console.log(id)
@@ -1071,5 +1073,51 @@ Page({
         }
       }
     })
+  },
+  // 导出Excel
+  outputExcel() {
+    const data = [{stuNum:'20180304101',name:'张三',professial:'计算机科学与技术',practiceTime:1000000,rank:1}]
+    wx.showModal({
+      content: '请确认是否导出Excel ？',
+      success(res) {
+        if(res.confirm) {
+          wx.cloud.callFunction({
+            name: 'outputExcel',
+            data:{
+              tabledata: data
+            }
+          }).then(res =>{
+            console.log(res,'excel')
+            wx.showToast({
+              title: '导出成功',
+              icon: 'success'
+            })
+          })
+        }
+      }
+    })
+    let practiceInfo = data
+    // console.log(practiceInfo);
+    let dataCVS = `practiceInfo-${Math.floor(Math.random()*1000000000)}.xlsx`
+    //声明一个Excel表，表的名字用随机数产生
+    let alldata = [];
+    let row = ['学号', '姓名','专业','实践时长','排名']; //表格的属性，也就是表头说明对象
+    alldata.push(row);  //将此行数据添加到一个向表格中存数据的数组中
+//接下来是通过循环将数据存到向表格中存数据的数组中
+    for (let key = 0; key<practiceInfo.length; key++) {
+        let arr = [];
+        arr.push(practiceInfo[key].stuNum);
+        arr.push(practiceInfo[key].name);
+        arr.push(practiceInfo[key].professial);
+        arr.push(practiceInfo[key].practiceTime);
+        arr.push(practiceInfo[key].rank);
+        alldata.push(arr)
+     }
+     console.log(alldata,'数据')
+        // var buffer = xlsx.build([{   
+        // name: "mySheetName",
+        // data: alldata
+        // }]); 
+      // console.log(buffer,'表格')
   }
 })

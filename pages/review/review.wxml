@@ -247,4 +247,34 @@
       </view>
     </view>
   </block>
+
+  <!-- 实践详情 -->
+  <block wx:elif="{{indexNav===7}}">
+    <form bindsubmit="pracDescSubmit">
+      <view class="practiceDescContainer">
+        <view class="choosePracItem">
+          <text>院系</text>
+          <picker name="departments" mode="selector" range="departments" value="practiceValue">
+            <view class="choosepracticeDesc">{{practiceValue}}</view>
+          </picker>
+        </view>
+        <view class="choosePracItem">
+          <text>年级</text>
+          <picker name="grade" mode="selector" range="grade" value="practiceValue">
+            <view class="choosepracticeDesc">{{practiceValue}}</view>
+          </picker>
+        </view>
+        <view class="choosePracItem">
+          <text>专业</text>
+          <picker name="professional" mode="selector" range="professional" value="practiceValue">
+            <view class="choosepracticeDesc">{{practiceValue}}</view>
+          </picker>
+        </view>
+        <view class="organiseBtn">
+          <button size="mini" form-type="submit" style="width: 210rpx;height: 80rpx;font-size:34rpx;line-height:80rpx;">导入Excel</button>
+          <button size="mini" form-type="submit" catchtap="outputExcel" style="width: 210rpx;height: 80rpx;background-color:#0066ff;color:#fff;font-size:34rpx;line-height:80rpx;">导出Excel</button>
+        </view>
+      </view>
+    </form>
+  </block>
 </view>

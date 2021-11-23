@@ -82,6 +82,17 @@ App.Page({
       }
     })
   },  
+  // 更新报名人数
+  updateApplyNum(applyNum) {
+    const activityId = wx.getStorageSync('activityId')
+    wx.cloud.callFunction({
+      name: 'updateApplyNum',
+      data: {
+        _id: activityId,
+        applyNum
+      }
+    })
+  },
   // 处理截止报名
   deadlineApply(activityId){
     let { registrationTips, isClickreRistra, activities } = app.store.getState();
@@ -108,6 +119,7 @@ App.Page({
       icon:'success'
       })
       this.onLoad()
+      this.updateApplyNum(1)
       // 添加我的活动信息
       wx.cloud.callFunction({
         name: 'updateProfileActivity',
@@ -131,6 +143,7 @@ App.Page({
         icon:'success'
         })
       this.onLoad()
+      this.updateApplyNum(-1)
       wx.cloud.callFunction({
         name: 'removeProfileActivity',
         data: {
