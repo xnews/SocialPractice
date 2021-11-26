@@ -116,6 +116,7 @@ Page({
     imgList: []
   },
   onLoad() {
+    this.showReviewOrganiseInfo()
     // this.getData()
     var _this = this;
     // this.getData()
@@ -256,46 +257,22 @@ Page({
     const that = this
     const index = e.currentTarget.dataset.index
     try {
-      this.getReviewOrganiseInfo().then(res =>{
-        const reviewInfo = res
-        const data = res[index]
-        const activityName = data.activityName
-        const adviser = data.adviser
-        const noteInfo = data.noteInfo
-        const number = data.number
-        const place = data.place
-        const principal = data.principal
-        const teamName = data.teamName
-        const time = data.time
-        const type = data.type
-        const uploadFile = data.uploadFile
-        wx.showModal({
-          title: '提示',
-          content: '请确认通过',
-          success (res) {
-            if (res.confirm) {
-              wx.cloud.callFunction({
-                name: 'updateOrganiseStatus',
-                data: {
-                  activityName,adviser,noteInfo,number,place,principal,teamName,time,type,uploadFile,
-                  status: "已通过"
-                }
-              }).then(res =>{
-                console.log('更新成功')
-                // reviewInfo.splice(index,1)
-                // that.showReviewOrganiseInfo()
-                that.setData({
-                  passIndex: index
-                })
-              }).catch(err=>{
-                console.log('更新失败')
-              })
-            } else if (res.cancel) {
-              console.log('用户点击取消')
-            }
+      wx.showModal({
+        title: '提示',
+        content: '请确认通过',
+        success (res) {
+          if (res.confirm) {
+            // console.log('更新成功')
+            // reviewInfo.splice(index,1)
+            // that.showReviewOrganiseInfo()
+            that.setData({
+              passIndex: index
+            })
+          } else if (res.cancel) {
+            console.log('用户点击取消')
           }
-        })
-      })  
+        }
+      })
     } catch (error) {
       console.log(error)
     }
@@ -332,9 +309,12 @@ Page({
               }).then(res =>{
                 console.log('更新成功')
                 reviewInfo.splice(index,1)
+                that.setData({
+                  reviewInfo
+                })
                 that.showReviewOrganiseInfo()
               }).catch(err=>{
-                console.log('更新失败')
+                console.log(err,'更新失败')
               })
             } else if (res.cancel) {
               console.log('用户点击取消')
@@ -346,6 +326,32 @@ Page({
       console.log(error)
     }
    },
+  //  活动发布改变状态事件index
+  changeOrganiseRelease(res,index) {
+    const data = res[index]
+    const activityName = data.activityName
+    const adviser = data.adviser
+    const noteInfo = data.noteInfo
+    const number = data.number
+    const place = data.place
+    const principal = data.principal
+    const teamName = data.teamName
+    const time = data.time
+    const type = data.type
+    const uploadFile = data.uploadFile
+    wx.cloud.callFunction({
+      name: 'updateOrganiseStatus',
+      data: {
+        activityName,adviser,noteInfo,number,place,principal,teamName,time,type,uploadFile,
+        status: "已通过"
+      }
+    }).then(res =>{
+      console.log('更新成功')
+    }).catch(err=>{
+      console.log(err,'更新失败')
+    })
+  
+  },
   // 活动发布
   handleOrganiseRelease(e) {
     const that = this
@@ -358,6 +364,8 @@ Page({
           if (res.confirm) {
             console.log('用户确定发布')
             that.getReviewOrganiseInfo().then(res=>{
+              console.log(res,'6666666666')
+              that.changeOrganiseRelease(res,index)
               const reviewInfo = res
               const data = res[index]
               const activityName = data.activityName
@@ -391,12 +399,14 @@ Page({
                   icon: 'success'
                 })
               reviewInfo.splice(index,1)
-              that.showReviewOrganiseInfo()
+              that.setData({
+                reviewInfo,
+                passIndex: null
+              })
               }).catch(()=>{
                 console.log('添加失败')
               })
             })
-
           } else if (res.cancel) {
             console.log('用户取消发布')
           }
@@ -1076,6 +1086,7 @@ Page({
   },
   // 导出Excel
   outputExcel() {
+    const that = this
     const data = [{stuNum:'20180304101',name:'张三',professial:'计算机科学与技术',practiceTime:1000000,rank:1}]
     wx.showModal({
       content: '请确认是否导出Excel ？',
@@ -1083,41 +1094,38 @@ Page({
         if(res.confirm) {
           wx.cloud.callFunction({
             name: 'outputExcel',
-            data:{
-              tabledata: data
+            data: {
+              data
             }
           }).then(res =>{
-            console.log(res,'excel')
+            const fileID = res.result.fileID
+            that.downloadexcel(fileID)
             wx.showToast({
               title: '导出成功',
               icon: 'success'
             })
+          }).catch(err => {
+            console.log(err,'错误')
           })
         }
       }
     })
-    let practiceInfo = data
-    // console.log(practiceInfo);
-    let dataCVS = `practiceInfo-${Math.floor(Math.random()*1000000000)}.xlsx`
-    //声明一个Excel表，表的名字用随机数产生
-    let alldata = [];
-    let row = ['学号', '姓名','专业','实践时长','排名']; //表格的属性，也就是表头说明对象
-    alldata.push(row);  //将此行数据添加到一个向表格中存数据的数组中
-//接下来是通过循环将数据存到向表格中存数据的数组中
-    for (let key = 0; key<practiceInfo.length; key++) {
-        let arr = [];
-        arr.push(practiceInfo[key].stuNum);
-        arr.push(practiceInfo[key].name);
-        arr.push(practiceInfo[key].professial);
-        arr.push(practiceInfo[key].practiceTime);
-        arr.push(practiceInfo[key].rank);
-        alldata.push(arr)
-     }
-     console.log(alldata,'数据')
-        // var buffer = xlsx.build([{   
-        // name: "mySheetName",
-        // data: alldata
-        // }]); 
-      // console.log(buffer,'表格')
-  }
+  },
+  //下载excel
+  downloadexcel(fileID){
+    wx.cloud.downloadFile({
+      fileID,  // 填写云存储中的url
+      success: res => {
+        wx.openDocument({
+          filePath: res.tempFilePath ,
+          success: function (res){
+            console.log('打开文档成功')
+          }
+        })
+      },
+      fail: err => {
+        console.log('打开文档失败')
+      }
+    })
+    }
 })

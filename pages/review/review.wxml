@@ -218,6 +218,9 @@
       <!-- 意见反馈 -->
   <block wx:elif="{{indexNav===6}}">
     <view class="feedbackContainer">
+      <view>
+        <button  size="mini" class="batchExportFeedBack" style="width: 200rpx;height: 100rpx;font-size: 36rpx;line-height:100rpx;text-align:center">批量导出</button>
+      </view>
       <view class="feedbackItem" wx:for="{{feedBackList}}" wx:key="_id">
         <view class="feedbackcontent">
         <text>类型：{{item.type}}</text>

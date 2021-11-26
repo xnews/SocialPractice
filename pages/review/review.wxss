@@ -296,5 +296,17 @@
 .choosePracItem text{
   margin-right: 40rpx;
 }
+.batchExportFeedBack{
+  font-weight:400;
+  white-space:nowrap;
+  background-color: var(--themeColor);
+  /* margin-right: 20rpx; */
+  border: 1rpx solid #cccccc;
+  border-radius: 20rpx;
+  color: #fff;
+  position: absolute;
+  right: 20rpx;
+  top: 100rpx;
+}
 
 
