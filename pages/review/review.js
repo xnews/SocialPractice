@@ -30,7 +30,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-    activityNav:["活动审核","投稿审核","活动发布","活动分析","活动监控","公告发布","意见箱","实践详情"],
+    activityNav:["活动审核","投稿审核","活动发布","活动分析","活动监控","公告发布","意见箱","实践详情","单位添加"],
     indexNav: 0,
     reviewInfo: [],
     filePath: "",
@@ -84,7 +84,9 @@ Page({
     acintimeValue: "选择时间",
     acoutdateValue: "选择日期",
     acouttimeValue: "选择时间",
-    practiceValue: "请选择",
+    depValue: "请选择",
+    graValue: "请选择",
+    proValue: "请选择",
     inputValue: "",
     activityName: "",
     activityTime: "",
@@ -113,7 +115,13 @@ Page({
     distance: "",
     feedBackList: [],
     stuInfoList: [],
-    imgList: []
+    imgList: [],
+    depRange: [],
+    gradeRange: [],
+    proRange: [],
+    departmentsInfo: [],
+    professionalInfo: [],
+    practiceTimeList: []
   },
   onLoad() {
     this.showReviewOrganiseInfo()
@@ -197,6 +205,8 @@ Page({
       this.getData()
     }else if(index===6) {
       this.getFeedBackInfo()
+    }else if(index===7) {
+      this.getSchoolInfo()
     }
     this.setData({
       indexNav: index
@@ -1084,33 +1094,6 @@ Page({
       }
     })
   },
-  // 导出Excel
-  outputExcel() {
-    const that = this
-    const data = [{stuNum:'20180304101',name:'张三',professial:'计算机科学与技术',practiceTime:1000000,rank:1}]
-    wx.showModal({
-      content: '请确认是否导出Excel ？',
-      success(res) {
-        if(res.confirm) {
-          wx.cloud.callFunction({
-            name: 'outputExcel',
-            data: {
-              data
-            }
-          }).then(res =>{
-            const fileID = res.result.fileID
-            that.downloadexcel(fileID)
-            wx.showToast({
-              title: '导出成功',
-              icon: 'success'
-            })
-          }).catch(err => {
-            console.log(err,'错误')
-          })
-        }
-      }
-    })
-  },
   //下载excel
   downloadexcel(fileID){
     wx.cloud.downloadFile({
@@ -1127,5 +1110,149 @@ Page({
         console.log('打开文档失败')
       }
     })
+    },
+    // 获取学校信息
+  getSchoolInfo() {
+    wx.cloud.callFunction({
+      name: 'getSchoolInfo'
+    }).then(res =>{
+      console.log(res, '学校信息')
+      const {departments,grades,professional} = res.result.data[0]
+      const departmentsInfo = Object.assign({},departments)
+      const professionalInfo = Object.assign({},professional)
+      const depRange = []
+      const gradeRange= []
+      depRange.push(departments.arts,departments.economics,departments.electrical,departments.foreignLanguages,departments.lifeSciences,departments.marxism,departments.medicine,departments.music,departments.sportsInstitute)
+      // depRange.push(...departments)
+      gradeRange.push(...grades)
+      // proRange.push()
+      this.setData({
+        depRange,gradeRange,departmentsInfo,professionalInfo
+      })
+    })
+  },
+  // 选择院系
+  chooseDepValue(e) {
+    const {value} = e.detail
+    const departmentsInfo = this.data.departmentsInfo
+    const proValue = this.findkey(departmentsInfo, this.data.depRange[value])
+    const professionalInfo = this.data.professionalInfo
+    const professional = professionalInfo[proValue]
+    const proRange= []
+    proRange.push(...professional)
+    this.setData({
+      depValue: value,
+      proRange
+    })
+  },
+  // 选择年级
+  chooseGraValue(e) {
+    const {value} = e.detail
+    this.setData({
+      graValue: value
+    })
+  },
+  // 选择专业
+  chooseProValue(e) {
+    const {value} = e.detail
+    this.setData({
+      proValue: value
+    })
+  },
+  //创建一个方法，返回value值对应的key
+  findkey (obj,value, compare = (a, b) => a === b) {
+    return Object.keys(obj).find(k => compare(obj[k], value))
+  },
+  compare(key){ //这是比较函数
+    return function(m,n){
+        var a = m[key];
+        var b = n[key];
+        return b - a; //降序
     }
+  },
+  // 导出Excel
+  pracDescSubmit(e) {
+    const that = this
+    const {departments,grade,professional} = e.detail.value
+    wx.showModal({
+      content: '请确认是否导出？',
+      success: (res) =>{
+        if(res.confirm) {
+          wx.cloud.callFunction({
+            name: 'getStuInfoBypracDesc',
+            data: {
+              departments,grade,professional
+            }
+          }).then(res =>{
+            const stuInfo = res.result.data
+            const stuNumList = []
+            stuInfo.forEach(item=>{
+              stuNumList.push(item.stuNum)
+            })
+            that.getExcelData(stuNumList)
+            }).catch(err=> {
+              console.log(err)
+            })
+        }
+      },
+      complete: () =>{
+        that.setData({
+          depRange: [],
+          gradeRange: [],
+          proRange: []
+        })
+      }
+    })
+  },
+  // 获取Excel数据
+  getExcelData(stuNumList) {
+    const that = this
+    const promise = new Promise(resolve =>{
+      const data = []
+      stuNumList.forEach(item => {
+        wx.cloud.callFunction({
+          name: 'getProfileActivity',
+          data: {
+            stuNum: item
+          }
+        }).then(res =>{
+          const {stuNum,name,professional,practiceTime} = res.result.data[0]
+          data.push({stuNum,name,professional,practiceTime})
+          resolve(data)
+        })
+      })
+    }).then(res =>{
+      return new Promise(resolve=>{
+        setTimeout(() => {
+          resolve(res.sort(that.compare('practiceTime')))
+        },2000)
+      })
+    }).then(res =>{
+      // console.log(res,'6666')
+      // that.outputExcel(res)
+      return res
+    })
+    promise.then(res =>{
+      that.outputExcel(res)
+    })
+
+  },
+    // 导出Excel
+  outputExcel(data) {
+    const that = this
+    // const data = [{stuNum:'20180304101',name:'张三',professial:'计算机科学与技术',practiceTime:1000000,rank:1}]
+    wx.cloud.callFunction({
+      name: 'outputExcel',
+      data: {
+        data
+      }
+    }).then(res =>{
+      const fileID = res.result.fileID
+      that.downloadexcel(fileID)
+      wx.showToast({
+        title: '导出成功',
+        icon: 'success'
+      })
+    })
+  }
 })

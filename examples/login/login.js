@@ -10,7 +10,7 @@ App.Page({
     queryActivityInfo: false
   },
   // 查询个人活动信息表
-  queryProfileActivity(name,stuNum,openId) {
+  queryProfileActivity(name,stuNum,openId,professional) {
     const that = this
     wx.cloud.callFunction({
       name: 'getProfileActivity',
@@ -21,13 +21,13 @@ App.Page({
       if(res.result.data.length){
         console.log('活动信息表已添加')
       }else{
-        that.addProfileActivityInfo(name,stuNum,openId)
+        that.addProfileActivityInfo(name,stuNum,openId,professional)
       }
     })
 
   },
   // 添加个人活动信息表
-  addProfileActivityInfo(name,stuNum,openId) {
+  addProfileActivityInfo(name,stuNum,openId,professional) {
     wx.cloud.callFunction({
       name: 'addProfileActivityInfo',
       data: {
@@ -37,7 +37,8 @@ App.Page({
         practiceTime: 0,
         name,
         stuNum,
-        openId
+        openId,
+        professional
       }
     })
   },
@@ -57,13 +58,13 @@ App.Page({
       }).then(res => {
         if(res.result.data.length){
           wx.setStorageSync('stuNum', loginInfo.zhanghao)
-          const {name, stuNum, _openid} = res.result.data[0]
+          const {name, stuNum, _openid,professional} = res.result.data[0]
           wx.setStorageSync('name', name)
           app.store.setState({
             loginStatus: 1
           })
           // 调用查询个人活动信息表函数
-          this.queryProfileActivity(name,stuNum,_openid)
+          this.queryProfileActivity(name,stuNum,_openid,professional)
           wx.showToast({
             title: '登录成功',
             icon: 'success'

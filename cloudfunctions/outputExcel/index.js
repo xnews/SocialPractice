@@ -23,11 +23,12 @@ exports.main = async (event, context) => {   //主函数入口
             let arr = [];
             arr.push(practiceInfo[key].stuNum);
             arr.push(practiceInfo[key].name);
-            arr.push(practiceInfo[key].professial);
+            arr.push(practiceInfo[key].professional);
             arr.push(practiceInfo[key].practiceTime);
-            arr.push(practiceInfo[key].rank);
+            arr.push(key + 1);
             alldata.push(arr)
          }
+
             const buffer = await xlsx.build([{   
             name: "mySheetName",
             data: alldata

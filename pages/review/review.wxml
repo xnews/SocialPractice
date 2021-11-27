@@ -257,25 +257,66 @@
       <view class="practiceDescContainer">
         <view class="choosePracItem">
           <text>院系</text>
-          <picker name="departments" mode="selector" range="departments" value="practiceValue">
-            <view class="choosepracticeDesc">{{practiceValue}}</view>
+          <picker name="departments" bindchange="chooseDepValue" mode="selector" range="departments" value="{{depRange[depValue]}}" range="{{depRange}}">
+            <view class="choosepracticeDesc">{{depRange[depValue]}}</view>
           </picker>
         </view>
         <view class="choosePracItem">
           <text>年级</text>
-          <picker name="grade" mode="selector" range="grade" value="practiceValue">
-            <view class="choosepracticeDesc">{{practiceValue}}</view>
+          <picker name="grade" bindchange="chooseGraValue" mode="selector" range="grade" value="{{gradeRange[graValue]}}" range="{{gradeRange}}">
+            <view class="choosepracticeDesc">{{gradeRange[graValue]}}</view>
           </picker>
         </view>
         <view class="choosePracItem">
           <text>专业</text>
-          <picker name="professional" mode="selector" range="professional" value="practiceValue">
-            <view class="choosepracticeDesc">{{practiceValue}}</view>
+          <picker name="professional" bindchange="chooseProValue" mode="selector" range="professional" value="{{proRange[proValue]}}" range="{{proRange}}">
+            <view class="choosepracticeDesc">{{proRange[proValue]}}</view>
           </picker>
         </view>
         <view class="organiseBtn">
           <button size="mini" form-type="submit" style="width: 210rpx;height: 80rpx;font-size:34rpx;line-height:80rpx;">导入Excel</button>
-          <button size="mini" form-type="submit" catchtap="outputExcel" style="width: 210rpx;height: 80rpx;background-color:#0066ff;color:#fff;font-size:34rpx;line-height:80rpx;">导出Excel</button>
+          <button size="mini" form-type="submit" style="width: 210rpx;height: 80rpx;background-color:#0066ff;color:#fff;font-size:34rpx;line-height:80rpx;">导出Excel</button>
+        </view>
+      </view>
+    </form>
+  </block>
+
+  <!-- 添加实践单位 -->
+  <block wx:elif="{{indexNav===8}}">
+    <form bindsubmit="unitSubmit">
+      <view class="addPracUnitContainer">
+        <view class="origaniseItem itemHead">
+          <text>单位名称</text>
+          <input name="unitName" value="{{inputValue}}" type="text"/>
+        </view>
+        <view class="origaniseItem">
+          <text>性质</text>
+          <input name="nature" value="{{inputValue}}" type="text"/>
+        </view>
+        <view class="origaniseItem">
+          <text>所属行业</text>
+          <input name="affiliation" value="{{inputValue}}" type="text"/>
+        </view>
+        <view class="origaniseItem">
+          <text>联系方式</text>
+          <input name="contact" value="{{inputValue}}" type="text"/>
+        </view>
+        <view class="origaniseItem">
+          <text>联系人</text>
+          <input name="linkman" value="{{inputValue}}" type="text"/>
+        </view>
+        <view class="origaniseItem">
+          <text>邮箱</text>
+          <input name="email" value="{{inputValue}}" type="text"/>
+        </view>
+        <view class="origaniseItem">
+          <text>地址</text>
+          <!-- 调用下拉框组件 -->
+          <input name="address" value="{{inputValue}}" type="text"/>
+        </view>
+        <view class="organiseBtn">
+          <button size="mini" form-type="submit" style="width: 210rpx;height: 80rpx;">添加</button>
+          <button size="mini" form-type="reset" catchtap="emptyFormInfo" style="width: 210rpx;height: 80rpx;">清空</button>
         </view>
       </view>
     </form>

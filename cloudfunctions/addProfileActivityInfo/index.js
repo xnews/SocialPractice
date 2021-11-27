@@ -14,7 +14,8 @@ exports.main = async (event, context) => {
       practiceTime: event.practiceTime,
       name: event.name,
       stuNum: event.stuNum,
-      openId: event.openId
+      openId: event.openId,
+      professional: event.professional
     }
   })
 }
