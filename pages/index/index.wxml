@@ -12,10 +12,10 @@
 <view class="active_category">
   <view class="cate_item">
     <!-- 活动标签 -->
-    <navigator class="iconfont icon-huodong" url="/pages/activity/activity" open-type="navigate">
+    <navigator class="iconfont icon-huodong" url="/pages/practiceUnit/practiceUnit" open-type="navigate">
     </navigator>
     <!-- 活动内容 -->
-    <text>活动</text>
+    <text>实践单位</text>
   </view>
   <view class="cate_item">
     <navigator class="iconfont icon-huati" url="/pages/topic/topic" open-type="navigate">

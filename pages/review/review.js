@@ -30,7 +30,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-    activityNav:["活动审核","投稿审核","活动发布","活动分析","活动监控","公告发布","意见箱","实践详情","单位添加"],
+    activityNav:["活动审核","投稿审核","活动发布","活动分析","活动监控","公告发布","意见箱","实践时长","单位添加","单位管理","申请审核"],
     indexNav: 0,
     reviewInfo: [],
     filePath: "",
@@ -87,7 +87,14 @@ Page({
     depValue: "请选择",
     graValue: "请选择",
     proValue: "请选择",
+    natureValue: '请选择',
+    industryValue: '请选择',
     inputValue: "",
+    nameValue: "",
+    contactValue: "",
+    abutmentValue: "",
+    emailValue: "",
+    addressValue: "",
     activityName: "",
     activityTime: "",
     optionHot: {},
@@ -121,7 +128,12 @@ Page({
     proRange: [],
     departmentsInfo: [],
     professionalInfo: [],
-    practiceTimeList: []
+    practiceTimeList: [],
+    natureRange:['政府','企业','医院','学校','事业单位'],
+    industryRange: ['服务业','农业','医疗卫生业','工业','商业','制造业'],
+    unitInfo: [],
+    dialogType: "",
+    unitID: ""
   },
   onLoad() {
     this.showReviewOrganiseInfo()
@@ -207,6 +219,10 @@ Page({
       this.getFeedBackInfo()
     }else if(index===7) {
       this.getSchoolInfo()
+    }else if(index===9) {
+      this.getUnitData()
+    }else if(index===10) {
+      this.getUnitData()
     }
     this.setData({
       indexNav: index
@@ -738,7 +754,9 @@ Page({
       registradateValue: "选择日期",
       registratimeValue: "选择时间",
       deadlinedateValue: "选择日期",
-      deadlinetimeValue: "选择时间"
+      deadlinetimeValue: "选择时间",
+      natureValue: "",
+      industryValue: ""
     })
   },
   // 搜索活动分析
@@ -1031,26 +1049,64 @@ Page({
     }).then(res =>{
       // console.log(res,'意见')
       const feedBackList = res.result.data
+      const feedBackInfo = []
+      const tasks = []
       for(let i of feedBackList) {
         i.time = util.formatTime(new Date(i.time))
       }
-      for(let i of feedBackList) {
+
+      for(let item of feedBackList) {
         wx.cloud.callFunction({
           name: 'getStuInfo',
           data: {
-            stuNum: i.stuNum
+            stuNum: item.stuNum
           }
         }).then(res =>{
           const stuInfoList = res.result.data
-          that.setData({
-            stuInfoList
+          const feedBackObj = Object.assign(item,stuInfoList[0])
+          this.setData({
+            feedBackList
           })
         })
       }
-      this.setData({
-        feedBackList
-      })
       wx.hideLoading()
+    })
+  },
+  // 点击批量导出事件
+  batchExportFeedBack() {
+    const feedBackList = this.data.feedBackList
+    const that = this
+    wx.showModal({
+      content: '请确认是否导出？',
+      success: (res) =>{
+        if(res.confirm) {
+          that.outPutFeedBackExcel(feedBackList)
+        }
+      }
+    })
+    console.log(feedBackList,'反馈信息')
+  },
+  // 批量导出意见反馈信息
+  outPutFeedBackExcel(data) {
+    const that = thi
+    wx.cloud.callFunction({
+      name: 'outPutExcelFeedBack',
+      data: {
+        data
+      }
+    }).then(res =>{
+      const fileID = res.result.fileID
+      that.downloadexcel(fileID)
+      wx.showToast({
+        title: '导出成功',
+        icon: 'success'
+      })
+    }).catch(err=>{
+      console.log(err)
+      wx.showToast({
+        title: '导出失败',
+        icon: 'error'
+      })
     })
   },
   // 预览意见反馈图片
@@ -1254,5 +1310,208 @@ Page({
         icon: 'success'
       })
     })
+  },
+  // 导入Excel
+  importExcel() {
+    const that = this
+    wx.chooseMessageFile({
+      count: 1,
+      type: 'file',
+      success(res) {
+        let path = res.tempFiles[0].path
+        console.log("选择excel成功",path)
+        that.uploadExcel(path)
+      }
+    })
+  },
+  // 上传Excel到云存储
+  uploadExcel(path) {
+    let that = this
+    wx.cloud.uploadFile({
+      cloudPath: new Date().getTime() + '.xls',
+      filePath: path,
+      success: res => {
+        console.log("上传成功",res.fileID)
+        that.parseExcel(res.fileID)
+        wx.showToast({
+          title: '导入成功',
+          icon: 'success'
+        })
+      }
+    })
+  },
+  // 解析EXCEL数据并更新到云数据库
+  parseExcel(fileID) {
+    wx.cloud.callFunction({
+      name: 'parseExcel',
+      data: {
+        fileID
+      }
+    }).then(res =>{
+      console.log("解析成功",res)
+    }).catch(err =>{
+      console.log(err)
+    })
+  },
+  // 单位添加
+  unitSubmit(e) {
+    console.log(e)
+    const dialogType = this.data.dialogType
+    const unitID = this.data.unitID
+    const {name,nature,industry,contact,abutment,email,address} = e.detail.value
+    if(name==""||nature==""||industry==""||contact==""||abutment==""||email==""||address=="") {
+      wx.showToast({
+        title: '请填写空项',
+        icon: 'error'
+      })
+    } else if(dialogType === "update") {
+      wx.cloud.callFunction({
+        name: 'updateUnitInfo',
+        data: {
+          _id:unitID,name,nature,industry,contact,abutment,email,address
+        }
+      }).then(res =>{
+        wx.showToast({
+          title: '更新成功',
+          icon: 'success'
+        })
+        this.setData({
+          nameValue: "",
+          contactValue: "",
+          abutmentValue: "",
+          emailValue: "",
+          addressValue: "",
+          natureValue: "",
+          industryValue: "",
+          dialogType: "",
+          unitID: ""
+        })
+      }).catch(err=>{
+        wx.showToast({
+          title: '更新失败',
+          icon: 'success'
+        })
+      })
+    }
+    else{
+      wx.cloud.callFunction({
+        name: 'addUnitInfo',
+        data: {
+          name,nature,industry,contact,abutment,email,address
+        }
+      }).then(res =>{
+        wx.showToast({
+          title: '添加成功',
+          icon: 'success'
+        })
+        this.setData({
+          nameValue: "",
+          contactValue: "",
+          abutmentValue: "",
+          emailValue: "",
+          addressValue: "",
+          natureValue: "",
+          industryValue: ""
+        })
+      }).catch(err=>{
+        wx.showToast({
+          title: '添加失败',
+          icon: 'success'
+        })
+      })
+    }
+  },
+  // 选择单位性质
+  chooseUnitNatureValue(e) {
+    const {value} = e.detail
+    this.setData({
+      natureValue: value
+    })
+  },
+  // 选择单位所属行业
+  chooseUnitIndustryValue(e) {
+    const {value} = e.detail
+    this.setData({
+      industryValue: value
+    })
+  },
+  // 获取单位信息
+  getUnitData() {
+    wx.showLoading({
+      title: ''
+    })
+    wx.cloud.callFunction({
+      name: 'getUnitInfoAll'
+    }).then(res =>{
+      this.setData({
+        unitInfo: res.result.data
+      })
+      wx.hideLoading()
+    })
+  },
+  // 编辑单位信息
+  editUnitInfo(e) {
+    const _id = e.currentTarget.dataset.id
+    wx.cloud.callFunction({
+      name: 'getUnitInfoByid',
+      data: {
+        _id
+      }
+    }).then(res =>{
+      console.log(res,'单位信息')
+      const {name,nature,industry,contact,abutment,email,address} = res.result.data[0]
+      const natureRange = this.data.natureRange
+      const industryRange = this.data.industryRange
+      const natureIndex = natureRange.findIndex(item=>item === nature)
+      const industryIndex =  industryRange.findIndex(item=>item === industry)
+      this.setData({
+        nameValue: name,
+        natureValue: natureIndex,
+        industryValue: industryIndex,
+        contactValue: contact,
+        abutmentValue: abutment,
+        emailValue: email,
+        addressValue: address,
+        indexNav: 8,
+        dialogType: "update",
+        unitID: _id
+      })
+    })
+  },
+  // 删除单位信息
+  deleteUnitInfo(e) {
+    const _id = e.currentTarget.dataset.id
+    const index = e.currentTarget.dataset.index
+    const unitInfo = this.data.unitInfo
+    const that = this
+    wx.showModal({
+      content: '请确认是否删除？',
+      success: res =>{
+        if(res.confirm) {
+          wx.cloud.callFunction({
+            name: 'removeUnitInfo',
+            data: {
+              _id
+            }
+          }).then(() =>{
+            unitInfo.splice(index,1)
+            that.getUnitData()
+            wx.showToast({
+              title: '删除成功',
+              icon: 'success'
+            })
+          }).catch(() =>{
+            wx.showToast({
+              title: '删除失败',
+              icon: 'error'
+            })
+          })
+        }
+      }
+    })
+  },
+  // 监听用户下拉刷新动作
+  onPullDownRefresh() {
+    this.getData()
   }
 })

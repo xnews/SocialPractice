@@ -1,0 +1,29 @@
+.unitContainer{
+  padding: 30rpx 50rpx;
+}
+.unitItem{
+  height: 520rpx;
+  position: relative;
+  border: 1rpx solid var(--themeColor);
+  border-radius: 20rpx;
+  margin-bottom: 40rpx;
+}
+.unitInfo{
+  display: flex;
+  flex-direction: column;
+  border-radius: 10rpx;
+  padding: 20rpx;
+}
+.release{
+  font-weight:400;
+  white-space:nowrap;
+  border: 1rpx solid #cccccc;
+  background-color: #cccccc;
+  border-radius: 20rpx;
+  float: right;
+  color: #fff;
+  position: absolute;
+  right: 40rpx;
+  bottom: 20rpx;
+  background-color: var(--themeColor);
+}

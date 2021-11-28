@@ -3,5 +3,7 @@
     "select": "../../components/select/select",
     "search": "../../components/Search/search",
     "activityHot": "../../components/activityCharts/hot"
-  }
+  },
+  "enablePullDownRefresh": true,
+  "backgroundTextStyle": "dark" 
 }

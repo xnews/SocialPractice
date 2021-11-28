@@ -6,7 +6,7 @@
     <view class="edetail_content">
       <view class="edetail_item">
         <text class="iconfont icon-dangjian_zuzhihuodong icon1"></text>
-        <text>活动名称:</text>
+        <text>实践名称:</text>
         <text>{{activities.activityName}}</text>
       </view>
       <view class="edetail_item">
@@ -16,12 +16,12 @@
       </view>
       <view class="edetail_item">
         <text class="iconfont icon-icon icon3"></text>
-        <text>活动类型:</text>
+        <text>实践类型:</text>
         <text>{{activities.type}}</text>
       </view>
       <view class="edetail_item">
         <text class="iconfont icon-didian1 icon4"></text>
-        <text>活动地点:</text>
+        <text>实践地点:</text>
         <text>{{activities.site}}</text>
       </view>
       <view class="edetail_item">
@@ -41,7 +41,7 @@
       </view>
       <view class="edetail_item">
         <text class="iconfont icon-geren icon7"></text>
-        <text>活动负责人:</text>
+        <text>实践负责人:</text>
         <text>{{activities.manager}}</text>
       </view>
       <view class="edetail_item">

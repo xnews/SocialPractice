@@ -33,7 +33,8 @@
     "components/activityCharts/hot",
     "pages/monitor/monitor",
     "pages/announcementContent/announcementContent",
-    "pages/releaseSubject/releaseSubject"
+    "pages/releaseSubject/releaseSubject",
+    "pages/practiceUnit/practiceUnit"
   ],
   "window": {
     "backgroundTextStyle": "light",

@@ -1,15 +1,15 @@
 <form bindsubmit="organiseSubmit">
   <view class="organiseContainer">
     <view class="origaniseItem itemHead">
-      <text>活动名称</text>
+      <text>实践名称</text>
       <input name="activityName" type="text"/>
     </view>
     <view class="origaniseItem">
-      <text>活动地点</text>
+      <text>实践地点</text>
       <input name="place" type="text"/>
     </view>
     <view class="origaniseItemTime">
-      <text>活动时间</text>
+      <text>实践时间</text>
       <picker name="date" mode="date" bindchange="chooseDate">
         <view class="choosedate">{{dateValue}}</view>
       </picker>
@@ -19,7 +19,7 @@
       </picker>
     </view>
     <view class="origaniseItemType">
-      <text>活动类型</text>
+      <text>实践类型</text>
       <!-- 调用下拉框组件 -->
       <view class="container" bindtap="close">
         <view class="select-wrap">
@@ -57,7 +57,7 @@
       </textarea>
     </view>
     <view class="organiseBtn">
-      <button size="mini" form-type="submit" style="width: 210rpx;height: 80rpx;">申请创建</button>
+      <button size="mini" form-type="submit" style="width: 210rpx;height: 80rpx;">提交审核</button>
       <button size="mini" form-type="reset" catchtap="emptyFormInfo" style="width: 210rpx;height: 80rpx;">清空</button>
     </view>
   </view>

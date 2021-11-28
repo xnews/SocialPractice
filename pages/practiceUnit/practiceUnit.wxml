@@ -1,0 +1,14 @@
+<view class="unitContainer">
+  <view class="unitItem" wx:for="{{unitInfo}}" wx:key="_id">
+    <view class="unitInfo">
+      <text>实践单位名称：{{item.name}}</text>
+      <text>性质：{{item.nature}}</text>
+      <text>所属行业：{{item.industry}}</text>
+      <text>联系方式：{{item.contact}}</text>
+      <text>联系人：{{item.abutment}}</text>
+      <text>邮箱：{{item.email}}</text>
+      <text>地址：{{item.address}}</text>
+      <button size="mini" data-id="{{item._id}}" catchtap="handleUnitApply" data-index="{{reviewIndex}}" class="release" style="width: 140rpx;height: 80rpx;font-size: 38rpx;line-height:80rpx;text-align:center">申请</button>
+    </view>
+  </view>
+</view>

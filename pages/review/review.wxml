@@ -219,30 +219,28 @@
   <block wx:elif="{{indexNav===6}}">
     <view class="feedbackContainer">
       <view>
-        <button  size="mini" class="batchExportFeedBack" style="width: 200rpx;height: 100rpx;font-size: 36rpx;line-height:100rpx;text-align:center">批量导出</button>
+        <button size="mini" catchtap="batchExportFeedBack" class="batchExportFeedBack" style="width: 200rpx;height: 100rpx;font-size: 36rpx;line-height:100rpx;text-align:center">批量导出</button>
       </view>
       <view class="feedbackItem" wx:for="{{feedBackList}}" wx:key="_id">
         <view class="feedbackcontent">
-        <text>类型：{{item.type}}</text>
+        <text>反馈类型：{{item.type}}</text>
         </view>
         <view class="feedbackcontent">
           <text>活动名称：{{item.activityName}}</text>
         </view>
         <view class="feedbackcontent">
-          <text>投诉内容：{{item.content}}</text>
+          <text>反馈内容：{{item.content}}</text>
         </view>
         <view class="feedbackimg">
-          <view style="font-size:38rpx">投诉图片：</view>
+          <view style="font-size:38rpx">反馈图片：</view>
           <block wx:for="{{item.images}}" wx:key="*this" wx:for-item="imgItem">
             <image bindtap="previewImg" data-url="{{imgItem}}" src="{{imgItem}}"></image>
           </block>
         </view>
         <view class="feedbackfooter">
-          <block wx:for="{{stuInfoList}}" wx:key="*this">
-            <text>投诉人：{{item.name}}</text>
-            <text>联系方式：{{item.contact}}</text>
-          </block>
-          <text>投诉时间：{{item.time}}</text>
+          <text>反馈人：{{item.name}}</text>
+          <text>联系方式：{{item.contact}}</text>
+          <text>反馈时间：{{item.time}}</text>
         </view>
         <view>
           <button size="mini" catchtap="deleteFeedBack" data-id="{{item._id}}" class="deleteFeedBack" style="width: 130rpx;height: 60rpx;font-size: 30rpx;line-height:60rpx;text-align:center">删除</button>
@@ -274,7 +272,7 @@
           </picker>
         </view>
         <view class="organiseBtn">
-          <button size="mini" form-type="submit" style="width: 210rpx;height: 80rpx;font-size:34rpx;line-height:80rpx;">导入Excel</button>
+          <button size="mini" catchtap="importExcel" style="width: 210rpx;height: 80rpx;font-size:34rpx;line-height:80rpx;">导入Excel</button>
           <button size="mini" form-type="submit" style="width: 210rpx;height: 80rpx;background-color:#0066ff;color:#fff;font-size:34rpx;line-height:80rpx;">导出Excel</button>
         </view>
       </view>
@@ -287,36 +285,84 @@
       <view class="addPracUnitContainer">
         <view class="origaniseItem itemHead">
           <text>单位名称</text>
-          <input name="unitName" value="{{inputValue}}" type="text"/>
+          <input name="name" value="{{nameValue}}" type="text"/>
         </view>
         <view class="origaniseItem">
           <text>性质</text>
-          <input name="nature" value="{{inputValue}}" type="text"/>
+          <picker name="nature" bindchange="chooseUnitNatureValue" mode="selector" value="{{natureRange[natureValue]}}" range="{{natureRange}}">
+            <view class="choosepracticeDesc">{{natureRange[natureValue]}}</view>
+          </picker>
         </view>
         <view class="origaniseItem">
           <text>所属行业</text>
-          <input name="affiliation" value="{{inputValue}}" type="text"/>
+          <picker name="industry" bindchange="chooseUnitIndustryValue" mode="selector" value="{{industryRange[industryValue]}}" range="{{industryRange}}">
+            <view class="choosepracticeDesc">{{industryRange[industryValue]}}</view>
+          </picker>
         </view>
         <view class="origaniseItem">
           <text>联系方式</text>
-          <input name="contact" value="{{inputValue}}" type="text"/>
+          <input name="contact" value="{{contactValue}}" type="text"/>
         </view>
         <view class="origaniseItem">
           <text>联系人</text>
-          <input name="linkman" value="{{inputValue}}" type="text"/>
+          <input name="abutment" value="{{abutmentValue}}" type="text"/>
         </view>
         <view class="origaniseItem">
           <text>邮箱</text>
-          <input name="email" value="{{inputValue}}" type="text"/>
+          <input name="email" value="{{emailValue}}" type="text"/>
         </view>
         <view class="origaniseItem">
           <text>地址</text>
           <!-- 调用下拉框组件 -->
-          <input name="address" value="{{inputValue}}" type="text"/>
+          <input name="address" value="{{addressValue}}" type="text"/>
         </view>
         <view class="organiseBtn">
-          <button size="mini" form-type="submit" style="width: 210rpx;height: 80rpx;">添加</button>
+          <button size="mini" form-type="submit" style="width: 210rpx;height: 80rpx;">确定</button>
           <button size="mini" form-type="reset" catchtap="emptyFormInfo" style="width: 210rpx;height: 80rpx;">清空</button>
+        </view>
+      </view>
+    </form>
+  </block>
+
+  <!-- 单位管理 -->
+  <block wx:elif="{{indexNav===9}}">
+    <form bindsubmit="unitManagement">
+      <view class="unitContainer">
+        <view class="unitItem" wx:for="{{unitInfo}}" wx:key="_id">
+          <view class="unitInfo">
+            <text>实践单位名称：{{item.name}}</text>
+            <text>性质：{{item.nature}}</text>
+            <text>所属行业：{{item.industry}}</text>
+            <text>联系方式：{{item.contact}}</text>
+            <text>联系人：{{item.abutment}}</text>
+            <text>邮箱：{{item.email}}</text>
+            <text>地址：{{item.address}}</text>
+            <button size="mini" data-id="{{item._id}}" catchtap="editUnitInfo" data-index="{{reviewIndex}}" class="unitRelease" style="width: 140rpx;height: 80rpx;font-size: 38rpx;line-height:80rpx;text-align:center">编辑</button>
+            <button size="mini" data-id="{{item._id}}" data-index="{{index}}" catchtap="deleteUnitInfo" data-id="{{item._id}}" class="deleteUnit" style="width: 140rpx;height: 80rpx;font-size: 38rpx;line-height:80rpx;text-align:center">删除</button>
+          </view>
+        </view>
+      </view>
+    </form>
+  </block>
+
+  <!-- 申请审核 -->
+  <block  wx:elif="{{indexNav===10}}">
+    <form bindsubmit="unitAudit">
+      <view class="unitContainer">
+        <view class="unitItem" wx:for="{{unitInfo}}" wx:key="_id">
+          <view class="unitInfo">
+            <text>实践单位名称：{{item.name}}</text>
+            <text>实践地址：{{item.address}}</text>
+            <text>联系方式：{{item.contact}}</text>
+            <!-- <block wx:for="{{item.applicant}}" wx:key="*this">
+              <text>申请人：{{item}}</text>
+            </block> -->
+            <text>申请人：<block wx:for="{{item.applicant}}" wx:key="*this">{{item+ '、'}}</block>
+            </text>
+            <text>总人数：{{item.applicant.length +'人'}}</text>
+            <button size="mini" data-id="{{item._id}}" catchtap="editUnitInfo" data-index="{{reviewIndex}}" class="unitRelease" style="width: 140rpx;height: 80rpx;font-size: 38rpx;line-height:80rpx;text-align:center">编辑</button>
+            <button size="mini" data-id="{{item._id}}" data-index="{{index}}" catchtap="deleteUnitInfo" data-id="{{item._id}}" class="deleteUnit" style="width: 140rpx;height: 80rpx;font-size: 38rpx;line-height:80rpx;text-align:center">删除</button>
+          </view>
         </view>
       </view>
     </form>

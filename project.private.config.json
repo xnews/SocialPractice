@@ -203,6 +203,12 @@
           "pathName": "pages/releaseSubject/releaseSubject",
           "query": "",
           "scene": null
+        },
+        {
+          "name": "实践单位",
+          "pathName": "pages/practiceUnit/practiceUnit",
+          "query": "",
+          "scene": null
         }
       ]
     }
