@@ -149,8 +149,55 @@
     </form>
   </block>
 
-    <!-- 活动分析 -->
+  <!-- 活动管理 -->
   <block wx:elif="{{indexNav===3}}">
+    <form bindsubmit="activityManager">
+      <view class="feedbackContainer">
+        <view class="feedbackItem" wx:for="{{activityDetailInfo}}" wx:key="_id">
+          <view class="feedbackcontent">
+          <text>实践名称：{{item.activityName}}</text>
+          </view>
+          <view class="feedbackcontent">
+            <text>实践地点：{{item.site}}</text>
+          </view>
+          <view class="feedbackcontent">
+            <text>报名时间：{{item.time}}</text>
+          </view>
+          <view class="feedbackcontent">
+            <text>截止时间：{{item.deadline}}</text>
+          </view>
+          <view class="feedbackcontent">
+            <text>实践类型：{{item.type}}</text>
+          </view>
+          <view class="feedbackcontent">
+            <text space="emsp">主办方： {{item.certification}}</text>
+          </view>
+          <view class="feedbackcontent">
+            <text>实践负责人：{{item.manager}}</text>
+          </view>
+          <view class="feedbackcontent">
+            <text>实践指导人：{{item.teacher}}</text>
+          </view>
+          <view class="feedbackcontent">
+            <text>限制人数：{{item.limitNum}}</text>
+          </view>
+          <view class="feedbackcontent">
+            <text>签到时间：{{item.signInTime}}</text>
+          </view>
+          <view class="feedbackcontent">
+            <text>签退时间：{{item.signBackTime}}</text>
+          </view>
+          <view class="bthAcManaget">
+            <button size="mini" catchtap="editPractice" data-id="{{item._id}}" class="editPractice" style="width: 130rpx;height: 60rpx;font-size: 30rpx;line-height:60rpx;text-align:center">编辑</button>
+            <button size="mini" catchtap="deletePractice" data-id="{{item._id}}" class="deletePractice" style="width: 130rpx;height: 60rpx;font-size: 30rpx;line-height:60rpx;text-align:center">删除</button>
+          </view>
+        </view>
+      </view>
+    </form>
+  </block>
+
+    <!-- 活动分析 -->
+  <block wx:elif="{{indexNav===4}}">
     <search bind:search="activityAnalyse" class="searchActivity"></search>
     <view class="activityContainer">
       <view>
@@ -171,7 +218,7 @@
     </view>
   </block>
   <!-- 活动监控 -->
-  <block wx:elif="{{indexNav===4}}">
+  <block wx:elif="{{indexNav===5}}">
     <search bind:search="activityMonitor" class="searchActivity"></search>
     <view class="activityContainer">
       <view>
@@ -187,7 +234,7 @@
   </block>
 
     <!-- 公告管理 -->
-  <block wx:elif="{{indexNav===5}}">
+  <block wx:elif="{{indexNav===6}}">
     <form bindsubmit="announcementSubmit">
       <view class="organiseContainer">
         <view class="origaniseItem itemHead">
@@ -216,7 +263,7 @@
     </form>
   </block>
       <!-- 意见反馈 -->
-  <block wx:elif="{{indexNav===6}}">
+  <block wx:elif="{{indexNav===7}}">
     <view class="feedbackContainer">
       <view>
         <button size="mini" catchtap="batchExportFeedBack" class="batchExportFeedBack" style="width: 200rpx;height: 100rpx;font-size: 36rpx;line-height:100rpx;text-align:center">批量导出</button>
@@ -250,7 +297,7 @@
   </block>
 
   <!-- 实践详情 -->
-  <block wx:elif="{{indexNav===7}}">
+  <block wx:elif="{{indexNav===8}}">
     <form bindsubmit="pracDescSubmit">
       <view class="practiceDescContainer">
         <view class="choosePracItem">
@@ -280,7 +327,7 @@
   </block>
 
   <!-- 添加实践单位 -->
-  <block wx:elif="{{indexNav===8}}">
+  <block wx:elif="{{indexNav===9}}">
     <form bindsubmit="unitSubmit">
       <view class="addPracUnitContainer">
         <view class="origaniseItem itemHead">
@@ -325,7 +372,7 @@
   </block>
 
   <!-- 单位管理 -->
-  <block wx:elif="{{indexNav===9}}">
+  <block wx:elif="{{indexNav===10}}">
     <form bindsubmit="unitManagement">
       <view class="unitContainer">
         <view class="unitItem" wx:for="{{unitInfo}}" wx:key="_id">
@@ -346,7 +393,7 @@
   </block>
 
   <!-- 申请审核 -->
-  <block  wx:elif="{{indexNav===10}}">
+  <block  wx:elif="{{indexNav===11}}">
     <form bindsubmit="unitAudit">
       <view class="unitContainer">
         <view class="unitItem" wx:for="{{unitInfo}}" wx:key="_id">

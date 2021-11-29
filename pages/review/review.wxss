@@ -351,6 +351,33 @@
   right: 20rpx;
   bottom: 20rpx;
 }
+.editPractice{
+  font-weight:400;
+  white-space:nowrap;
+  background-color: var(--themeColor);
+  /* margin-right: 20rpx; */
+  border: 1rpx solid #cccccc;
+  border-radius: 20rpx;
+  color: #fff;
+  position: absolute;
+  right: 180rpx;
+  bottom: 20rpx;
+}
+.deletePractice{
+  font-weight:400;
+  white-space:nowrap;
+  background-color:  #ff3b30;
+  /* margin-right: 20rpx; */
+  border: 1rpx solid #cccccc;
+  border-radius: 20rpx;
+  color: #fff;
+  position: absolute;
+  right: 20rpx;
+  bottom: 20rpx;
+}
+.bthAcManaget {
+  margin-top: 100rpx;
+}
 
 
 

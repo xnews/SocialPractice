@@ -30,7 +30,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-    activityNav:["活动审核","投稿审核","活动发布","活动分析","活动监控","公告发布","意见箱","实践时长","单位添加","单位管理","申请审核"],
+    activityNav:["活动审核","投稿审核","活动发布","活动管理","活动分析","活动监控","公告发布","意见箱","实践时长","单位添加","单位管理","申请审核"],
     indexNav: 0,
     reviewInfo: [],
     filePath: "",
@@ -133,7 +133,8 @@ Page({
     industryRange: ['服务业','农业','医疗卫生业','工业','商业','制造业'],
     unitInfo: [],
     dialogType: "",
-    unitID: ""
+    unitID: "",
+    activityDetailInfo: []
   },
   onLoad() {
     this.showReviewOrganiseInfo()
@@ -203,7 +204,10 @@ Page({
       this.showReviewOrganiseInfo()
     }else if(index===1) {
       this.showReviewContributeInfo()
-    }else if(index===5) {
+    }else if(index===3) {
+      this.getActivityDetailAll()
+    }
+    else if(index===5) {
       // let id = "#textareawrap";
       // let query = wx.createSelectorQuery();//创建查询对象
       // query.select(id).boundingClientRect();//获取view的边界及位置信息
@@ -213,15 +217,15 @@ Page({
       //     height: res[0].height + "px"
       //   });
       // });
-    }else if(index===3) {
+    }else if(index===4) {
       this.getData()
-    }else if(index===6) {
-      this.getFeedBackInfo()
     }else if(index===7) {
+      this.getFeedBackInfo()
+    }else if(index===8) {
       this.getSchoolInfo()
-    }else if(index===9) {
-      this.getUnitData()
     }else if(index===10) {
+      this.getUnitData()
+    }else if(index===11) {
       this.getUnitData()
     }
     this.setData({
@@ -1472,7 +1476,7 @@ Page({
         abutmentValue: abutment,
         emailValue: email,
         addressValue: address,
-        indexNav: 8,
+        indexNav: 9,
         dialogType: "update",
         unitID: _id
       })
@@ -1513,5 +1517,40 @@ Page({
   // 监听用户下拉刷新动作
   onPullDownRefresh() {
     this.getData()
+  },
+  // 获取活动信息
+  getActivityDetailAll() {
+    wx.showLoading({
+      title: ''
+    })
+    wx.cloud.callFunction({
+      name: 'getActivityDetailAll'
+    }).then(res =>{
+      const activityDetailInfo = res.result.data
+      for(let i of activityDetailInfo) {
+        i.time = util.formatTime(new Date(i.time))
+        i.deadline = util.formatTime(new Date(i.deadline))
+        i.signInTime = util.formatTime(new Date(i.signInTime))
+        i.signBackTime = util.formatTime(new Date(i.signBackTime))
+      }
+      this.setData({
+        activityDetailInfo
+      })
+      wx.hideLoading()
+    })
+  },
+  // 编辑实践活动
+  editPractice(e) {
+    const id = e.currentTarget.dataset.id
+    wx.cloud.callFunction({
+      name: 'getActivityDetail',
+      data: {
+        id
+      }
+    }).then(res => {
+      console.log(res.result.data[0],'实践信息')
+      const {activityName,site,time,deadline,type,certification,manager,teacher,limitNum,signInTime,signBackTime} = res.result.data[0]
+      
+    })
   }
 })
