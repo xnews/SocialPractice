@@ -18,6 +18,10 @@ Component({
     text: {
       type: String,
       value: 'name'
+    },
+    current: {
+      type: Object,
+      value: {}
     }
   },
   data: {

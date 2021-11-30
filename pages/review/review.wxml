@@ -59,11 +59,11 @@
       <view class="organiseContainer">
         <view class="origaniseItem itemHead">
           <text>活动名称</text>
-          <input name="activityName" value="{{inputValue}}" type="text"/>
+          <input name="activityName" value="{{activityNameValue}}" type="text"/>
         </view>
         <view class="origaniseItem">
           <text>活动地点</text>
-          <input name="place" value="{{inputValue}}" type="text"/>
+          <input name="place" value="{{placeValue}}" type="text"/>
         </view>
         <view class="origaniseItemTime">
           <text>报名时间</text>
@@ -90,13 +90,13 @@
           <!-- 调用下拉框组件 -->
           <view class="container" bindtap="close">
             <view class="select-wrap">
-              <select id="select" class="Select" options="{{optionsType}}" key="type_id" text="type_name" bind:change="changeType"></select>
+              <select id="select" class="Select" current="{{current}}"  options="{{optionsType}}" key="type_id" text="type_name" bind:change="changeType"></select>
             </view>
           </view>
         </view>
         <view class="origaniseItem">
           <text>活动举办方</text>
-          <input name="host" value="{{inputValue}}" type="text"/>
+          <input name="host" value="{{hostValue}}" type="text"/>
         </view>
         <!-- <view class="origaniseTeamNum">
           <text>活动人数</text>
@@ -108,7 +108,7 @@
         </view> -->
         <view class="origaniseItem">
           <text>活动负责人</text>
-          <input name="principal" value="{{inputValue}}" type="text"/>
+          <input name="principal" value="{{principalValue}}" type="text"/>
         </view>
         <view class="origaniseItem">
           <text>活动指导人</text>
@@ -119,7 +119,7 @@
         </view>
         <view class="origaniseItem">
           <text>限制人数</text>
-          <input name="limitNum" value="{{inputValue}}" type="text"/>
+          <input name="limitNum" value="{{limitNumValue}}" type="text"/>
         </view>
         <view class="origaniseItemTime">
           <text>签到时间</text>

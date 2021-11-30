@@ -90,6 +90,11 @@ Page({
     natureValue: '请选择',
     industryValue: '请选择',
     inputValue: "",
+    activityNameValue: "",
+    placeValue: "",
+    hostValue: "",
+    principalValue: "",
+    limitNumValue:"",
     nameValue: "",
     contactValue: "",
     abutmentValue: "",
@@ -134,7 +139,9 @@ Page({
     unitInfo: [],
     dialogType: "",
     unitID: "",
-    activityDetailInfo: []
+    activityDetailInfo: [],
+    current: {},
+    activityDetailID: ''
   },
   onLoad() {
     this.showReviewOrganiseInfo()
@@ -623,6 +630,7 @@ Page({
     this.setData({
       selected: { ...e.detail }
     })
+    debugger
     // 缓存活动类型
     wx.setStorageSync('changeType', e.detail.name)
   },
@@ -640,12 +648,14 @@ Page({
     // 提交表单数据
   organiseSubmit(e) {
     const that = this
+    const activityDetailID = this.data.activityDetailID
+    const dialogType = this.data.dialogType
     const acReleaseInfo = e.detail.value;
     let type = wx.getStorageSync('changeType')
     // let number = wx.getStorageSync('changeNum')
     acReleaseInfo['type'] = type
     // acReleaseInfo['number'] = number
-    console.log(acReleaseInfo,'活动信息')
+    // console.log(acReleaseInfo,'活动信息')
     const activityName = acReleaseInfo.activityName
     const certification = acReleaseInfo.host
     const deadline = new Date(acReleaseInfo.deadlinedate+" "+acReleaseInfo.deadlinetime)
@@ -657,43 +667,82 @@ Page({
     const limitNum = parseInt(acReleaseInfo.limitNum)
     const signInTime = new Date(acReleaseInfo.acindate+" "+acReleaseInfo.acintime)
     const signBackTime = new Date(acReleaseInfo.acoutdate+" "+acReleaseInfo.acouttime)
-    wx.showModal({
-      content: '是否确认发布',
-      success (res) {
-        if (res.confirm) {
-          console.log('用户点击确定')
-          wx.cloud.callFunction({
-            name: 'addActivityDetail',
-            data: {
-              activityName,certification,deadline,heat,manager,site,teacher,time,type,limitNum,signInTime,signBackTime
-            }
-          }).then(res =>{
-            wx.showToast({
-              title: '发布成功',
-              icon: 'success'
-            })
-          }).catch(() =>{
-            wx.showToast({
-              title: '发布失败',
-              icon: 'error'
-            })
-          })
-          that.setData({
-            inputValue: "",
-            registradateValue: "选择日期",
-            registratimeValue: "选择时间",
-            deadlinedateValue: "选择日期",
-            deadlinetimeValue: "选择时间",
-            acindateValue: "选择日期",
-            acintimeValue: "选择时间",
-            acoutdateValue: "选择日期",
-            acouttimeValue: "选择时间",
-            index: null
-          })
-        } else if (res.cancel) {
-          console.log('用户点击取消')
+    if(dialogType ==='update') {
+      wx.cloud.callFunction({
+        name: 'updateActivityDetail',
+        data: {
+          _id:activityDetailID,activityName,certification,deadline,manager,site,teacher,time,type,limitNum,signInTime,signBackTime
         }
-      }
+      }).then(()=>{
+        wx.showToast({
+          title: '更新成功',
+          icon: 'success'
+        })
+        that.setData({
+          inputValue: "",
+          activityNameValue: "",
+          placeValue: "",
+          hostValue: "",
+          principalValue: "",
+          limitNumValue:"",
+          registradateValue: "选择日期",
+          registratimeValue: "选择时间",
+          deadlinedateValue: "选择日期",
+          deadlinetimeValue: "选择时间",
+          acindateValue: "选择日期",
+          acintimeValue: "选择时间",
+          acoutdateValue: "选择日期",
+          acouttimeValue: "选择时间",
+          index: null
+        })
+      })
+    } else {
+      wx.showModal({
+        content: '是否确认发布',
+        success (res) {
+          if (res.confirm) {
+            console.log('用户点击确定')
+            wx.cloud.callFunction({
+              name: 'addActivityDetail',
+              data: {
+                activityName,certification,deadline,heat,manager,site,teacher,time,type,limitNum,signInTime,signBackTime
+              }
+            }).then(res =>{
+              wx.showToast({
+                title: '发布成功',
+                icon: 'success'
+              })
+            }).catch(() =>{
+              wx.showToast({
+                title: '发布失败',
+                icon: 'error'
+              })
+            })
+            that.setData({
+              inputValue: "",
+              activityNameValue: "",
+              placeValue: "",
+              hostValue: "",
+              principalValue: "",
+              limitNumValue:"",
+              registradateValue: "选择日期",
+              registratimeValue: "选择时间",
+              deadlinedateValue: "选择日期",
+              deadlinetimeValue: "选择时间",
+              acindateValue: "选择日期",
+              acintimeValue: "选择时间",
+              acoutdateValue: "选择日期",
+              acouttimeValue: "选择时间",
+              index: null
+            })
+          } else if (res.cancel) {
+            console.log('用户点击取消')
+          }
+        }
+      })
+    }
+    this.setData({
+      dialogType: ''
     })
   },
   // 选择报名日期事件
@@ -1035,6 +1084,11 @@ Page({
       }).then(() => {
         this.setData({
           inputValue: "",
+          activityNameValue: "",
+          placeValue: "",
+          hostValue: "",
+          principalValue: "",
+          limitNumValue:"",
           registradateValue: "选择日期"
         })
       })
@@ -1549,8 +1603,72 @@ Page({
       }
     }).then(res => {
       console.log(res.result.data[0],'实践信息')
-      const {activityName,site,time,deadline,type,certification,manager,teacher,limitNum,signInTime,signBackTime} = res.result.data[0]
-      
+      let {activityName,site,time,deadline,type,certification,manager,teacher,limitNum,signInTime,signBackTime} = res.result.data[0]
+      time = util.formatTime(new Date(time))
+      deadline = util.formatTime(new Date(deadline))
+      signInTime = util.formatTime(new Date(signInTime))
+      signBackTime = util.formatTime(new Date(signBackTime))
+      const registradateValue = time.split(' ')[0]
+      const registratimeValue = time.split(' ')[1]
+      const deadlinedateValue = deadline.split(' ')[0]
+      const deadlinetimeValue = deadline.split(' ')[1]
+      const acindateValue = signInTime.split(' ')[0]
+      const acintimeValue = signInTime.split(' ')[1]
+      const acoutdateValue = signBackTime.split(' ')[0]
+      const acouttimeValue = signBackTime.split(' ')[1]
+      const adviserArray = this.data.adviserArray
+      const index = adviserArray.findIndex(item => item===teacher)
+      const optionsType = this.data.optionsType
+      const optionsTypeIndex = optionsType.findIndex(item => item.type_name===type)
+      console.log(optionsType[optionsTypeIndex])
+      const selected = {}
+      selected.id = optionsType[optionsTypeIndex].type_id
+      selected.name = optionsType[optionsTypeIndex].type_name
+      let current = this.data.current
+      current.name = type
+      this.setData({
+        activityNameValue: activityName,
+        placeValue: site,
+        hostValue: certification,
+        principalValue: manager,
+        index,
+        limitNumValue:limitNum,
+        registradateValue,
+        registratimeValue,
+        deadlinedateValue,
+        deadlinetimeValue,
+        current,
+        acindateValue,
+        acintimeValue,
+        acoutdateValue,
+        acouttimeValue,
+        dialogType: 'update',
+        activityDetailID: id,
+        indexNav: 2
+      })
+    })
+  },
+  // 删除实践活动
+  deletePractice(e) {
+    const _id = e.currentTarget.dataset.id
+    wx.showModal({
+      content: '请确认是否删除？',
+      success: res =>{
+        if(res.confirm) {
+          wx.cloud.callFunction({
+            name: 'removeActivityDetailInfo',
+            data: {
+              _id
+            }
+          }).then(()=>{
+            this.getActivityDetailAll()
+            wx.showToast({
+              title: '删除成功',
+              icon: 'success'
+            })
+          })
+        }
+      }
     })
   }
 })
