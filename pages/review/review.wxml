@@ -13,8 +13,8 @@
   <block wx:if="{{indexNav===0}}">
     <view class="reviewItem" wx:for-index="reviewIndex" wx:for="{{reviewInfo}}" wx:key="*this">
       <view class="review_head">
-        <text>活动名称：{{item.activityName}}</text>
-        <text>活动地点：{{item.place}}</text>
+        <text>实践名称：{{item.activityName}}</text>
+        <text>实践地点：{{item.place}}</text>
         <text>团队名称: {{item.teamName}}</text>
         <text>团队负责人: {{item.principal}}</text>
       </view>
@@ -384,8 +384,10 @@
             <text>联系人：{{item.abutment}}</text>
             <text>邮箱：{{item.email}}</text>
             <text>地址：{{item.address}}</text>
-            <button size="mini" data-id="{{item._id}}" catchtap="editUnitInfo" data-index="{{reviewIndex}}" class="unitRelease" style="width: 140rpx;height: 80rpx;font-size: 38rpx;line-height:80rpx;text-align:center">编辑</button>
-            <button size="mini" data-id="{{item._id}}" data-index="{{index}}" catchtap="deleteUnitInfo" data-id="{{item._id}}" class="deleteUnit" style="width: 140rpx;height: 80rpx;font-size: 38rpx;line-height:80rpx;text-align:center">删除</button>
+            <view class="unitManagementBtn">
+              <button size="mini" data-id="{{item._id}}" catchtap="editUnitInfo" data-index="{{reviewIndex}}" class="unitRelease" style="width: 140rpx;height: 80rpx;font-size: 38rpx;line-height:80rpx;text-align:center">编辑</button>
+              <button size="mini" data-id="{{item._id}}" data-index="{{index}}" catchtap="deleteUnitInfo" data-id="{{item._id}}" class="deleteUnit" style="width: 140rpx;height: 80rpx;font-size: 38rpx;line-height:80rpx;text-align:center">删除</button>
+            </view>
           </view>
         </view>
       </view>

@@ -2,5 +2,5 @@
   "usingComponents": {
     "select": "../../components/select/select"
   },
-  "navigationBarTitleText": "组织"
+  "navigationBarTitleText": "实践申请"
 }

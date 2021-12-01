@@ -10,7 +10,7 @@
   flex: 1;
   flex-direction: column;
   align-items: center;
-  width: 25%;
+  width: 35%;
   padding: 0 20rpx;
 }
 .activity_nav_item{
@@ -314,7 +314,7 @@
   padding: 30rpx 50rpx;
 }
 .unitItem{
-  height: 520rpx;
+  height: 600rpx;
   position: relative;
   border: 1rpx solid var(--themeColor);
   border-radius: 20rpx;
@@ -378,6 +378,8 @@
 .bthAcManaget {
   margin-top: 100rpx;
 }
-
+.unitManagementBtn{
+  margin-top: 160rpx;
+}
 
 
