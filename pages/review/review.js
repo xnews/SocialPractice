@@ -1121,9 +1121,10 @@ Page({
           }
         }).then(res =>{
           const stuInfoList = res.result.data
-          const feedBackObj = Object.assign(item,stuInfoList[0])
+          const feedBackObj = Object.assign(stuInfoList[0], item)
+          feedBackInfo.push(feedBackObj)
           this.setData({
-            feedBackList
+            feedBackList:feedBackInfo
           })
         })
       }
@@ -1135,7 +1136,8 @@ Page({
     const feedBackList = this.data.feedBackList
     const that = this
     wx.showModal({
-      content: '请确认是否导出？',
+      title: '提示',
+      content: '请确认是否导出反馈信息表 ？',
       success: (res) =>{
         if(res.confirm) {
           that.outPutFeedBackExcel(feedBackList)
@@ -1146,7 +1148,7 @@ Page({
   },
   // 批量导出意见反馈信息
   outPutFeedBackExcel(data) {
-    const that = thi
+    const that = this
     wx.cloud.callFunction({
       name: 'outPutExcelFeedBack',
       data: {
@@ -1183,9 +1185,11 @@ Page({
   // 删除意见信息
   deleteFeedBack(e) {
     const id = e.currentTarget.dataset.id
+    const that = this
     console.log(id)
     wx.showModal({
-      content: '请确认是否删除 ？',
+      title: '提示',
+      content: '请确认是否删除该反馈信息 ？',
       success (res) {
         if(res.confirm) {
           wx.cloud.callFunction({
@@ -1194,11 +1198,14 @@ Page({
               id
             }
           }).then(res =>{
+            console.log(res)
+            that.getFeedBackInfo()
             wx.showToast({
               title: '删除成功',
               icon: 'success'
             })
-          }).catch(() =>{
+          }).catch((err) =>{
+            console.log(err)
             wx.showToast({
               title: '删除失败',
               icon: 'error'
@@ -1543,7 +1550,8 @@ Page({
     const unitInfo = this.data.unitInfo
     const that = this
     wx.showModal({
-      content: '请确认是否删除？',
+      title: '提示',
+      content: '请确认是否删除该实践单位信息？',
       success: res =>{
         if(res.confirm) {
           wx.cloud.callFunction({

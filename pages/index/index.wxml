@@ -20,17 +20,17 @@
   <view class="cate_item">
     <navigator class="iconfont icon-huati" url="/pages/topic/topic" open-type="navigate">
     </navigator>
-    <text>话题</text>
+    <text>活动话题</text>
   </view>
   <view class="cate_item">
     <navigator class="iconfont icon-orgnazie" url="/pages/organization/organization" open-type="navigate">
     </navigator>
-    <text>申请</text>
+    <text>实践申请</text>
   </view>
   <view class="cate_item">
     <navigator class="iconfont icon-gonggao-" url="/pages/announcement/announcement" open-type="navigate">
     </navigator>
-    <text>公告</text>
+    <text>活动公告</text>
   </view>
 </view>
 <!-- 实践活动内容 -->

@@ -5,7 +5,11 @@ cloud.init()
 const db = cloud.database()
 // 云函数入口函数
 exports.main = async (event, context) => {
-  return await db.collection('feedback').where({
-    _id: event.id
-  }).remove()
+  try {
+    return await db.collection('feedback').where({
+      _id: event.id
+    }).remove()
+  } catch (error) {
+    console.log(error)
+  }
 }
