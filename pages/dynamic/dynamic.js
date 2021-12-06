@@ -21,6 +21,7 @@ Page({
     dynamicList: []
   },
   onShow(){
+    getApp().getUserTrajectory(2, 'onShow', 'pages/dynamic/dynamic', '浏览实践新闻');//获取用户轨迹
     const type = this.data.tabName[0].type
     wx.showLoading({
       title: '加载中',

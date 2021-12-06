@@ -17,6 +17,7 @@ App.Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function () {
+    getApp().getUserTrajectory(1, 'onLoad', 'pages/index/index', '进入小程序首页');//获取用户轨迹
     this.addActivityStatus().then(res =>{
       app.store.setState({
         activities: res

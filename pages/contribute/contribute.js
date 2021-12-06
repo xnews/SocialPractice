@@ -48,6 +48,7 @@ Page({
       name: 'addActivityContribute',
       data
     }).then(res =>{
+      getApp().getUserTrajectory(6, 'Require', 'pages/contribute/contribute', '用户发起投稿');//获取用户轨迹
       wx.showToast({
         title: '投稿成功',
         icon: 'success',

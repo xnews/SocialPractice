@@ -56,6 +56,7 @@ Page({
             wx.redirectTo({
               url: '/examples/login/login'
             })
+            getApp().getUserTrajectory(1, 'Require', 'examples/register/register', '用户注册');//获取用户轨迹
           }
         })
       }

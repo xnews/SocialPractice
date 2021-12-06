@@ -211,7 +211,17 @@ Page({
       this.showReviewOrganiseInfo()
     }else if(index===1) {
       this.showReviewContributeInfo()
-    }else if(index===3) {
+    } else if(index===2) {
+      setTimeout(() =>{
+        const child = this.selectComponent('#mySelected')
+        const selected = this.data.selected
+        if(Object.keys(selected).length!==0) {
+          child.changeType(selected)
+        }
+      },100)
+
+    }
+    else if(index===3) {
       this.getActivityDetailAll()
     }
     else if(index===5) {
@@ -650,6 +660,7 @@ Page({
     const that = this
     const activityDetailID = this.data.activityDetailID
     const dialogType = this.data.dialogType
+    const selected = this.data.selected
     const acReleaseInfo = e.detail.value;
     let type = wx.getStorageSync('changeType')
     // let number = wx.getStorageSync('changeNum')
@@ -693,7 +704,8 @@ Page({
           acintimeValue: "选择时间",
           acoutdateValue: "选择日期",
           acouttimeValue: "选择时间",
-          index: null
+          index: null,
+          selected: {}
         })
       })
     } else {
@@ -733,7 +745,8 @@ Page({
               acintimeValue: "选择时间",
               acoutdateValue: "选择日期",
               acouttimeValue: "选择时间",
-              index: null
+              index: null,
+              selected: {}
             })
           } else if (res.cancel) {
             console.log('用户点击取消')
@@ -809,7 +822,19 @@ Page({
       deadlinedateValue: "选择日期",
       deadlinetimeValue: "选择时间",
       natureValue: "",
-      industryValue: ""
+      industryValue: "",
+      acindateValue: "选择日期",
+      acintimeValue: "选择时间",
+      acoutdateValue: "选择日期",
+      acouttimeValue: "选择时间",
+      inputValue: "",
+      activityNameValue: "",
+      placeValue: "",
+      hostValue: "",
+      principalValue: "",
+      limitNumValue:"",
+      index: null
+
     })
   },
   // 搜索活动分析
@@ -1632,8 +1657,7 @@ Page({
       const selected = {}
       selected.id = optionsType[optionsTypeIndex].type_id
       selected.name = optionsType[optionsTypeIndex].type_name
-      let current = this.data.current
-      current.name = type
+      // child.changeType(selected)
       this.setData({
         activityNameValue: activityName,
         placeValue: site,
@@ -1645,11 +1669,11 @@ Page({
         registratimeValue,
         deadlinedateValue,
         deadlinetimeValue,
-        current,
         acindateValue,
         acintimeValue,
         acoutdateValue,
         acouttimeValue,
+        selected,
         dialogType: 'update',
         activityDetailID: id,
         indexNav: 2

@@ -100,6 +100,7 @@ App.Page({
             title: '登录成功',
             icon: 'success'
           }).then(() =>{
+            getApp().getUserTrajectory(1, 'navigate', 'examples/login/login', '用户登录');//获取用户轨迹
             setTimeout(
               that.switchTab,2000)
           })

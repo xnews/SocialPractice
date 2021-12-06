@@ -118,6 +118,7 @@ Page({
       }
     }).then((res) => {
       console.log(res,'11')
+      getApp().getUserTrajectory(6, 'require', 'pages/organization/organization', '提交实践申请');//获取用户轨迹
       wx.showToast({
         title: '提交成功待审核',
         icon: 'success'

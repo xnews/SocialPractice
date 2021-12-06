@@ -114,6 +114,7 @@ App.Page({
     let registip = !_activities.isClickreRistra
     const activityIndex = Number(activityId)
     if(registip){    
+      getApp().getUserTrajectory(3, 'Require', 'pages/eventdetail/eventdetail', '用户报名活动');//获取用户轨迹
       wx.showToast({
       title: '报名成功',
       icon:'success'

@@ -164,6 +164,7 @@ Page({
         }
       }).then(res =>{
         console.log(res)
+        getApp().getUserTrajectory(6, 'Require', 'pages/feedback/feedback', '用户发起反馈请求');//获取用户轨迹
         wx.showToast({
           title: '提交成功',
           icon: 'success'

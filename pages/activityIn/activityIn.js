@@ -482,6 +482,7 @@ App.Page({
             wx.showToast({
               title: '签到成功'
             }).then(()=> {
+              getApp().getUserTrajectory(5, 'Require', 'pages/activityIn/activityIn', '用户签到活动');//获取用户轨迹
               that.start()
               that.updateProfileActivityStatus('签退')
               that.addSignInNum(profileActivityId) //添加签到人数
@@ -552,6 +553,7 @@ App.Page({
               }
             }).then(res =>{
               console.log('添加时长成功')
+              getApp().getUserTrajectory(5, 'Require', 'pages/activityIn/activityIn', '用户签退活动');//获取用户轨迹
               wx.showToast({
                 title: '签退成功',
                 icon: 'success'

@@ -51,6 +51,12 @@ Component({
       this.setData({
         isShow: false
       })
+    },
+    changeType(type) {
+      const current = type
+      this.setData({
+        current
+      })
     }
   },
   lifetimes: {

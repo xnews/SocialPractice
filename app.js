@@ -1,6 +1,7 @@
 // app.js
 var QQMapWX = require('/utils/qqmap-wx-jssdk.min.js')
 let store = require("./utils/store.js")
+const userTrajectory = require('./utils/userTrajectory.js')
 App({
   store: store,
   onLaunch() {
@@ -11,6 +12,7 @@ App({
         env: "cloud-8gy1484h4171152a"
       })
     }
+    userTrajectory.initUserTrajectory.apply(this, []);
   },
   onShow() {
     wx.cloud.callFunction({

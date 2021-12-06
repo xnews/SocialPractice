@@ -53,7 +53,7 @@
     </view>
   </block>
 
-  <!-- 活动发布 -->
+  <!-- 实践发布 -->
   <block wx:elif="{{indexNav===2}}">
     <form bindsubmit="organiseSubmit">
       <view class="organiseContainer">
@@ -90,7 +90,7 @@
           <!-- 调用下拉框组件 -->
           <view class="container" bindtap="close">
             <view class="select-wrap">
-              <select id="select" class="Select" current="{{current}}"  options="{{optionsType}}" key="type_id" text="type_name" bind:change="changeType"></select>
+              <select id="mySelected" class="Select" options="{{optionsType}}" key="type_id" text="type_name" bind:change="changeType"></select>
             </view>
           </view>
         </view>
@@ -149,7 +149,7 @@
     </form>
   </block>
 
-  <!-- 活动管理 -->
+  <!-- 实践管理 -->
   <block wx:elif="{{indexNav===3}}">
     <form bindsubmit="activityManager">
       <view class="feedbackContainer">
@@ -196,7 +196,7 @@
     </form>
   </block>
 
-    <!-- 活动分析 -->
+    <!-- 实践分析 -->
   <block wx:elif="{{indexNav===4}}">
     <search bind:search="activityAnalyse" class="searchActivity"></search>
     <view class="activityContainer">
@@ -217,7 +217,7 @@
       <activityHot chartId="activityDetail" option="{{ optionDetail }}"></activityHot>
     </view>
   </block>
-  <!-- 活动监控 -->
+  <!-- 实践监控 -->
   <block wx:elif="{{indexNav===5}}">
     <search bind:search="activityMonitor" class="searchActivity"></search>
     <view class="activityContainer">

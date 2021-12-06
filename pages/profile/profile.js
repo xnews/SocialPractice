@@ -1,4 +1,5 @@
 // pages/profile/profile.js
+const app = getApp()
 Page({
 
   /**
@@ -87,11 +88,14 @@ Page({
   },
   // 退出登录事件
   handleCancellation() {
+    const that = this
     wx.showModal({
       content: '是否退出登录',
       success (res) {
+        getApp().getUserTrajectory(2, 'navigate', 'pages/profile/profile', '用户退出登录');//获取用户轨迹
         if (res.confirm) {
           console.log('用户点击确定')
+          that.upOperationLog()
           wx.reLaunch({
             url: '/pages/loginType/loginType'
           })
@@ -100,6 +104,28 @@ Page({
           console.log('用户点击取消')
         }
       }
+    })
+  },
+  // 上传用户操作日志
+  upOperationLog() {
+    const data = app.requestUserTrajectory()
+    let utArr = wx.getStorageSync('userTrajectoryArr'); //当前的用户轨迹缓存数组
+    const userTrajectoryArr = data.userTrajectoryArr.match(/{[^}{]*?}/g)
+    console.log(userTrajectoryArr)
+    wx.cloud.callFunction({
+      name: 'addOperationLogs',
+      data: {
+        intoId: data.intoId,
+        upTime: data.upTime,
+        userToken: data.userToken,
+        userTrajectoryArr
+      }
+    }).then(res =>{
+        console.log(res,'操作日志')
+        wx.setStorageSync('userTrajectoryArr', app.arrayWeightRemoval(utArr, wx.getStorageSync('userTrajectoryArr')));
+        wx.setStorageSync('userTrajectoryStartTime', new Date().getTime());
+    }).catch(err =>{
+      console.log(err)
     })
   },
   switchToProfileActivity() {

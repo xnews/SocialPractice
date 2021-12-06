@@ -12,6 +12,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    getApp().getUserTrajectory(2, 'onLoad', 'pages/announcement/announcement', '进入活动公告页面');//获取用户轨迹
     const id = wx.getStorageSync('announcementId')
     this.addBrowseNum(id)
     wx.cloud.callFunction({
