@@ -141,7 +141,8 @@ Page({
     unitID: "",
     activityDetailInfo: [],
     current: {},
-    activityDetailID: ''
+    activityDetailID: '',
+    unitReviewInfo: []
   },
   onLoad() {
     this.showReviewOrganiseInfo()
@@ -219,21 +220,11 @@ Page({
           child.changeType(selected)
         }
       },100)
-
     }
     else if(index===3) {
       this.getActivityDetailAll()
     }
     else if(index===5) {
-      // let id = "#textareawrap";
-      // let query = wx.createSelectorQuery();//创建查询对象
-      // query.select(id).boundingClientRect();//获取view的边界及位置信息
-      // query.exec(res => {
-      //   console.log(res)
-      //   this.setData({
-      //     height: res[0].height + "px"
-      //   });
-      // });
     }else if(index===4) {
       this.getData()
     }else if(index===7) {
@@ -243,7 +234,7 @@ Page({
     }else if(index===10) {
       this.getUnitData()
     }else if(index===11) {
-      this.getUnitData()
+      this.getUnitReviewInfo()
     }
     this.setData({
       indexNav: index
@@ -405,62 +396,65 @@ Page({
     const index = e.currentTarget.dataset.index
     const passIndex = this.data.passIndex
     if(index===passIndex) {
-      wx.showModal({
-        content: "请确认是否发布",
-        success (res) {
-          if (res.confirm) {
-            console.log('用户确定发布')
-            that.getReviewOrganiseInfo().then(res=>{
-              console.log(res,'6666666666')
-              that.changeOrganiseRelease(res,index)
-              const reviewInfo = res
-              const data = res[index]
-              const activityName = data.activityName
-              const adviser = data.adviser
-              const noteInfo = data.noteInfo
-              const number = data.number
-              const place = data.place
-              const principal = data.principal
-              const teamName = data.teamName
-              const type = data.type
-              const uploadFile = data.uploadFile
-              const time = new Date(data.time)
-              const deadline = new Date(time.setDate(time.getDate()-2)) 
-              wx.cloud.callFunction({
-                name: 'addActivityDetail',
-                data: {
-                  activityName,
-                  certification: teamName,
-                  deadline,
-                  heat: {"browseNum": 0,"collectNum": 0,"commentNum": 0,"thumbupNum": 0},
-                  manager: principal,
-                  site: place,
-                  teacher: adviser,
-                  time,
-                  type
-                }
-              }).then(()=>{
-                console.log('添加成功')
-                wx.showToast({
-                  title: '发布成功',
-                  icon: 'success'
-                })
-              reviewInfo.splice(index,1)
-              that.setData({
-                reviewInfo,
-                passIndex: null
-              })
-              }).catch(()=>{
-                console.log('添加失败')
-              })
-            })
-          } else if (res.cancel) {
-            console.log('用户取消发布')
-          }
-        }
+      console.log('用户确定发布')
+      that.getReviewOrganiseInfo().then(res=>{
+        console.log(res,'6666666666')
+        that.changeOrganiseRelease(res,index)
+        const reviewInfo = res
+        const data = res[index]
+        const activityName = data.activityName
+        const adviser = data.adviser
+        const noteInfo = data.noteInfo
+        const number = data.number
+        const place = data.place
+        const principal = data.principal
+        const teamName = data.teamName
+        const uploadFile = data.uploadFile
+        const time = new Date(data.time)
+        const deadline = new Date(time.setDate(time.getDate()-2))
+        const  optionsType = that.data.optionsType
+        const type =  optionsType.find(item => item.type_name === data.type)
+        const selected = {}
+        selected.id = type.type_id
+        selected.name = type.type_name
+        console.log(type,'活动类型')
+        that.setData({
+          activityNameValue: data.activityName,
+          placeValue: data.place,
+          selected,
+          principalValue: data.principal,
+          indexNav: 2
+        })
+        // wx.cloud.callFunction({
+        //   name: 'addActivityDetail',
+        //   data: {
+        //     activityName,
+        //     certification: teamName,
+        //     deadline,
+        //     heat: {"browseNum": 0,"collectNum": 0,"commentNum": 0,"thumbupNum": 0},
+        //     manager: principal,
+        //     site: place,
+        //     teacher: adviser,
+        //     time,
+        //     type
+        //   }
+        // }).then(()=>{
+        //   console.log('添加成功')
+        //   wx.showToast({
+        //     title: '发布成功',
+        //     icon: 'success'
+        //   })
+        // reviewInfo.splice(index,1)
+        // that.setData({
+        //   reviewInfo,
+        //   passIndex: null
+        // })
+        // }).catch(()=>{
+        //   console.log('添加失败')
+        // })
       })
-    }
-  },
+      } 
+    },
   // 获取投稿所有信息
   getContributeInfo() {
     return new Promise(resolve =>{
@@ -657,6 +651,7 @@ Page({
   },
     // 提交表单数据
   organiseSubmit(e) {
+    console.log(e,'活动信息')
     const that = this
     const activityDetailID = this.data.activityDetailID
     const dialogType = this.data.dialogType
@@ -678,81 +673,88 @@ Page({
     const limitNum = parseInt(acReleaseInfo.limitNum)
     const signInTime = new Date(acReleaseInfo.acindate+" "+acReleaseInfo.acintime)
     const signBackTime = new Date(acReleaseInfo.acoutdate+" "+acReleaseInfo.acouttime)
-    if(dialogType ==='update') {
-      wx.cloud.callFunction({
-        name: 'updateActivityDetail',
-        data: {
-          _id:activityDetailID,activityName,certification,deadline,manager,site,teacher,time,type,limitNum,signInTime,signBackTime
-        }
-      }).then(()=>{
-        wx.showToast({
-          title: '更新成功',
-          icon: 'success'
-        })
-        that.setData({
-          inputValue: "",
-          activityNameValue: "",
-          placeValue: "",
-          hostValue: "",
-          principalValue: "",
-          limitNumValue:"",
-          registradateValue: "选择日期",
-          registratimeValue: "选择时间",
-          deadlinedateValue: "选择日期",
-          deadlinetimeValue: "选择时间",
-          acindateValue: "选择日期",
-          acintimeValue: "选择时间",
-          acoutdateValue: "选择日期",
-          acouttimeValue: "选择时间",
-          index: null,
-          selected: {}
-        })
+    if(activityName==''||certification==''||deadline==''||manager==''||site==''||teacher==''||time==''&&limitNum==''||signInTime==''||signBackTime==''){
+      wx.showToast({
+        title: '请填写空项',
+        icon: 'error'
       })
-    } else {
-      wx.showModal({
-        content: '是否确认发布',
-        success (res) {
-          if (res.confirm) {
-            console.log('用户点击确定')
-            wx.cloud.callFunction({
-              name: 'addActivityDetail',
-              data: {
-                activityName,certification,deadline,heat,manager,site,teacher,time,type,limitNum,signInTime,signBackTime
-              }
-            }).then(res =>{
-              wx.showToast({
-                title: '发布成功',
-                icon: 'success'
-              })
-            }).catch(() =>{
-              wx.showToast({
-                title: '发布失败',
-                icon: 'error'
-              })
-            })
-            that.setData({
-              inputValue: "",
-              activityNameValue: "",
-              placeValue: "",
-              hostValue: "",
-              principalValue: "",
-              limitNumValue:"",
-              registradateValue: "选择日期",
-              registratimeValue: "选择时间",
-              deadlinedateValue: "选择日期",
-              deadlinetimeValue: "选择时间",
-              acindateValue: "选择日期",
-              acintimeValue: "选择时间",
-              acoutdateValue: "选择日期",
-              acouttimeValue: "选择时间",
-              index: null,
-              selected: {}
-            })
-          } else if (res.cancel) {
-            console.log('用户点击取消')
+    }else {
+      if(dialogType ==='update') {
+        wx.cloud.callFunction({
+          name: 'updateActivityDetail',
+          data: {
+            _id:activityDetailID,activityName,certification,deadline,manager,site,teacher,time,type,limitNum,signInTime,signBackTime
           }
-        }
-      })
+        }).then(()=>{
+          wx.showToast({
+            title: '更新成功',
+            icon: 'success'
+          })
+          that.setData({
+            inputValue: "",
+            activityNameValue: "",
+            placeValue: "",
+            hostValue: "",
+            principalValue: "",
+            limitNumValue:"",
+            registradateValue: "选择日期",
+            registratimeValue: "选择时间",
+            deadlinedateValue: "选择日期",
+            deadlinetimeValue: "选择时间",
+            acindateValue: "选择日期",
+            acintimeValue: "选择时间",
+            acoutdateValue: "选择日期",
+            acouttimeValue: "选择时间",
+            index: null,
+            selected: {}
+          })
+        })
+      } else {
+        wx.showModal({
+          content: '是否确认发布',
+          success (res) {
+            if (res.confirm) {
+              console.log('用户点击确定')
+              wx.cloud.callFunction({
+                name: 'addActivityDetail',
+                data: {
+                  activityName,certification,deadline,heat,manager,site,teacher,time,type,limitNum,signInTime,signBackTime
+                }
+              }).then(res =>{
+                wx.showToast({
+                  title: '发布成功',
+                  icon: 'success'
+                })
+              }).catch(() =>{
+                wx.showToast({
+                  title: '发布失败',
+                  icon: 'error'
+                })
+              })
+              that.setData({
+                inputValue: "",
+                activityNameValue: "",
+                placeValue: "",
+                hostValue: "",
+                principalValue: "",
+                limitNumValue:"",
+                registradateValue: "选择日期",
+                registratimeValue: "选择时间",
+                deadlinedateValue: "选择日期",
+                deadlinetimeValue: "选择时间",
+                acindateValue: "选择日期",
+                acintimeValue: "选择时间",
+                acoutdateValue: "选择日期",
+                acouttimeValue: "选择时间",
+                index: null,
+                selected: {}
+              })
+            } else if (res.cancel) {
+              console.log('用户点击取消')
+            }
+          }
+        })
+      }
     }
     this.setData({
       dialogType: ''
@@ -833,8 +835,12 @@ Page({
       hostValue: "",
       principalValue: "",
       limitNumValue:"",
-      index: null
-
+      index: null,
+      nameValue: "",
+      contactValue: "",
+      abutmentValue: "",
+      emailValue: "",
+      addressValue: ""
     })
   },
   // 搜索活动分析
@@ -1539,6 +1545,24 @@ Page({
       wx.hideLoading()
     })
   },
+  // 获取单位审核信息
+  getUnitReviewInfo() {
+    wx.showLoading({
+      title: ''
+    })
+    wx.cloud.callFunction({
+      name: 'getUnitInfoAll'
+    }).then(res =>{
+      const unitInfo = res.result.data
+      const unitReviewInfo = unitInfo.filter(item =>{
+        return item.applicant.length !== 0
+      })
+      this.setData({
+        unitReviewInfo
+      })
+      wx.hideLoading()
+    })
+  },
   // 编辑单位信息
   editUnitInfo(e) {
     const _id = e.currentTarget.dataset.id
@@ -1694,6 +1718,50 @@ Page({
             }
           }).then(()=>{
             this.getActivityDetailAll()
+            wx.showToast({
+              title: '删除成功',
+              icon: 'success'
+            })
+          })
+        }
+      }
+    })
+  },
+  // 实践单位活动发布
+  unitRelease(e) {
+    const _id = e.currentTarget.dataset.id
+    console.log(_id)
+    wx.cloud.callFunction({
+      name: 'getUnitInfoByid',
+      data: {
+        _id
+      }
+    }).then(res => {
+      const unitInfo = res.result.data[0]
+      console.log(unitInfo,'实践单位信息')
+      this.setData({
+        hostValue: unitInfo.name,
+        placeValue: unitInfo.address,
+        limitNumValue: unitInfo.applicant.length,
+        indexNav: 2
+      })
+    })
+  },
+  // 删除实践单位申请
+  deleteUnitApply(e) {
+    const _id = e.currentTarget.dataset.id
+    wx.showModal({
+      content: '是否删除该申请信息',
+      success: res =>{
+        if(res.confirm) {
+          wx.cloud.callFunction({
+            name: 'removeUnitApply',
+            data: {
+              _id,
+              applicant: []
+            }
+          }).then(()=>{
+            this.getUnitReviewInfo()
             wx.showToast({
               title: '删除成功',
               icon: 'success'

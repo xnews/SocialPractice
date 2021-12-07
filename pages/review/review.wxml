@@ -9,7 +9,7 @@
       </view>
     </view>
   </scroll-view>
-    <!-- 活动审核内容 -->
+    <!-- 实践审核内容 -->
   <block wx:if="{{indexNav===0}}">
     <view class="reviewItem" wx:for-index="reviewIndex" wx:for="{{reviewInfo}}" wx:key="*this">
       <view class="review_head">
@@ -58,35 +58,35 @@
     <form bindsubmit="organiseSubmit">
       <view class="organiseContainer">
         <view class="origaniseItem itemHead">
-          <text>活动名称</text>
+          <text>实践名称</text>
           <input name="activityName" value="{{activityNameValue}}" type="text"/>
         </view>
         <view class="origaniseItem">
-          <text>活动地点</text>
+          <text>实践地点</text>
           <input name="place" value="{{placeValue}}" type="text"/>
         </view>
         <view class="origaniseItemTime">
           <text>报名时间</text>
-          <picker name="registradate" mode="date" bindchange="chooseRegistraDate">
+          <picker value="{{registradateValue}}" name="registradate" mode="date" bindchange="chooseRegistraDate">
             <view class="choosedate">{{registradateValue}}</view>
           </picker>
           <text>-</text>
-          <picker name="registratime" mode="time" bindchange="chooseRegistraTime">
+          <picker value="{{registratimeValue}}" name="registratime" mode="time" bindchange="chooseRegistraTime">
             <view class="choosetime">{{registratimeValue}}</view>
           </picker>
         </view>
         <view class="origaniseItemTime">
           <text>截止时间</text>
-          <picker name="deadlinedate" mode="date" bindchange="chooseDeadlineDate">
+          <picker value="{{deadlinedateValue}}" name="deadlinedate" mode="date" bindchange="chooseDeadlineDate">
             <view class="choosedate">{{deadlinedateValue}}</view>
           </picker>
           <text>-</text>
-          <picker name="deadlinetime" mode="time" bindchange="chooseDeadlineTime">
+          <picker value="{{deadlinetimeValue}}" name="deadlinetime" mode="time" bindchange="chooseDeadlineTime">
             <view class="choosetime">{{deadlinetimeValue}}</view>
           </picker>
         </view>
         <view class="origaniseItemType">
-          <text>活动类型</text>
+          <text>实践类型</text>
           <!-- 调用下拉框组件 -->
           <view class="container" bindtap="close">
             <view class="select-wrap">
@@ -95,7 +95,7 @@
           </view>
         </view>
         <view class="origaniseItem">
-          <text>活动举办方</text>
+          <text>实践举办方</text>
           <input name="host" value="{{hostValue}}" type="text"/>
         </view>
         <!-- <view class="origaniseTeamNum">
@@ -107,11 +107,11 @@
           </view>
         </view> -->
         <view class="origaniseItem">
-          <text>活动负责人</text>
+          <text>实践负责人</text>
           <input name="principal" value="{{principalValue}}" type="text"/>
         </view>
         <view class="origaniseItem">
-          <text>活动指导人</text>
+          <text>实践指导人</text>
           <!-- <input name="adviser" value="{{inputValue}}" type="text"/> -->
           <picker header-text="请选择" name="adviser" bindchange="chooseAdviser" value="{{adviserArray[index]}}" range="{{adviserArray}}">
             <view class="chooseadviser">{{adviserArray[index]}}</view>
@@ -123,26 +123,26 @@
         </view>
         <view class="origaniseItemTime">
           <text>签到时间</text>
-          <picker name="acindate" mode="date" bindchange="chooseAcinDate">
+          <picker value="{{acindateValue}}" name="acindate" mode="date" bindchange="chooseAcinDate">
             <view class="choosedate">{{acindateValue}}</view>
           </picker>
           <text>-</text>
-          <picker name="acintime" mode="time" bindchange="chooseAcinTime">
+          <picker value="{{acintimeValue}}" name="acintime" mode="time" bindchange="chooseAcinTime">
             <view class="choosetime">{{acintimeValue}}</view>
           </picker>
         </view>
         <view class="origaniseItemTime">
           <text>签退时间</text>
-          <picker name="acoutdate" mode="date" bindchange="chooseAcoutDate">
+          <picker value="{{acoutdateValue}}" name="acoutdate" mode="date" bindchange="chooseAcoutDate">
             <view class="choosedate">{{acoutdateValue}}</view>
           </picker>
           <text>-</text>
-          <picker name="acouttime" mode="time" bindchange="chooseAcoutTime">
+          <picker value="{{acouttimeValue}}" name="acouttime" mode="time" bindchange="chooseAcoutTime">
             <view class="choosetime">{{acouttimeValue}}</view>
           </picker>
         </view>
         <view class="organiseBtn">
-          <button size="mini" form-type="submit" style="width: 210rpx;height: 80rpx;">发布</button>
+          <button size="mini" form-type="submit" style="width: 210rpx;height: 80rpx;">确定</button>
           <button size="mini" form-type="reset" catchtap="emptyFormInfo" style="width: 210rpx;height: 80rpx;">清空</button>
         </view>
       </view>
@@ -398,7 +398,7 @@
   <block  wx:elif="{{indexNav===11}}">
     <form bindsubmit="unitAudit">
       <view class="unitContainer">
-        <view class="unitItem" wx:for="{{unitInfo}}" wx:key="_id">
+        <view class="unitItem" wx:for="{{unitReviewInfo}}" wx:key="_id">
           <view class="unitInfo">
             <text>实践单位名称：{{item.name}}</text>
             <text>实践地址：{{item.address}}</text>
@@ -406,11 +406,11 @@
             <!-- <block wx:for="{{item.applicant}}" wx:key="*this">
               <text>申请人：{{item}}</text>
             </block> -->
-            <text>申请人：<block wx:for="{{item.applicant}}" wx:key="*this">{{item+ '、'}}</block>
+            <text>申请人：<block wx:for="{{item.applicant}}" wx:key="*this">{{item+ ' '}}</block>
             </text>
             <text>总人数：{{item.applicant.length +'人'}}</text>
-            <button size="mini" data-id="{{item._id}}" catchtap="editUnitInfo" data-index="{{reviewIndex}}" class="unitRelease" style="width: 140rpx;height: 80rpx;font-size: 38rpx;line-height:80rpx;text-align:center">编辑</button>
-            <button size="mini" data-id="{{item._id}}" data-index="{{index}}" catchtap="deleteUnitInfo" data-id="{{item._id}}" class="deleteUnit" style="width: 140rpx;height: 80rpx;font-size: 38rpx;line-height:80rpx;text-align:center">删除</button>
+            <button size="mini" data-id="{{item._id}}" catchtap="unitRelease" data-index="{{reviewIndex}}" class="unitRelease" style="width: 140rpx;height: 80rpx;font-size: 38rpx;line-height:80rpx;text-align:center">发布</button>
+            <button size="mini" data-id="{{item._id}}" data-index="{{index}}" catchtap="deleteUnitApply" data-id="{{item._id}}" class="deleteUnit" style="width: 140rpx;height: 80rpx;font-size: 38rpx;line-height:80rpx;text-align:center">删除</button>
           </view>
         </view>
       </view>
