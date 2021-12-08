@@ -379,5 +379,23 @@
 .unitManagementBtn{
   margin-top: 160rpx;
 }
+.specifiedItem{
+  display: flex;
+  align-items: center;
+  margin: 25rpx 10rpx;
+}
+.specifiedItem textarea{
+  margin-left: 40rpx;
+  width: 70%;
+  height: 150rpx;
+  border: 1rpx solid #cccccc;
+  border-radius: 10rpx;
+  padding-left: 5rpx;
+}
+.specifiedItem text {
+  text-align: center;
+  font-size: 35rpx;
+  margin-left: 42rpx;
+}
 
 

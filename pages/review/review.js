@@ -84,6 +84,7 @@ Page({
     acintimeValue: "选择时间",
     acoutdateValue: "选择日期",
     acouttimeValue: "选择时间",
+    specifiedValue: '',
     depValue: "请选择",
     graValue: "请选择",
     proValue: "请选择",
@@ -673,6 +674,7 @@ Page({
     const limitNum = parseInt(acReleaseInfo.limitNum)
     const signInTime = new Date(acReleaseInfo.acindate+" "+acReleaseInfo.acintime)
     const signBackTime = new Date(acReleaseInfo.acoutdate+" "+acReleaseInfo.acouttime)
+    const specifiedNumber = acReleaseInfo.specifiedValue
     if(activityName==''||certification==''||deadline==''||manager==''||site==''||teacher==''||time==''&&limitNum==''||signInTime==''||signBackTime==''){
       wx.showToast({
         title: '请填写空项',
@@ -683,7 +685,7 @@ Page({
         wx.cloud.callFunction({
           name: 'updateActivityDetail',
           data: {
-            _id:activityDetailID,activityName,certification,deadline,manager,site,teacher,time,type,limitNum,signInTime,signBackTime
+            _id:activityDetailID,activityName,certification,deadline,manager,site,teacher,time,type,limitNum,signInTime,signBackTime,specifiedNumber
           }
         }).then(()=>{
           wx.showToast({
@@ -706,7 +708,8 @@ Page({
             acoutdateValue: "选择日期",
             acouttimeValue: "选择时间",
             index: null,
-            selected: {}
+            selected: {},
+            specifiedValue: ""
           })
         })
       } else {
@@ -718,7 +721,7 @@ Page({
               wx.cloud.callFunction({
                 name: 'addActivityDetail',
                 data: {
-                  activityName,certification,deadline,heat,manager,site,teacher,time,type,limitNum,signInTime,signBackTime
+                  activityName,certification,deadline,heat,manager,site,teacher,time,type,limitNum,signInTime,signBackTime,specifiedNumber
                 }
               }).then(res =>{
                 wx.showToast({
@@ -747,7 +750,8 @@ Page({
                 acoutdateValue: "选择日期",
                 acouttimeValue: "选择时间",
                 index: null,
-                selected: {}
+                selected: {},
+                specifiedValue: ''
               })
             } else if (res.cancel) {
               console.log('用户点击取消')
@@ -840,7 +844,8 @@ Page({
       contactValue: "",
       abutmentValue: "",
       emailValue: "",
-      addressValue: ""
+      addressValue: "",
+      specifiedValue: ""
     })
   },
   // 搜索活动分析
@@ -1660,7 +1665,7 @@ Page({
       }
     }).then(res => {
       console.log(res.result.data[0],'实践信息')
-      let {activityName,site,time,deadline,type,certification,manager,teacher,limitNum,signInTime,signBackTime} = res.result.data[0]
+      let {activityName,site,time,deadline,type,certification,manager,teacher,limitNum,signInTime,signBackTime,specifiedNumber} = res.result.data[0]
       time = util.formatTime(new Date(time))
       deadline = util.formatTime(new Date(deadline))
       signInTime = util.formatTime(new Date(signInTime))
@@ -1673,6 +1678,7 @@ Page({
       const acintimeValue = signInTime.split(' ')[1]
       const acoutdateValue = signBackTime.split(' ')[0]
       const acouttimeValue = signBackTime.split(' ')[1]
+      const specifiedValue = specifiedNumber
       const adviserArray = this.data.adviserArray
       const index = adviserArray.findIndex(item => item===teacher)
       const optionsType = this.data.optionsType
@@ -1697,6 +1703,7 @@ Page({
         acintimeValue,
         acoutdateValue,
         acouttimeValue,
+        specifiedValue,
         selected,
         dialogType: 'update',
         activityDetailID: id,

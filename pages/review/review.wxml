@@ -141,6 +141,10 @@
             <view class="choosetime">{{acouttimeValue}}</view>
           </picker>
         </view>
+        <view class="specifiedItem">
+          <text>指定成员</text>
+          <textarea name="specifiedValue" value="{{specifiedValue}}"></textarea>
+        </view>
         <view class="organiseBtn">
           <button size="mini" form-type="submit" style="width: 210rpx;height: 80rpx;">确定</button>
           <button size="mini" form-type="reset" catchtap="emptyFormInfo" style="width: 210rpx;height: 80rpx;">清空</button>
@@ -186,6 +190,9 @@
           </view>
           <view class="feedbackcontent">
             <text>签退时间：{{item.signBackTime}}</text>
+          </view>
+          <view class="feedbackcontent">
+            <text>指定成员：{{item.specifiedNumber}}</text>
           </view>
           <view class="bthAcManaget">
             <button size="mini" catchtap="editPractice" data-id="{{item._id}}" class="editPractice" style="width: 130rpx;height: 60rpx;font-size: 30rpx;line-height:60rpx;text-align:center">编辑</button>

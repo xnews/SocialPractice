@@ -19,7 +19,8 @@ exports.main = async (event, context) => {
       type: event.type,
       limitNum: event.limitNum,
       signInTime: event.signInTime,
-      signBackTime: event.signBackTime
+      signBackTime: event.signBackTime,
+      specifiedNumber: event.specifiedNumber
     }
   })
 }
