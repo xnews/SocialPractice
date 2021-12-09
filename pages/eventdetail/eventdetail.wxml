@@ -86,6 +86,9 @@
     <block wx:elif="{{registrationTips===-2}}">
       <button type="primary" catchtap="handleapply" disabled="true" style="width: 280rpx;height: 80rpx;background-color: var(--themeColor); color: #fff;font-size:35rpx;">未开放报名</button>
     </block>
+    <block wx:elif="{{registrationTips===2}}">
+      <button type="primary" catchtap="handleapply" style="width: 280rpx;height: 80rpx;background-color: var(--themeColor); color: #fff;font-size:35rpx;">立即报名</button>
+    </block>
 
 
     <!-- 评价图标 -->
