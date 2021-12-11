@@ -12,7 +12,7 @@
     <block  wx:elif="{{tabIndex}} === 1">
       <view catchtap="comProblem">
         <text>请输入活动名称：</text>
-        <input value="{{inputValue}}" bindinput="handlenameInput" style="border:1rpx solid #ccc;border-radius:10rpx;height:80rpx;background-color:#fff;" type="text" />
+        <input value="{{inputValue}}" bindblur="handlenameInput" style="border:1rpx solid #ccc;border-radius:10rpx;height:80rpx;background-color:#fff;" type="text" />
       </view>
     </block>
     <view style="margin-top:20rpx;">

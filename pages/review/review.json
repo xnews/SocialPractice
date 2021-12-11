@@ -2,8 +2,8 @@
   "usingComponents": {
     "select": "../../components/select/select",
     "search": "../../components/Search/search",
-    "activityHot": "../../components/activityCharts/hot"
+    "activityHot": "../../components/activityCharts/hot",
+    "upImg": "../../components/UpImg/UpImg"
   },
-  "enablePullDownRefresh": true,
   "backgroundTextStyle": "dark" 
 }

@@ -76,8 +76,24 @@ Page({
   },
   // 活动名称输入的事件
   handlenameInput(e) {
-    this.setData({
-      inputValue: e.detail.value
+    const inputValue = e.detail.value
+    wx.cloud.callFunction({
+      name: 'getActivityDetailByName',
+      data: {
+        activityName: inputValue
+      }
+    }).then(res=>{
+      const data = res.result.data
+      if(data.length ===0) {
+        wx.showToast({
+          title: '活动不存在',
+          icon: 'error'
+        })
+      } else{
+        this.setData({
+          inputValue: e.detail.value
+        })
+      }
     })
   },
   // 提交按钮的点击
@@ -152,30 +168,37 @@ Page({
       })
     }else{
       // console.log("只是提交了文本");
-      wx.cloud.callFunction({
-        name: 'addFeedback',
-        data: {
-          content: textVal,
-          images: [],
-          activityName: inputValue,
-          type: feedbackType,
-          stuNum,
-          time: new Date()
-        }
-      }).then(res =>{
-        console.log(res)
-        getApp().getUserTrajectory(6, 'Require', 'pages/feedback/feedback', '用户发起反馈请求');//获取用户轨迹
+      if(inputValue === "") {
         wx.showToast({
-          title: '提交成功',
-          icon: 'success'
+          title: '请输入活动名称',
+          icon: 'error'
         })
-      })
-      wx.hideLoading();
-      this.setData({
-        textVal: "",
-        chooseImgs: [],
-        inputValue: ""
-      })
+      } else {
+        wx.cloud.callFunction({
+          name: 'addFeedback',
+          data: {
+            content: textVal,
+            images: [],
+            activityName: inputValue,
+            type: feedbackType,
+            stuNum,
+            time: new Date()
+          }
+        }).then(res =>{
+          console.log(res)
+          getApp().getUserTrajectory(6, 'Require', 'pages/feedback/feedback', '用户发起反馈请求');//获取用户轨迹
+          wx.showToast({
+            title: '提交成功',
+            icon: 'success'
+          })
+        })
+        wx.hideLoading();
+        this.setData({
+          textVal: "",
+          chooseImgs: [],
+          inputValue: ""
+        })
+      }
     }
   },
   funcProblem() {

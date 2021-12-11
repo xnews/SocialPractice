@@ -19,7 +19,7 @@
       </view> -->
       <!-- 确认按钮 -->
       <view class="foot_area">
-        <button form-type="submit" type="primary">确认</button>
+        <button form-type="submit" style="width: 60%;" type="primary">确认</button>
       </view>
     </view>
   </view>

@@ -38,4 +38,22 @@ page, .page {
   width: 280rpx;
   height: 100rpx;
 }
+.choosepracticeDesc {
+  font-size: 36rpx;
+  text-align: center;
+  width: 515rpx;
+  height: 80rpx;
+  line-height: 80rpx;
+  padding-left: 10rpx;
+  margin: 0;
+  border: 2rpx solid #000000;
+  border-radius: 15rpx;
+}
+.school_title{
+  padding-top: 16rpx;
+  padding-left: 16rpx;
+  font-size: 38rpx;
+  text-align: center;
+  width: 180rpx;
+}
 

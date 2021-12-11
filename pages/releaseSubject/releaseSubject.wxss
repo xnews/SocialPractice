@@ -72,11 +72,13 @@
   margin-top: 20rpx;
 }
 .announcementContent{
+  margin-top: 20rpx;
   border: 1rpx solid #ccc;
   border-radius: 10rpx;
   width: 90%;
   height: 800rpx;
   margin-left: 60rpx;
+  padding: 10rpx;
 }
 .fb_content {
   background-color: #fff;

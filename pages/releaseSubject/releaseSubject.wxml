@@ -5,9 +5,9 @@
       <text>标题</text>
       <input name="title" value="{{inputValue}}" type="text"/>
     </view>
-    <view style="margin-left:60rpx;margin-bottom:20rpx;">
+    <!-- <view style="margin-left:60rpx;margin-bottom:20rpx;">
         <text style="text-align:center;font-size:38rpx;">话题内容</text>
-    </view>
+    </view> -->
     <view class="announcementContent">
       <textarea name="announcementContent" value="{{inputValue}}" id="textareawrap" maxlength="-1" style="height:{{height}}" 
       placeholder="请输入话题内容"></textarea>

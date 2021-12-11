@@ -90,10 +90,17 @@ Page({
         title: '发布成功',
         icon: 'success'
       })
+      this.setData({
+        inputValue: "",
+        chooseImgs: []
+      })
     })
+
+    // setTimeout(()=>{
+    //   wx.navigateBack({
+    //     delta: 1,
+    //   })
+    // },1000)
     wx.removeStorageSync('objImages')
-    wx.navigateBack({
-      delta: 1,
-    })
   }
 })

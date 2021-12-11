@@ -145,6 +145,17 @@
           <text>指定成员</text>
           <textarea name="specifiedValue" value="{{specifiedValue}}"></textarea>
         </view>
+        <view class="pracImg_content">
+          <button size="mini" catchtap="upPracImg" style="width: 220rpx;height: 80rpx;color: var(--themeColor);border: 1rpx solid #ccc;font-size: 36rpx;font-weight: 400;">上传图片</button>
+          <view class="up_img_item"
+          wx:for="{{chooseImgs}}"
+          wx:key="*this"
+          bindtap="handleRemoveImg"
+          data-index="{{index}}"
+          >
+          <upImg src="{{item}}"></upImg>
+          </view>
+        </view>
         <view class="organiseBtn">
           <button size="mini" form-type="submit" style="width: 210rpx;height: 80rpx;">确定</button>
           <button size="mini" form-type="reset" catchtap="emptyFormInfo" style="width: 210rpx;height: 80rpx;">清空</button>
@@ -193,6 +204,10 @@
           </view>
           <view class="feedbackcontent">
             <text>指定成员：{{item.specifiedNumber}}</text>
+          </view>
+          <view style="position: relative;">
+            <text style="position: absolute;font-size: 36rpx;color: #292421;top: 0;">实践图片：</text>
+            <image src="{{item.image}}"  style="width: 250rpx;height: 130rpx;margin-left: 180rpx;margin-top: 10rpx;" />
           </view>
           <view class="bthAcManaget">
             <button size="mini" catchtap="editPractice" data-id="{{item._id}}" class="editPractice" style="width: 130rpx;height: 60rpx;font-size: 30rpx;line-height:60rpx;text-align:center">编辑</button>

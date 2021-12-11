@@ -397,5 +397,20 @@
   font-size: 35rpx;
   margin-left: 42rpx;
 }
-
+.up_img_item{
+  margin-left: 40rpx;
+  position: absolute;
+  left: 30%;
+}
+.pracImg_content{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+.pracImg_content button{
+  width: 100rpx;
+  margin-left: 20rpx;
+  margin-top: 10rpx;
+}
 

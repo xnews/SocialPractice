@@ -3,6 +3,7 @@
 import getHotOptions from '../../echarts/activityHot.js'
 import getDetailOptions from '../../echarts/activityDetail.js'
 import getProcessOptions from '../../echarts/activityProcess.js'
+import { randomString } from '../../utils/util.js'
 var util= require('../../utils/util.js')
 // 实例化API核心类
 const app = getApp()
@@ -143,7 +144,9 @@ Page({
     activityDetailInfo: [],
     current: {},
     activityDetailID: '',
-    unitReviewInfo: []
+    unitReviewInfo: [],
+    chooseImgs: [],
+    fileID: 'cloud://cloud-8gy1484h4171152a.636c-cloud-8gy1484h4171152a-1306324510/images/1.jpeg'
   },
   onLoad() {
     this.showReviewOrganiseInfo()
@@ -654,6 +657,7 @@ Page({
   organiseSubmit(e) {
     console.log(e,'活动信息')
     const that = this
+    const {chooseImgs} = this.data
     const activityDetailID = this.data.activityDetailID
     const dialogType = this.data.dialogType
     const selected = this.data.selected
@@ -675,6 +679,7 @@ Page({
     const signInTime = new Date(acReleaseInfo.acindate+" "+acReleaseInfo.acintime)
     const signBackTime = new Date(acReleaseInfo.acoutdate+" "+acReleaseInfo.acouttime)
     const specifiedNumber = acReleaseInfo.specifiedValue
+    const image = acReleaseInfo.image
     if(activityName==''||certification==''||deadline==''||manager==''||site==''||teacher==''||time==''&&limitNum==''||signInTime==''||signBackTime==''){
       wx.showToast({
         title: '请填写空项',
@@ -682,77 +687,185 @@ Page({
       })
     }else {
       if(dialogType ==='update') {
-        wx.cloud.callFunction({
-          name: 'updateActivityDetail',
-          data: {
-            _id:activityDetailID,activityName,certification,deadline,manager,site,teacher,time,type,limitNum,signInTime,signBackTime,specifiedNumber
-          }
-        }).then(()=>{
-          wx.showToast({
-            title: '更新成功',
-            icon: 'success'
-          })
-          that.setData({
-            inputValue: "",
-            activityNameValue: "",
-            placeValue: "",
-            hostValue: "",
-            principalValue: "",
-            limitNumValue:"",
-            registradateValue: "选择日期",
-            registratimeValue: "选择时间",
-            deadlinedateValue: "选择日期",
-            deadlinetimeValue: "选择时间",
-            acindateValue: "选择日期",
-            acintimeValue: "选择时间",
-            acoutdateValue: "选择日期",
-            acouttimeValue: "选择时间",
-            index: null,
-            selected: {},
-            specifiedValue: ""
+        wx.showLoading({
+          title: ''
+        })
+        if(chooseImgs.length != 0) {
+          let promiseArr = []
+          let cloudPath = 'practice_release/' + randomString(10) //云存储路径
+          promiseArr.push(new Promise((resolve)=>{
+            wx.cloud.uploadFile({
+              cloudPath,
+              filePath: chooseImgs[0],
+              success: res=> {
+                resolve(res.fileID)
+              }
+            })
+          }))
+        Promise.all(promiseArr).then(fileID=>{
+          wx.cloud.callFunction({
+            name: 'updateActivityDetail',
+            data: {
+              _id:activityDetailID,activityName,certification,deadline,manager,site,teacher,time,type,limitNum,signInTime,signBackTime,specifiedNumber,image:fileID
+            }
+          }).then(()=>{
+            wx.showToast({
+              title: '更新成功',
+              icon: 'success'
+            })
+            that.setData({
+              inputValue: "",
+              activityNameValue: "",
+              placeValue: "",
+              hostValue: "",
+              principalValue: "",
+              limitNumValue:"",
+              registradateValue: "选择日期",
+              registratimeValue: "选择时间",
+              deadlinedateValue: "选择日期",
+              deadlinetimeValue: "选择时间",
+              acindateValue: "选择日期",
+              acintimeValue: "选择时间",
+              acoutdateValue: "选择日期",
+              acouttimeValue: "选择时间",
+              index: null,
+              selected: {},
+              specifiedValue: "",
+              chooseImgs: []
+            })
           })
         })
+        } else {
+          wx.cloud.callFunction({
+            name: 'updateActivityDetail',
+            data: {
+              _id:activityDetailID,activityName,certification,deadline,manager,site,teacher,time,type,limitNum,signInTime,signBackTime,specifiedNumber,image
+            }
+          }).then(()=>{
+            wx.showToast({
+              title: '更新成功',
+              icon: 'success'
+            })
+            that.setData({
+              inputValue: "",
+              activityNameValue: "",
+              placeValue: "",
+              hostValue: "",
+              principalValue: "",
+              limitNumValue:"",
+              registradateValue: "选择日期",
+              registratimeValue: "选择时间",
+              deadlinedateValue: "选择日期",
+              deadlinetimeValue: "选择时间",
+              acindateValue: "选择日期",
+              acintimeValue: "选择时间",
+              acoutdateValue: "选择日期",
+              acouttimeValue: "选择时间",
+              index: null,
+              selected: {},
+              specifiedValue: "",
+              chooseImgs: []
+            })
+          })
+        }
       } else {
         wx.showModal({
           content: '是否确认发布',
           success (res) {
             if (res.confirm) {
               console.log('用户点击确定')
-              wx.cloud.callFunction({
-                name: 'addActivityDetail',
-                data: {
-                  activityName,certification,deadline,heat,manager,site,teacher,time,type,limitNum,signInTime,signBackTime,specifiedNumber
-                }
-              }).then(res =>{
-                wx.showToast({
-                  title: '发布成功',
-                  icon: 'success'
-                })
-              }).catch(() =>{
-                wx.showToast({
-                  title: '发布失败',
-                  icon: 'error'
-                })
+              wx.showLoading({
+                title: ''
               })
-              that.setData({
-                inputValue: "",
-                activityNameValue: "",
-                placeValue: "",
-                hostValue: "",
-                principalValue: "",
-                limitNumValue:"",
-                registradateValue: "选择日期",
-                registratimeValue: "选择时间",
-                deadlinedateValue: "选择日期",
-                deadlinetimeValue: "选择时间",
-                acindateValue: "选择日期",
-                acintimeValue: "选择时间",
-                acoutdateValue: "选择日期",
-                acouttimeValue: "选择时间",
-                index: null,
-                selected: {},
-                specifiedValue: ''
-              })
+              if(chooseImgs.length != 0) {
+                let promiseArr = []
+                let cloudPath = 'practice_release/' + randomString(10) //云存储路径
+                promiseArr.push(new Promise((resolve)=>{
+                  wx.cloud.uploadFile({
+                    cloudPath,
+                    filePath: chooseImgs[0],
+                    success: res=> {
+                      resolve(res.fileID)
+                    }
+                  })
+                }))
+                Promise.all(promiseArr).then((fileID)=>{
+                  wx.cloud.callFunction({
+                    name: 'addActivityDetail',
+                    data: {
+                      activityName,certification,deadline,heat,manager,site,teacher,time,type,limitNum,signInTime,signBackTime,specifiedNumber,image:fileID
+                    }
+                  }).then(res =>{
+                    wx.showToast({
+                      title: '发布成功',
+                      icon: 'success'
+                    })
+                  }).catch(() =>{
+                    wx.showToast({
+                      title: '发布失败',
+                      icon: 'error'
+                    })
+                  })
+                  that.setData({
+                    inputValue: "",
+                    activityNameValue: "",
+                    placeValue: "",
+                    hostValue: "",
+                    principalValue: "",
+                    limitNumValue:"",
+                    registradateValue: "选择日期",
+                    registratimeValue: "选择时间",
+                    deadlinedateValue: "选择日期",
+                    deadlinetimeValue: "选择时间",
+                    acindateValue: "选择日期",
+                    acintimeValue: "选择时间",
+                    acoutdateValue: "选择日期",
+                    acouttimeValue: "选择时间",
+                    index: null,
+                    selected: {},
+                    specifiedValue: '',
+                    chooseImgs: []
+                  })
+                })
+              } else{
+                const fileID = that.data.fileID
+                wx.cloud.callFunction({
+                  name: 'addActivityDetail',
+                  data: {
+                    activityName,certification,deadline,heat,manager,site,teacher,time,type,limitNum,signInTime,signBackTime,specifiedNumber,image:fileID
+                  }
+                }).then(res =>{
+                  wx.showToast({
+                    title: '发布成功',
+                    icon: 'success'
+                  })
+                }).catch(() =>{
+                  wx.showToast({
+                    title: '发布失败',
+                    icon: 'error'
+                  })
+                })
+                that.setData({
+                  inputValue: "",
+                  activityNameValue: "",
+                  placeValue: "",
+                  hostValue: "",
+                  principalValue: "",
+                  limitNumValue:"",
+                  registradateValue: "选择日期",
+                  registratimeValue: "选择时间",
+                  deadlinedateValue: "选择日期",
+                  deadlinetimeValue: "选择时间",
+                  acindateValue: "选择日期",
+                  acintimeValue: "选择时间",
+                  acoutdateValue: "选择日期",
+                  acouttimeValue: "选择时间",
+                  index: null,
+                  selected: {},
+                  specifiedValue: '',
+                  chooseImgs: []
+                })
+              }
             } else if (res.cancel) {
               console.log('用户点击取消')
             }
@@ -845,7 +958,8 @@ Page({
       abutmentValue: "",
       emailValue: "",
       addressValue: "",
-      specifiedValue: ""
+      specifiedValue: "",
+      chooseImgs: []
     })
   },
   // 搜索活动分析
@@ -915,7 +1029,7 @@ Page({
     let {_id,site,activityName,time} = e.detail
     // 标记活动目的地
     time = util.formatTime(new Date(time))
-    const markers = this.data.markers;
+    const markers = [];
     const points = this.data.points
     const circles = this.data.circles
     const _this = this;
@@ -1631,9 +1745,9 @@ Page({
     })
   },
   // 监听用户下拉刷新动作
-  onPullDownRefresh() {
-    this.getData()
-  },
+  // onPullDownRefresh() {
+  //   this.getData()
+  // },
   // 获取活动信息
   getActivityDetailAll() {
     wx.showLoading({
@@ -1665,7 +1779,7 @@ Page({
       }
     }).then(res => {
       console.log(res.result.data[0],'实践信息')
-      let {activityName,site,time,deadline,type,certification,manager,teacher,limitNum,signInTime,signBackTime,specifiedNumber} = res.result.data[0]
+      let {activityName,site,time,deadline,type,certification,manager,teacher,limitNum,signInTime,signBackTime,specifiedNumber,image} = res.result.data[0]
       time = util.formatTime(new Date(time))
       deadline = util.formatTime(new Date(deadline))
       signInTime = util.formatTime(new Date(signInTime))
@@ -1679,6 +1793,8 @@ Page({
       const acoutdateValue = signBackTime.split(' ')[0]
       const acouttimeValue = signBackTime.split(' ')[1]
       const specifiedValue = specifiedNumber
+      const chooseImgs = this.data.chooseImgs
+      chooseImgs.push(image)
       const adviserArray = this.data.adviserArray
       const index = adviserArray.findIndex(item => item===teacher)
       const optionsType = this.data.optionsType
@@ -1704,6 +1820,7 @@ Page({
         acoutdateValue,
         acouttimeValue,
         specifiedValue,
+        chooseImgs,
         selected,
         dialogType: 'update',
         activityDetailID: id,
@@ -1776,6 +1893,36 @@ Page({
           })
         }
       }
+    })
+  },
+  // 实践发布图片上传
+  upPracImg() {
+    // 2 调用小程序内置的选择图片api
+    wx.chooseImage({
+      // 同时选中的图片的数量
+      count: 1,
+      // 图片的格式  原图  压缩
+      sizeType: ['original', 'compressed'],
+      // 图片的来源  相册  照相机
+      sourceType: ['album', 'camera'],
+      success: (result) => {
+        this.setData({
+          // 图片数组 进行拼接 
+          chooseImgs: [...this.data.chooseImgs, ...result.tempFilePaths]
+        })
+      }
+    });
+  },
+  // 实践发布图片删除
+  handleRemoveImg(e) {
+    // 2 获取被点击的组件的索引
+    const { index } = e.currentTarget.dataset;
+    // 3 获取data中的图片数组
+    let { chooseImgs } = this.data;
+    // 4 删除元素
+    chooseImgs.splice(index, 1);
+    this.setData({
+      chooseImgs
     })
   }
 })

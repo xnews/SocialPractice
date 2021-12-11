@@ -13,15 +13,23 @@ Page({
    * 生命周期函数--监听页面加载 
    */
   onLoad(options) {
+    wx.showLoading({
+      title: '',
+    })
     wx.cloud.callFunction({
       name: 'getActivityTopic'
     }).then(res =>{
       // console.log(res.result.data,'111')
       const topicList = res.result.data
+      for(let item of topicList) {
+        item.img_url = item.img_url[0]
+      }
+      console.log(topicList)
       wx.setStorageSync('topicList', topicList)
       this.setData({
       topicList
     })
+    wx.hideLoading()
     })
   },
   switchToContent(e) {
