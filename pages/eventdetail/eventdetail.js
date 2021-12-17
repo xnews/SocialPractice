@@ -118,7 +118,66 @@ App.Page({
     const specifiedNumber = _activities.specifiedNumber
     const parttern = new RegExp(stuName)
     const specified = parttern.test(specifiedNumber)
-    if(specified) {
+    if(specifiedNumber!== '') {
+      if(specified) {
+        if(registip){    
+          getApp().getUserTrajectory(3, 'Require', 'pages/eventdetail/eventdetail', '用户报名活动');//获取用户轨迹
+          wx.showToast({
+          title: '报名成功',
+          icon:'success'
+          })
+          this.onLoad()
+          this.updateApplyNum(1)
+          // 添加我的活动信息
+          wx.cloud.callFunction({
+            name: 'updateProfileActivity',
+            data: {
+              stuNum,
+              activity: activity
+            }
+          })
+          _activities.registrationTips = 1,
+          _activities.isClickreRistra = true
+          activities.splice(activityIndex,1,_activities)
+          app.store.setState({
+            activities
+          })
+          this.setData({
+            registrationTips:1
+          })
+        }else{
+          wx.showToast({
+            title: '取消成功',
+            icon:'success'
+            })
+          this.onLoad()
+          this.updateApplyNum(-1)
+          wx.cloud.callFunction({
+            name: 'removeProfileActivity',
+            data: {
+              stuNum,
+              id: _id
+            }
+          }).then(res => {
+            console.log(res,'删除成功')
+          })
+          _activities.registrationTips = 0,
+          _activities.isClickreRistra = false
+          activities.splice(activityIndex,1,_activities)
+          app.store.setState({
+            activities
+          })
+          this.setData({
+            registrationTips:0
+          })
+        }
+      } else {
+        wx.showModal({
+          title: '提示',
+          content: '该活动仅支持指定成员报名'
+        })
+      }
+    } else {
       if(registip){    
         getApp().getUserTrajectory(3, 'Require', 'pages/eventdetail/eventdetail', '用户报名活动');//获取用户轨迹
         wx.showToast({
@@ -170,12 +229,8 @@ App.Page({
           registrationTips:0
         })
       }
-    } else {
-      wx.showModal({
-        title: '提示',
-        content: '该活动仅支持指定成员报名'
-      })
     }
+
   },
   // 调用更新点赞数量云函数
   updateThumbup(num) {

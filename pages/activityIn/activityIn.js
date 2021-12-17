@@ -531,6 +531,9 @@ App.Page({
               title: '提示',
               content: '实践时长不少于1小时',
               confirmText: '确认',
+              complete: res =>{
+                that.Restart()
+              }
             })
           }else if(new Date().getTime() > signBackTime) {
             wx.showToast({

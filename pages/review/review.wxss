@@ -395,7 +395,7 @@
 .specifiedItem text {
   text-align: center;
   font-size: 35rpx;
-  margin-left: 42rpx;
+  margin-left: 39rpx;
 }
 .up_img_item{
   margin-left: 40rpx;

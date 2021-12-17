@@ -658,6 +658,10 @@ Page({
     console.log(e,'活动信息')
     const that = this
     const {chooseImgs} = this.data
+    const pattern = /cloud:///
+    const str = chooseImgs[0]
+    const flag = !(pattern.test(str))
+    console.log(pattern.test(str));
     const activityDetailID = this.data.activityDetailID
     const dialogType = this.data.dialogType
     const selected = this.data.selected
@@ -679,7 +683,7 @@ Page({
     const signInTime = new Date(acReleaseInfo.acindate+" "+acReleaseInfo.acintime)
     const signBackTime = new Date(acReleaseInfo.acoutdate+" "+acReleaseInfo.acouttime)
     const specifiedNumber = acReleaseInfo.specifiedValue
-    const image = acReleaseInfo.image
+    const image = chooseImgs
     if(activityName==''||certification==''||deadline==''||manager==''||site==''||teacher==''||time==''&&limitNum==''||signInTime==''||signBackTime==''){
       wx.showToast({
         title: '请填写空项',
@@ -690,7 +694,7 @@ Page({
         wx.showLoading({
           title: ''
         })
-        if(chooseImgs.length != 0) {
+        if(flag) {
           let promiseArr = []
           let cloudPath = 'practice_release/' + randomString(10) //云存储路径
           promiseArr.push(new Promise((resolve)=>{
@@ -766,6 +770,7 @@ Page({
               specifiedValue: "",
               chooseImgs: []
             })
+            wx.hideLoading()
           })
         }
       } else {
@@ -1867,6 +1872,7 @@ Page({
         hostValue: unitInfo.name,
         placeValue: unitInfo.address,
         limitNumValue: unitInfo.applicant.length,
+        specifiedValue: unitInfo.applicant.join('、'),
         indexNav: 2
       })
     })
