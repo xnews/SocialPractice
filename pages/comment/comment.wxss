@@ -2,11 +2,13 @@
   height: 100%;
   position: relative;
 } */
-.comment_container{
+pages {
   height: 100%;
+  position: relative;
 }
 .comment_main{
-  height: 1040rpx;
+  position: absolute;
+  height: 90%;
   overflow: hidden;
 }
 

@@ -9,7 +9,11 @@ const _ = db.command
 // 云函数入口函数
 const MAX_LIMIT = 100
 exports.main = async (event, context) => {
-  return await db.collection('activity_detail').where({
-    type: event.type
-  }).get()
+  try {
+    return await db.collection('activity_detail').where({
+      type: event.type
+    }).get()
+  } catch (error) {
+    console.log(error)
+  }
 }

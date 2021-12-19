@@ -7,7 +7,6 @@ var intTime;
 var addTime;
 // 实例化API核心类
 const qqmapsdk = app.globalData.qqmapsdk
-
 var EARTH_RADIUS = 6378.137; //地球半径
 function rad(d) {
     return d * Math.PI / 180.0;
@@ -446,11 +445,42 @@ App.Page({
       resolve(practiceTime)
     })
   },
+  // 添加用户实践日志
+  addPracticeLog(activityId,stuNum,stuName,signInTime,signInSite,signBackTime,signBackSite) {
+    wx.cloud.callFunction({
+      name: 'addActivityLog',
+      data: {
+        activityId,
+        stuNum,
+        stuName,
+        signInTime,
+        signInSite,
+        signBackTime,
+        signBackSite
+      }
+    })
+  },
+  // 更新用户实践日志
+  updatePracticeLog(activityId,stuNum,signBackTime,signBackSite){
+    wx.cloud.callFunction({
+      name: 'updateaddActivityLog',
+      data: {
+        activityId,
+        stuNum,
+        signBackTime,
+        signBackSite
+      }
+    }).then(res=>{
+      console.log('更新实践日志成功')
+    }).catch(err=>{
+      console.log(err)
+    })
+  },
   // 用户签到事件
   checkIn: function () {
     console.log('用户点击了签到')
     var that = this
-    var nowTime = util.formatTime(new Date())
+    const nowTime = util.formatTime(new Date())
     const timeout = this.data.timecount
     const profileActivityId = wx.getStorageSync('profileActivityId')
     this.calcDistance()
@@ -458,6 +488,9 @@ App.Page({
     this.getActivitySign()
     const signInTime = new Date(this.data.signInTime).getTime()
     const signBackTime = new Date(this.data.signBackTime).getTime()
+    const stuNum = wx.getStorageSync('stuNum')
+    const stuName = wx.getStorageSync('name')
+    const signAddress = this.data.addressName
     if(new Date().getTime()<signInTime) {
       wx.showToast({
         title: '活动未开始',
@@ -486,6 +519,7 @@ App.Page({
               that.start()
               that.updateProfileActivityStatus('签退')
               that.addSignInNum(profileActivityId) //添加签到人数
+              that.addPracticeLog(profileActivityId,stuNum,stuName,nowTime,signAddress,'','')
             })
             // wx.setStorageSync('clickStatus', 1)
             that.updateAcitvityInStatus(1)
@@ -516,6 +550,8 @@ App.Page({
     that.stop()
     this.getActivitySign()
     const signBackTime = new Date(this.data.signBackTime).getTime()
+    const nowTime = util.formatTime(new Date())
+    const signBackAddress = this.data.addressName
     wx.showModal({
       title: '请确认签退信息',
       content: `实践时长: ${this.data.timecount}`,
@@ -526,7 +562,7 @@ App.Page({
           console.log(that.data.timecount,'that.data.timecount')
           // wx.setStorageSync('practiceTime', that.data.timecount)
           const practice_time = that.transformTime(that.data.timecount)
-          if(practice_time<3600) {
+          if(practice_time<10) {
             wx.showModal({
               title: '提示',
               content: '实践时长不少于1小时',
@@ -565,6 +601,7 @@ App.Page({
               console.log(err)
             })
             that.addSignBackNum(profileActivityId) //添加签退人数
+            that.updatePracticeLog(profileActivityId,stuNum,nowTime,signBackAddress)
             that.Reset()
             that.updateProfileActivityStatus('活动结束')
             // wx.setStorageSync('clickStatus', -1)
@@ -580,26 +617,6 @@ App.Page({
       }
     })
   },
-
-  // realyCheckIn: function() { 
-  //   // 获取缓存中的活动id
-  //   const {site} = wx.getStorageSync('activities')[0]
-  //   const _id = wx.getStorageSync('activityId')
-  //   console.log(_id,'11')
-  //   const time = wx.getStorageSync('practiceTime')
-  //   const poi = wx.getStorageSync('Mypoints')
-  //   // console.log('id',_id)
-  //   // 添加活动位置信息
-  //   wx.cloud.callFunction({
-  //     name: 'addActivityIn',
-  //     data: {
-  //       activityId: _id,
-  //       site: site,
-  //       time,
-  //       location: poi
-  //     }
-  //   })
-  // },
   // 开始计时
   start() {
     var that = this;

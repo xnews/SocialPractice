@@ -4,7 +4,9 @@ module.exports = new Store({
   state: {
     activities: [],
     activity: {},
-    loginStatus: 1
+    loginStatus: 1,
+    organise: [],
+    organiseReleaseStatus: 0
   },
   methods: {
     addActivityStatus() {
@@ -26,6 +28,24 @@ module.exports = new Store({
           }
       })
     })
-  }
+  },
+    getOrganiseInfo() {
+      let organise = []
+      return new Promise(resolve => {
+        wx.cloud.callFunction({
+          name: 'getReviewOrganiseInfo',
+          success(res) {
+            organise = res.result.data
+            for(let i of organise) {
+              if(i.status === '已通过'){
+                i.organiseReleaseStatus = 1
+              }else{
+                i.organiseReleaseStatus = 0
+              }
+            }
+          }
+        })
+      })
+    }
   }
 })

@@ -23,11 +23,15 @@
         <text>{{item.type}}</text>
         <text>{{item.number}}</text>
       </view>
+      <view class="review_status_text">
+        <text style="color: #292421;font-size: 38rpx;">审核状态：</text>
+        <text style="color: #0066ff;">{{item.status}}</text>
+      </view>
       <view class="review_status">
-        <button size="mini" catchtap="handleDownloadFile" data-index="{{reviewIndex}}" class="file" style="width: 160rpx;height: 60rpx;font-size: 30rpx;line-height:60rpx;text-align:center">文件预览</button>
-        <button size="mini" catchtap="handleOrganiseRelease" data-index="{{reviewIndex}}" class="release {{passIndex===reviewIndex? 'active_release':''}}" style="width: 100rpx;height: 60rpx;font-size: 30rpx;line-height:60rpx;text-align:center">发布</button>
-        <button size="mini" catchtap="handleOrganisePass" data-index="{{reviewIndex}}" class="pass" style="width: 100rpx;height: 60rpx;font-size: 30rpx;line-height:60rpx;text-align:center">通过</button>
-        <button size="mini" catchtap="hanleOrganiseUnqualify" data-index="{{reviewIndex}}" class="nopass" style="width: 130rpx;height: 60rpx;font-size: 30rpx;line-height:60rpx;text-align:center">未通过</button>
+        <button size="mini" catchtap="handleDownloadFile" data-id="{{item._id}}" class="file" style="width: 160rpx;height: 60rpx;font-size: 30rpx;line-height:60rpx;text-align:center">文件预览</button>
+        <button size="mini" catchtap="handleOrganiseRelease" data-id="{{item._id}}" disabled="{{item.status === '已通过'? false: true}}" class="release {{item.status === '已通过'? 'active_release':'not_release'}}" style="width: 100rpx;height: 60rpx;font-size: 30rpx;line-height:60rpx;text-align:center">发布</button>
+        <button size="mini" catchtap="handleOrganisePass" data-id="{{item._id}}" class="pass" style="width: 100rpx;height: 60rpx;font-size: 30rpx;line-height:60rpx;text-align:center">通过</button>
+        <button size="mini" catchtap="hanleOrganiseUnqualify" data-id="{{item._id}}" class="nopass" style="width: 130rpx;height: 60rpx;font-size: 30rpx;line-height:60rpx;text-align:center">未通过</button>
       </view>
     </view>
   </block>
@@ -45,10 +49,15 @@
       <view  class="contribute_time">
         <text>{{item.time}}</text>
       </view>
+      <view class="contribute_status">
+        <text style="color: #292421;font-size: 38rpx;">审核状态：</text>
+        <text style="color: #0066ff;">{{item.status}}</text>
+      </view>
       <view class="contribute_btn">
-        <button size="mini" catchtap="handleContributeRelease" data-index="{{contributeIndex}}" class="release  {{passIndex===contributeIndex? 'active_release':''}}" style="width: 100rpx;height: 60rpx;font-size: 30rpx;line-height:60rpx;text-align:center">发布</button>
-        <button size="mini" class="pass" data-index="{{contributeIndex}}" catchtap="hanleContributePass" style="width: 100rpx;height: 60rpx;font-size: 30rpx;line-height:60rpx;text-align:center">通过</button>
-        <button size="mini" class="nopass" data-index="{{contributeIndex}}" catchtap="handleContributeUnqualify" style="width: 130rpx;height: 60rpx;font-size: 30rpx;line-height:60rpx;text-align:center">未通过</button>
+        <button size="mini" class="deleteContribute" data-id="{{item._id}}" catchtap="handleDeleteContribute" style="width: 130rpx;height: 60rpx;font-size: 30rpx;line-height:60rpx;text-align:center">删除</button>
+        <button size="mini" catchtap="handleContributeRelease" disabled="{{item.status==='已通过'? false: true}}" data-id="{{item._id}}" class="release  {{item.status==='已通过'? 'active_release':'not_release'}}" style="width: 100rpx;height: 60rpx;font-size: 30rpx;line-height:60rpx;text-align:center">发布</button>
+        <button size="mini" class="pass" data-id="{{item._id}}" catchtap="hanleContributePass" style="width: 100rpx;height: 60rpx;font-size: 30rpx;line-height:60rpx;text-align:center">通过</button>
+        <button size="mini" class="nopass" data-id="{{item._id}}" catchtap="handleContributeUnqualify" style="width: 130rpx;height: 60rpx;font-size: 30rpx;line-height:60rpx;text-align:center">未通过</button>
       </view>
     </view>
   </block>
@@ -210,6 +219,7 @@
             <image src="{{item.image}}"  style="width: 250rpx;height: 130rpx;margin-left: 180rpx;margin-top: 10rpx;" />
           </view>
           <view class="bthAcManaget">
+            <button size="mini" catchtap="reviewPracticeLog" data-id="{{item._id}}" class="reviewPractice" style="width: 160rpx;height: 60rpx;font-size: 30rpx;line-height:60rpx;text-align:center">查看日志</button>
             <button size="mini" catchtap="editPractice" data-id="{{item._id}}" class="editPractice" style="width: 130rpx;height: 60rpx;font-size: 30rpx;line-height:60rpx;text-align:center">编辑</button>
             <button size="mini" catchtap="deletePractice" data-id="{{item._id}}" class="deletePractice" style="width: 130rpx;height: 60rpx;font-size: 30rpx;line-height:60rpx;text-align:center">删除</button>
           </view>
@@ -437,5 +447,22 @@
         </view>
       </view>
     </form>
+  </block>
+
+  <!-- 实践日志 -->
+  <block wx:elif="{{indexNav===12}}">
+    <view class="practiceLogContainer">
+      <view class="practiceLog_title">
+        <text>实践名称：科创成果展</text>
+      </view>
+      <view class="practiceLog_content" wx:for="{{practiceLogInfo}}" wx:key="*this">
+        <text>学号：{{item.stuNum}}</text>
+        <text>姓名：{{item.stuName}}</text>
+        <text>签到时间：{{item.signInTime}}</text>
+        <text>签到地点：{{item.signInSite}}</text>
+        <text>签退时间：{{item.signBackTime}}</text>
+        <text>签退地点：{{item.signBackSite}}</text>
+      </view>
+    </view>
   </block>
 </view>

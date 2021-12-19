@@ -1,11 +1,11 @@
 .active_content {
   height: 260rpx;
   width: 100%;
-  border-bottom: 1rpx solid #cccccc;
 }
 .active_content .active_list{
   display: flex;
   padding: 10rpx 0;
+  border-bottom: 1rpx solid #cccccc;
 }
 
 .active_content .active_list .active_img{
