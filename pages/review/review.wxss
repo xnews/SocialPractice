@@ -328,14 +328,13 @@
 }
 
 .unitContainer{
-  padding: 30rpx 50rpx;
+  padding: 30rpx 10rpx;
 }
 .unitItem{
-  height: 600rpx;
+  height: 540rpx;
   position: relative;
-  border: 1rpx solid var(--themeColor);
-  border-radius: 20rpx;
-  margin-bottom: 40rpx;
+  margin-bottom: 20rpx;
+  border-bottom: 1rpx solid #cccccc;
 }
 .unitInfo{
   display: flex;
@@ -352,11 +351,35 @@
   float: right;
   color: #fff;
   position: absolute;
-  right: 180rpx;
+  right: 350rpx;
   bottom: 20rpx;
   background-color: var(--themeColor);
 }
 .deleteUnit{
+  font-weight:400;
+  white-space:nowrap;
+  background-color: #ff3b30;
+  /* margin-right: 20rpx; */
+  border: 1rpx solid #cccccc;
+  border-radius: 20rpx;
+  color: #fff;
+  position: absolute;
+  left: 20rpx;
+  bottom: 20rpx;
+}
+.unitPass{
+  font-weight:400;
+  white-space:nowrap;
+  background-color: #008B45;
+  /* margin-right: 20rpx; */
+  border: 1rpx solid #cccccc;
+  border-radius: 20rpx;
+  color: #fff;
+  position: absolute;
+  right: 190rpx;
+  bottom: 20rpx;
+}
+.unitNoPass{
   font-weight:400;
   white-space:nowrap;
   background-color: #ff3b30;

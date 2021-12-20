@@ -136,7 +136,8 @@ Page({
     fileID: 'cloud://cloud-8gy1484h4171152a.636c-cloud-8gy1484h4171152a-1306324510/images/1.jpeg',
     unitInfoID: '',
     organiseInfoId: '',
-    practiceLogInfo: []
+    practiceLogInfo: [],
+    practiceLogTitle: ''
   },
   onLoad() {
     this.showReviewOrganiseInfo()
@@ -240,6 +241,10 @@ Page({
       this.getUnitData()
     }else if(index===11) {
       this.getUnitReviewInfo()
+    }else if(index===12){
+      this.setData({
+        practiceLogTitle: ''
+      })
     }
     this.setData({
       indexNav: index
@@ -900,7 +905,8 @@ Page({
       emailValue: "",
       addressValue: "",
       specifiedValue: "",
-      chooseImgs: []
+      chooseImgs: [],
+      selected: {}
     })
   },
   // 搜索活动分析
@@ -1846,6 +1852,60 @@ Page({
       }
     })
   },
+  // 改变实践单位审核状态
+  updateUnitApplyStatus(_id,status) {
+    wx.cloud.callFunction({
+      name: 'updateUnitApplyStatus',
+      data: {
+        _id,
+        status
+      }
+    })
+  },
+  // 通过实践单位审核状态
+  handleUnitPass(e) {
+    const _id = e.currentTarget.dataset.id
+    this.updateUnitApplyStatus(_id,2)
+    this.getUnitReviewInfo()
+    this.sendUnitNotice(_id,'已通过')
+  },
+  // 未通过实践单位审核状态
+  hanleUnitUnqualify(e) {
+    const _id = e.currentTarget.dataset.id
+    this.updateUnitApplyStatus(_id,1)
+    this.getUnitReviewInfo()
+    this.sendUnitNotice(_id,'未通过')
+  },
+  // 发送实践通知信息给学生
+  sendUnitNotice(_id,status) {
+    const stuNum = wx.getStorageSync('stuNum')
+    const time = util.formatTime(new Date())
+    wx.cloud.callFunction({
+      name: 'getUnitInfoByid',
+      data: {
+        _id
+      }
+    }).then(res =>{
+      const data = res.result.data[0]
+      wx.cloud.callFunction({
+        name: 'addOrganizationInfo',
+        data: {
+          stuNum,
+          activityName: data.name,
+          place:data.address,
+          time,
+          type: data.nature,
+          teamName:data.name,
+          number:data.applicant.length,
+          principal: '',
+          adviser:data.abutment,
+          uploadFile: '',
+          noteInfo: '',
+          status: status
+        }
+      })
+    })
+  },
   // 实践发布图片上传
   upPracImg() {
     // 2 调用小程序内置的选择图片api
@@ -1880,16 +1940,38 @@ Page({
   reviewPracticeLog(e) {
     const activityId = e.currentTarget.dataset.id
     wx.cloud.callFunction({
+      name: 'getActivityDetail',
+      data: {
+        id: activityId
+      }
+    }).then(res => {
+       const activityName =res.result.data[0].activityName
+       this.setData({
+        practiceLogTitle: activityName
+       })
+    })
+    wx.cloud.callFunction({
       name: 'getActivityLog',
       data:{
         activityId
       }
     }).then(res =>{
-      console.log(res)
       const practiceLogInfo = res.result.data
-      this.setData({
-        practiceLogInfo,
-        indexNav: 12
+      if(practiceLogInfo.length!==0){
+        this.setData({
+          practiceLogInfo,
+          indexNav: 12
+        })
+      }else{
+        wx.showToast({
+          title: '该活动暂无日志',
+          icon: 'error'
+        })
+      }
+    }).catch(() =>{
+      wx.showToast({
+        title: '网络异常',
+        icon: 'error'
       })
     })
   }

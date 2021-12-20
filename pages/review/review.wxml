@@ -441,8 +441,16 @@
             <text>申请人：<block wx:for="{{item.applicant}}" wx:key="*this">{{item+ ' '}}</block>
             </text>
             <text>总人数：{{item.applicant.length +'人'}}</text>
-            <button size="mini" data-id="{{item._id}}" catchtap="unitRelease" data-index="{{reviewIndex}}" class="unitRelease" style="width: 140rpx;height: 80rpx;font-size: 38rpx;line-height:80rpx;text-align:center">发布</button>
-            <button size="mini" data-id="{{item._id}}" data-index="{{index}}" catchtap="deleteUnitApply" data-id="{{item._id}}" class="deleteUnit" style="width: 140rpx;height: 80rpx;font-size: 38rpx;line-height:80rpx;text-align:center">删除</button>
+            <view style="display: flex;">
+              <text>申请状态： </text>
+              <block wx:if="{{item.status===0}}"><text style="color: #0066ff;">审核中</text></block>
+              <block wx:if="{{item.status===1}}"><text style="color: #0066ff;">未通过</text></block>
+              <block wx:if="{{item.status===2}}"><text style="color: #0066ff;">已通过</text></block>
+            </view>
+            <button size="mini" data-id="{{item._id}}" catchtap="unitRelease" data-index="{{reviewIndex}}" class="unitRelease" style="width: 140rpx;height: 70rpx;font-size: 38rpx;line-height:70rpx;text-align:center">发布</button>
+            <button size="mini" data-id="{{item._id}}" data-index="{{index}}" catchtap="deleteUnitApply" data-id="{{item._id}}" class="deleteUnit" style="width: 140rpx;height: 70rpx;font-size: 38rpx;line-height:70rpx;text-align:center">删除</button>
+            <button size="mini" catchtap="handleUnitPass" data-id="{{item._id}}" class="unitPass" style="width: 140rpx;height: 70rpx;font-size: 38rpx;line-height:70rpx;text-align:center">通过</button>
+            <button size="mini" catchtap="hanleUnitUnqualify" data-id="{{item._id}}" class="unitNoPass" style="width: 160rpx;height: 70rpx;font-size: 38rpx;line-height:70rpx;text-align:center">未通过</button>
           </view>
         </view>
       </view>
@@ -453,7 +461,7 @@
   <block wx:elif="{{indexNav===12}}">
     <view class="practiceLogContainer">
       <view class="practiceLog_title">
-        <text>实践名称：科创成果展</text>
+        <text>实践名称：{{practiceLogTitle}}</text>
       </view>
       <view class="practiceLog_content" wx:for="{{practiceLogInfo}}" wx:key="*this">
         <text>学号：{{item.stuNum}}</text>

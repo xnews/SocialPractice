@@ -10,8 +10,8 @@
   <!-- 活动组织内容 -->
   <view class="profileOrganizationItem" wx:for="{{organiseInfo}}" wx:key="*this">
     <view class="Organization_head">
-      <text>活动名称：{{item.activityName}}</text>
-      <text>活动地点：{{item.place}}</text>
+      <text>实践名称：{{item.activityName}}</text>
+      <text>实践地点：{{item.place}}</text>
       <text>团队名称: {{item.teamName}}</text>
       <text>指导老师: {{item.adviser}}</text>
     </view>

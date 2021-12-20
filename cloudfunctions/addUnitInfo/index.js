@@ -14,7 +14,8 @@ exports.main = async (event, context) => {
       abutment: event.abutment,
       email: event.email,
       address: event.address,
-      applicant: []
+      applicant: [],
+      status: 0
     }
   })
 }
