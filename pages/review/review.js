@@ -141,7 +141,6 @@ Page({
   },
   onLoad() {
     this.showReviewOrganiseInfo()
-    this.getSchoolInfo()
     // this.getData()
     var _this = this;
     // this.getData()
@@ -937,18 +936,22 @@ Page({
         const processTime = new Date() - new Date(time)
         let data1 = -(processTime/totalTime).toFixed(4)*100 
         data1 = Number(data1.toFixed(2))
-        if(data1 <=100) {
+        console.log(data1)
+        if(data1>=0&&data1 <=100) {
           that.setData({
             data1
           })
-        }
-        else{
+        }else if(data1<0){
+          that.setData({
+            data1: 0
+          })
+        }else{
           that.setData({
             data1: 100
           })
         }
         that.onLoad()
-    }, 1000),
+    }, 10000),
       activityName,
       activityTime: time,
       data2,
@@ -1711,7 +1714,11 @@ Page({
     wx.cloud.callFunction({
       name: 'getActivityDetailAll'
     }).then(res =>{
-      const activityDetailInfo = res.result.data
+      let activityDetailInfo = res.result.data
+      for(let i=0;i< activityDetailInfo.length;i++) {
+        activityDetailInfo[i].time = Number(new Date(activityDetailInfo[i].time).getTime())
+      }
+      activityDetailInfo = activityDetailInfo.sort(this.compare(("time")))
       for(let i of activityDetailInfo) {
         i.time = util.formatTime(new Date(i.time))
         i.deadline = util.formatTime(new Date(i.deadline))

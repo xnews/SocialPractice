@@ -331,7 +331,7 @@ App.Page({
     wx.startLocationUpdate({
       success: (res) => {
         console.log('success---', res)
-        self.getLocationSecond()
+        // self.getLocationSecond()
       },
       fail: (res) => {
         console.log('fail==',res)
@@ -565,7 +565,7 @@ App.Page({
           if(practice_time<10) {
             wx.showModal({
               title: '提示',
-              content: '实践时长不少于1小时',
+              content: '实践时长不少于10秒',
               confirmText: '确认',
               complete: res =>{
                 that.Restart()

@@ -63,12 +63,12 @@ Page({
   organiseCount() {
     const stuNum = wx.getStorageSync('stuNum')
     wx.cloud.callFunction({
-      name: 'getProfileActivity',
+      name: 'getProfileOrganiseInfo',
       data: {
         stuNum
       }
     }).then(res => {
-      const organiseCount = res.result.data[0].organization.length
+      const organiseCount = res.result.data.length
       this.setData({
         organiseCount
       })

@@ -101,11 +101,11 @@ App.Page({
   },
   // 点击报名事件
   handleapply() {
-    const {_id,activityName,site,time,type,certification} = wx.getStorageSync('activities')[0]
+    const {_id,activityName,site,time,type,certification,image} = wx.getStorageSync('activities')[0]
     const activityId = wx.getStorageSync('activityId')
     const profileActivity = []
     const stuNum = wx.getStorageSync('stuNum')
-    profileActivity.push({activityName,site,time,type,_id,certification})
+    profileActivity.push({activityName,site,time,type,_id,certification,image})
     wx.setStorageSync('profileActivity', profileActivity)
     const activity = profileActivity[0]
     activity.status = '签到'

@@ -4,7 +4,7 @@
       <view class="active_list" catchtap="switchToActivityIn" data-id="{{item._id}}">
         <!-- 活动图片 -->
         <view class="active_img">
-          <image src="cloud://cloud-8gy1484h4171152a.636c-cloud-8gy1484h4171152a-1306324510/images/1.jpeg"></image>
+          <image src="{{item.image}}"></image>
         </view>
         <!-- 活动信息 --> 
         <view class="active_info">
