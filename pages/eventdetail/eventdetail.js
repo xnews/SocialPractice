@@ -104,10 +104,11 @@ App.Page({
     const {_id,activityName,site,time,type,certification,image,limitNum,particular} = wx.getStorageSync('activities')[0]
     const activityId = wx.getStorageSync('activityId')
     const profileActivity = []
+    const that = this
     const stuNum = wx.getStorageSync('stuNum')
     profileActivity.push({activityName,site,time,type,_id,certification,image})
     wx.setStorageSync('profileActivity', profileActivity)
-    const activity = profileActivity[0]
+    var activity = profileActivity[0]
     activity.status = '签到'
     let { registrationTips, isClickreRistra, activities } = app.store.getState();
     let _activities = activities.find(item => item._id === activityId)
@@ -127,30 +128,49 @@ App.Page({
       if(specifiedNumber!== '') {
         if(specified) {
           if(registip){    
-            getApp().getUserTrajectory(3, 'Require', 'pages/eventdetail/eventdetail', '用户报名活动');//获取用户轨迹
-            wx.showToast({
-            title: '报名成功',
-            icon:'success'
-            })
-            this.onLoad()
-            this.updateApplyNum(1)
-            // 添加我的活动信息
-            wx.cloud.callFunction({
-              name: 'updateProfileActivity',
-              data: {
-                stuNum,
-                activity: activity
-              }
-            })
-            _activities.registrationTips = 1,
-            _activities.isClickreRistra = true
-            activities.splice(activityIndex,1,_activities)
-            app.store.setState({
-              activities
-            })
-            this.setData({
-              registrationTips:1
-            })
+          // 获取个人活动信息
+          wx.cloud.callFunction({
+            name: 'getProfileActivity',
+            data: {
+              stuNum
+            }
+          }).then(res=>{
+            const data = res.result.data[0]
+            const dataList = data.activity
+            const same =  dataList.findIndex(item=>item._id===_id)
+            if(same!==-1){
+              wx.showToast({
+                title: '请勿重复报名',
+                icon: 'error'
+              })
+            }else{
+              // 添加我的活动信息
+              wx.cloud.callFunction({
+                name: 'updateProfileActivity',
+                data: {
+                  stuNum,
+                  activity: activity
+                }
+              })
+              getApp().getUserTrajectory(3, 'Require', 'pages/eventdetail/eventdetail', '用户报名活动');//获取用户轨迹
+              wx.showToast({
+              title: '报名成功',
+              icon:'success'
+              })
+              that.onLoad()
+              that.updateApplyNum(1)
+              _activities.registrationTips = 1,
+              _activities.isClickreRistra = true
+              activities.splice(activityIndex,1,_activities)
+              console.log(activities)
+              app.store.setState({
+                activities
+              })
+              that.setData({
+                registrationTips:1
+              })
+            }
+          })
           }else{
             wx.showToast({
               title: '取消成功',
@@ -185,29 +205,48 @@ App.Page({
         }
       } else {
         if(registip){    
-          getApp().getUserTrajectory(3, 'Require', 'pages/eventdetail/eventdetail', '用户报名活动');//获取用户轨迹
-          wx.showToast({
-          title: '报名成功',
-          icon:'success'
-          })
-          this.onLoad()
-          this.updateApplyNum(1)
-          // 添加我的活动信息
+          // 获取个人活动信息
           wx.cloud.callFunction({
-            name: 'updateProfileActivity',
+            name: 'getProfileActivity',
             data: {
-              stuNum,
-              activity: activity
+              stuNum
             }
-          })
-          _activities.registrationTips = 1,
-          _activities.isClickreRistra = true
-          activities.splice(activityIndex,1,_activities)
-          app.store.setState({
-            activities
-          })
-          this.setData({
-            registrationTips:1
+          }).then(res=>{
+            const data = res.result.data[0]
+            const dataList = data.activity
+            const same =  dataList.findIndex(item=>item._id===_id)
+            if(same!==-1){
+              wx.showToast({
+                title: '请勿重复报名',
+                icon: 'error'
+              })
+            }else{
+              console.log(activity)
+              getApp().getUserTrajectory(3, 'Require', 'pages/eventdetail/eventdetail', '用户报名活动');//获取用户轨迹
+              wx.showToast({
+              title: '报名成功',
+              icon:'success'
+              })
+              that.onLoad()
+              that.updateApplyNum(1)
+              // 添加我的活动信息
+              wx.cloud.callFunction({
+                name: 'updateProfileActivity',
+                data: {
+                  stuNum,
+                  activity: activity
+                }
+              })
+              _activities.registrationTips = 1,
+              _activities.isClickreRistra = true
+              activities.splice(activityIndex,1,_activities)
+              app.store.setState({
+                activities
+              })
+              that.setData({
+                registrationTips:1
+              })
+            }
           })
         }else{
           wx.showToast({
