@@ -95,12 +95,10 @@ Page({
         chooseImgs: []
       })
     })
-
-    // setTimeout(()=>{
-    //   wx.navigateBack({
-    //     delta: 1,
-    //   })
-    // },1000)
+    // wx.redirectTo({
+    //   url: '/pages/topic/topic',
+    // })
+    wx.navigateBack()
     wx.removeStorageSync('objImages')
   }
 })

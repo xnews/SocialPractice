@@ -21,8 +21,10 @@ Page({
       const cateActivies = res.result.data
       console.log(cateActivies)
       if(cateActivies.length!==0) {
-        cateActivies[0].time = util.formatTime(new Date(cateActivies[0].time))
-        cateActivies[0].deadline = util.formatTime(new Date(cateActivies[0].deadline))
+        for(let i=0;i < cateActivies.length;i++) {
+          cateActivies[i].time = util.formatTime(new Date(cateActivies[i].time).toString())
+          cateActivies[i].deadline = util.formatTime(new Date(cateActivies[i].deadline))
+        }  
         this.setData({
           cateActivies
         })

@@ -8,9 +8,12 @@ Page({
   data: {
     data: []
   },
+  onLoad() {
+    this.getProfileActivity()
+  },
   onShow() {
     // const activities = wx.getStorageSync('profileActivity')
-    this.getProfileActivity()
+    this.onLoad()
   },
   getProfileActivity() {
     const stuNum = wx.getStorageSync('stuNum')

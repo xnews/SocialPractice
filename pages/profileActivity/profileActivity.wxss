@@ -1,7 +1,8 @@
 .active_content {
-  height: 220rpx;
+  height: 280rpx;
   width: 100%;
   border-bottom: 1rpx solid #ccc;
+  position: relative;
 }
 
 .active_content .active_list{
@@ -12,8 +13,8 @@
 
 .active_content .active_list .active_img{
   flex: 2;
-  height: 220rpx;
-  line-height: 220rpx;
+  height: 100%;
+  line-height: 100%;
 }
 
 .active_content .active_list .active_img image{
@@ -49,7 +50,7 @@
 .activity_status{
   position: absolute;
   right: 10rpx;
-  bottom: 20rpx;
+  bottom: 0rpx;
 }
 .status{
   font-weight: 400;

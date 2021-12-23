@@ -103,6 +103,8 @@ Page({
       {value: 0,name:"收藏量"}
     ],
     data3: [0,0,0,0,0],
+    activityNameAnyse: '',
+    activityTimeAnyse:'',
     markers: [],
     poiDest: {
       latitude: '',
@@ -197,10 +199,12 @@ Page({
       for(let item of reviewInfo) {
         const time = item.time.split(" ")[0]
         item.time = time
-        if(item.status === '未通过'){
+        if(item.status === '审核中'){
           item.sort = 0
-        }else {
+        }else if(item.status==='未通过') {
           item.sort = 1
+        }else{
+          item.sort = 2
         }
       }
       reviewInfo.sort(this.handleSort('sort'))
@@ -394,10 +398,12 @@ Page({
       for(let item of contributeInfo) {
         const time = item.time.split(" ")[0]
         item.time = time
-        if(item.status === '未通过') {
+        if(item.status === '审核中') {
           item.sort = 0
-        }else {
+        }else if(item.status==='未通过') {
           item.sort = 1
+        }else{
+          item.sort = 2
         }
       }
       contributeInfo.sort(this.handleSort('sort'))
@@ -952,8 +958,8 @@ Page({
         }
         that.onLoad()
     }, 10000),
-      activityName,
-      activityTime: time,
+      activityNameAnyse:activityName,
+      activityTimeAnyse: time,
       data2,
       data3
     })

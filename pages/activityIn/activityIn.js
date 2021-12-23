@@ -862,9 +862,9 @@ App.Page({
   onUnload: function () {
     const that = this
     wx.removeStorageSync('poiDest')
-    wx.navigateBack({
-      delta: 1
-    })
+    // wx.navigateBack({
+    //   delta: 1
+    // })
     clearInterval(this.data.timer2)
     // const clickStatus = this.data.clickStatus
     // console.log(clickStatus)

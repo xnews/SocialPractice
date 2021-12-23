@@ -23,11 +23,11 @@
             <view class="iconfont icon-tuandui1 active_icon"></view>
             <text>{{item.certification}}</text>
           </view>
-          <view class="activity_status">
-            <button size="mini" class="status" style="width: 180rpx;height: 60rpx;font-size: 30rpx;line-height:60rpx;text-align:center">{{item.status}}</button>
-          </view>
         </view>
       </view>
+      <view class="activity_status">
+            <button size="mini" class="status" style="width: 180rpx;height: 60rpx;font-size: 30rpx;line-height:60rpx;text-align:center">{{item.status}}</button>
+        </view>
     </view>
   </block>
 </view>

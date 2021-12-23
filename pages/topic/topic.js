@@ -32,6 +32,9 @@ Page({
     wx.hideLoading()
     })
   },
+  onShow() {
+    this.onLoad();
+  },
   switchToContent(e) {
     let id = e.currentTarget.dataset.id
     wx.setStorageSync('topicId', id)
