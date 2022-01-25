@@ -28,7 +28,7 @@
         <text style="color: #0066ff;">{{item.status}}</text>
       </view>
       <view class="review_status">
-        <button size="mini" catchtap="handleDownloadFile" data-id="{{item._id}}" class="file" style="width: 160rpx;height: 60rpx;font-size: 30rpx;line-height:60rpx;text-align:center">文件预览</button>
+        <button size="mini" catchtap="handleDownloadFile" data-id="{{item._id}}" class="file" style="width: 160rpx;height: 60rpx;font-size: 30rpx;line-height:60rpx;text-align:center">文件下载</button>
         <button size="mini" catchtap="handleOrganiseRelease" data-id="{{item._id}}" disabled="{{item.status === '已通过'? false: true}}" class="release {{item.status === '已通过'? 'active_release':'not_release'}}" style="width: 100rpx;height: 60rpx;font-size: 30rpx;line-height:60rpx;text-align:center">发布</button>
         <button size="mini" catchtap="handleOrganisePass" data-id="{{item._id}}" class="pass" style="width: 100rpx;height: 60rpx;font-size: 30rpx;line-height:60rpx;text-align:center">通过</button>
         <button size="mini" catchtap="hanleOrganiseUnqualify" data-id="{{item._id}}" class="nopass" style="width: 130rpx;height: 60rpx;font-size: 30rpx;line-height:60rpx;text-align:center">未通过</button>

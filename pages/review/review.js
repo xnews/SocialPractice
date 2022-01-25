@@ -142,6 +142,7 @@ Page({
     practiceLogTitle: ''
   },
   onLoad() {
+    this.getSchoolInfo()
     this.showReviewOrganiseInfo()
     // this.getData()
     var _this = this;
